@@ -1,4 +1,5 @@
 import type { PostMetadata } from '$lib/types'
+import { resolve } from '$app/paths';
 
 // src/routes/posts/+page.ts
 export async function load() {
@@ -11,7 +12,7 @@ export async function load() {
         const slug = path.split('/').at(-1)!.replace('.typ', '')
         return {
             slug,
-            href: `/posts/${slug}`,
+            href: resolve(`/posts/${slug}`),
             ...mod.default.metadata
         }
     })
