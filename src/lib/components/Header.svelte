@@ -5,6 +5,9 @@
     import { socials, pages } from '$lib/config';
     import Verse from './Verse.svelte';
 
+    const TOGGLE_LOCK_MS = 1000;
+    const NAVIGATE_DELAY_MS = 50;
+
     let isOpen: boolean = $state(false);
     let hovered: boolean = $state(false);
     let locked: boolean = false;
@@ -13,7 +16,7 @@
         if (locked) return;
         locked = true;
         isOpen = !isOpen;
-        setTimeout(() => locked = false, 1000); // lock for 1 second to prevent rapid toggling
+        setTimeout(() => locked = false, TOGGLE_LOCK_MS);
     }
 
     let cross: {
@@ -28,30 +31,29 @@
 
     let overlay: HTMLElement;
     let tl: gsap.core.Timeline | null = null;
-    let isInitialized = $state(false); // Track if timeline has been built at least once
+    let isInitialized = $state(false);
 
-    function reset() { isOpen = false; }
-    function navigate(href: string) {
-        reset();
-        tl?.kill();
-        setTimeout(() => goto(href), 50); // delay navigation until menu closes
+    function closeMenu() {
+        isOpen = false;
     }
 
-    // ── Build the timeline ONCE ──
+    function navigate(href: string) {
+        closeMenu();
+        tl?.kill();
+        setTimeout(() => goto(href), NAVIGATE_DELAY_MS);
+    }
+
     const buildTimeline = () => {
         const timeline = gsap.timeline({
             paused: true,
             defaults: { ease: 'power2.out' }
         });
 
-        // Initial state (for reverse playback)
         gsap.set('.nav-links a, .nav-social a', { y: 18, opacity: 0 });
         gsap.set('.nav-footer', { opacity: 0 });
 
         timeline
-            // 0. Overlay
             .to(overlay, { y: '0%', duration: 0.7 }, 0)
-            // 1. Animate cross to "X"
             .to(cross, {
                 rotation: 45,
                 opacity: 0.5,
@@ -59,44 +61,37 @@
                 duration: 0.4
             }, 0.1)
 
-            // 2. Animate nav links (staggered)
             .fromTo('.page-link a',
                 { x: -15, opacity: 0 },
                 { x: 0, opacity: 1, duration: 0.7, stagger: 0.01 },
                 '+=0.1'
             )
-            
-            // 3. Animate social links (staggered)
+
             .fromTo('.nav-social a',
                 { x: 15, opacity: 0 },
                 { x: 0, opacity: 1, duration: 0.8, stagger: 0.03 },
                 '-=0.7'
             )
-            // 4. Fade in footer
             .fromTo('.nav-footer',
                 {y: 18, opacity: 0 },
                 {y: 0, opacity: 1, duration: 0.8 },
                 '-=0.55')
 
-            // 🔑 Critical: Hide overlay ONLY when reverse completes
             .eventCallback("onReverseComplete", () => {
                 gsap.set(overlay, { visibility: 'hidden' });
             });
 
-        // Start at beginning (closed state)
         timeline.progress(0);
-        
+
         return timeline;
     };
 
     onMount(() => {
-        // Set initial closed state
         gsap.set(overlay, { y: '-100%', visibility: 'hidden' });
     });
 
     $effect(() => {
         if (!isInitialized && isOpen) {
-            // First open: build and play
             gsap.set(overlay, { visibility: 'visible' });
             tl = buildTimeline();
             isInitialized = true;
@@ -106,7 +101,8 @@
 
         if (!isInitialized) return;
 
-        // Subsequent toggles: just play/reverse
+        if (!tl) return;
+
         if (isOpen) {
             gsap.set(overlay, { visibility: 'visible' });
             tl.play();
@@ -115,7 +111,6 @@
         }
     });
 
-    // Cleanup on unmount
     onDestroy(() => {
         tl?.kill();
     });
