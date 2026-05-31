@@ -173,7 +173,10 @@ This class is injected into the HTML output by using a `html.elem` wrapper in th
 == Highlighting
 Code blocks need a little more work than headings or paragraphs, because Typst cannot simply attach the final highlight classes at the source layer. Instead, the raw code is kept in a hidden script tag during export so the HTML stays clean and the original source can be recovered without extra whitespace or nested spans.
 
-After that, the Node post-process reads the raw blocks, uses `data-lang` or similar metadata to identify the language, and runs Shiki on the server. The highlighted output is cached, then written back into the HTML before SvelteKit builds the static site. That keeps the client bundle small and gives us deterministic, themeable markup.
+The first step of the build process is `plugins/typst-svelte.ts`.
+First, Typst exports the article HTML and a separate hidden source block for each fence, which keeps the rendered markup clean and preserves the exact raw code text. Next, the plugin parses the HTML, normalises the MathML/SVG bits, and collects those raw source blocks into a label-to-source map.
+
+From there, it walks the body node by node and decides whether each item is plain HTML or a code block. For code, it reads the language metadata, pairs the block with the original source text, and runs Shiki on the server to produce the highlighted HTML. The last step is stitching the processed blocks back into the post document before SvelteKit builds the static site. In the UI, the code is wrapped in a bordered card with the language label and a copy button that appears on hover; clicking it briefly swaps the icon to a tick before fading away again. That keeps the client bundle small and gives us deterministic, themeable markup with a more polished interaction.
 
 #hrule
 
