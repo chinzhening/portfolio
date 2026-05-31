@@ -2,8 +2,8 @@
 
 .typst {
 	font-family: var(--font-serif);
-	font-size: 1.25rem;
-	line-height: 1.5;
+	font-size: 1.125rem;
+	line-height: 1.8;
 	text-rendering: optimizeLegibility;
 	font-kerning: normal;
 	hyphens: auto;

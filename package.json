@@ -40,6 +40,7 @@
 		"@fontsource/crimson-pro": "^5.2.8",
 		"@fontsource/inter": "^5.2.8",
 		"@fontsource/iosevka": "^5.2.5",
+		"@fontsource/merriweather": "^5.2.11",
 		"@fontsource/playfair-display": "^5.2.8",
 		"@tailwindcss/vite": "^4.3.0",
 		"cheerio": "^1.2.0",

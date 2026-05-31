@@ -3,7 +3,7 @@
 html {
 	/* Fonts */
 	--font-system-ui: var(--font-bricolage-grotesque), ui-sans-serif, system-ui, sans-serif;
-	--font-serif: var(--font-cormorant), ui-serif, Georgia, Cambria, serif;
+	--font-serif: var(--font-merriweather), ui-serif, Georgia, Cambria, serif;
 	--font-monospace: var(--font-iosevka), ui-monospace, system-ui, monospace;
 	--font-display: var(--font-playfair-display), var(--font-serif), ui-serif, Georgia, Cambria, serif;
 
