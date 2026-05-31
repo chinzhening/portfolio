@@ -20,6 +20,11 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
           mkdir -p fonts-bin
-          curl -L https://github.com/be5invis/Iosevka/releases/latest/download/PkgTTF-IosevkaTerm-Regular.zip -o iosevka.zip
+          URL=$(curl -s https://api.github.com/repos/be5invis/Iosevka/releases/latest \
+            | jq -r '.assets[] | .browser_download_url' \
+            | grep 'PkgTTF-Iosevka-' \
+            | head -1)
+          echo "Downloading: $URL"
+          curl -L "$URL" -o iosevka.zip
           unzip iosevka.zip -d fonts-bin/
           rm iosevka.zip
