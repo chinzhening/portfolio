@@ -18,10 +18,6 @@ This blog is built using SvelteKit, which is a framework for web-apps. I am usin
 /// Flesh out
 I am not the first person to write a blog using Typst, and I want to acknowledge a few projects and communities that inspired this site. In particular, Myriad Dreamin's typst blog template (#link("https://github.com/Myriad-Dreamin/tylant")[tylant]) provided useful ideas and examples, and the Typst community at large has produced excellent tooling, examples, and discussion that made experimenting with Typst feasible.
 
-= Acknowledgements
-- Myriad Dreamin — for the `tylant` template and example workflows. A great reference for how to structure Typst content for a blog.
-- The Typst community — for documentation, tooling, and helpful examples.
-
 = Workflow
 Writing, compiling, and publishing a post on this site is intentionally simple and reproducible. The typical workflow is:
 
@@ -193,10 +189,28 @@ Typst's math support is robust, but the MathML output is still a bit rough aroun
   where $alpha > 0$ is the thermal diffusivity constant, and $u(x, t)$ is the temperature distribution over space and time.
 ]
 
-The benefit of using MathML over another SVG or image-based export is that it remains selectable, searchable, and accessible. With some CSS tweaks, the MathML can be styled to fit the blog's aesthetic while still retaining its semantic structure.
+The benefit of using MathML over another SVG or image-based export is that it remains selectable, searchable, and accessible. With some CSS tweaks, the MathML can be styled to fit the blog's aesthetic while still retaining its semantic structure. Though browsers provide some support MathML rendering, you can optionally
+use a rendering library like #link("https://www.mathjax.org/")[MathJax] 
+to ensure cross-browser consistency and accessibility.
+
+/// Tables and MathML + MathJax
+#let expr = $ u(x, t) + integral_0^t f(x, s) dif s minus log p_pi (x|t) $
+#my-figure(
+  caption: [An example of MathML output from Typst and MathJax-rendered MathML output fsor comparison.],
+  my-table(
+    columns: 6,
+    [Typst -> MathML #expr],
+    [Typst -> MathML -> MathJax #expr],
+    [],
+    [],
+    [],
+    [],
+  )
+)
+
+
 
 #hrule
-
 
 
 = Upcoming Posts

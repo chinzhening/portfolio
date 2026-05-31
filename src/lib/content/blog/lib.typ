@@ -53,6 +53,15 @@
     #content
   ]
 )
+#let my-table(
+  columns: 1,
+  ..content,
+) = table(
+  columns: columns,
+  ..content.map(
+    it => html.elem("div", attrs: ("class": "table-cell"), it)
+  )
+)
 
 
 // Default tab sizes for supported code languages.

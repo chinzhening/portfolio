@@ -241,14 +241,31 @@
 	width: 100%;
 	overflow-x: auto;
 	padding-block: 0.5rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
-.typst figure p {
+.typst figure p:last-child {
 	font-family: var(--font-system-ui);
 	font-size: 0.875rem;
 	line-height: 1.5;
 	text-wrap: pretty;
 	max-width: 70ch;
+}
+
+/* --- Tables ----────────────────────────────────────────────────────────────────────────────── */
+
+.typst table {
+	width: 100%;
+	border-collapse: collapse;
+	border: 1px solid var(--border);
+}
+
+.typst table th,
+.typst table td {
+	border: 1px solid var(--border);
+	padding: 0.75rem 0.5rem;
 }
 
 
