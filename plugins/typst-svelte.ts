@@ -113,6 +113,7 @@ function compile(source: string, id: string): Promise<string> {
             'compile',
             '--features', 'html',
             '--format', 'html',
+            '--font-path', 'fonts',
             '-', '-'
         ], { cwd: dirname(id) },
         )
