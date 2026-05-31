@@ -2,6 +2,7 @@
     import '$lib/css/article.css';
     import '$lib/css/shiki.css';
 
+    import CodeBlock from '$lib/components/CodeBlock.svelte';
     import TagChip from '$lib/components/TagChip.svelte';
     import { formatDate } from '$lib/utils';
 
@@ -48,8 +49,14 @@
             </div>
 
             <!-- Post Content -->
-            <div class="mx-auto max-w-3xl text-muted-foreground leading-relaxed">
-                {@html data.html}
+            <div class="typst mx-auto max-w-3xl text-muted-foreground leading-relaxed">
+                {#each data.blocks as block, index (block.type === 'code' ? block.id : `${index}`)}
+                    {#if block.type === 'html'}
+                        {@html block.html}
+                    {:else}
+                        <CodeBlock language={block.language} source={block.source} highlightedHtml={block.highlightedHtml} />
+                    {/if}
+                {/each}
             </div>
         </article>
     </main>

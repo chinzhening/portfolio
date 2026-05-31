@@ -1,4 +1,5 @@
 import { error } from '@sveltejs/kit'
+import type { PostDocument } from '$lib/types'
 
 export const entries = () => {
     const modules = import.meta.glob('$lib/content/*.typ', { eager: true })
@@ -11,8 +12,8 @@ export const entries = () => {
 // +page.ts
 export async function load({ params }) {
     try {
-        const { default: { html, metadata } } = await import(`../../../lib/content/${params.slug}.typ`)
-        return { html, metadata }
+        const { default: { blocks, metadata } } = await import(`../../../lib/content/${params.slug}.typ`)
+        return { blocks, metadata } satisfies PostDocument
     } catch {
         error(404)
     }

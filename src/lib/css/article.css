@@ -146,24 +146,12 @@
 
 /* ─── Block code (Shiki) ───────────────────────────────────────────────────────── */
 
-:is(pre)[class*='shiki'] {
-	max-height: 800px;
-	font-size: 0.875rem;
-	line-height: 1.6;
-	overflow-x: auto;
-	padding: 1rem;
+.code-block-card {
 	border: 1px solid var(--border);
-	border-radius: 0.75rem;
 	box-shadow: 0 1.25rem 2.5rem oklch(from var(--text-1) l c h / 0.06);
-	margin-block: 0 3rem;
-	margin-bottom: 3rem;
-	margin-top: 0;
-}
-
-/* ─── Code title ───────────────────────────────────────────────────────────────── */
-
-.code-title {
-	display: none;
+	margin-block: 1.5rem;
+	overflow: hidden;
+	background: var(--background);
 }
 
 /* ─── Side note ────────────────────────────────────────────────────────────────── */
