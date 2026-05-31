@@ -16,22 +16,10 @@ jobs:
           path: fonts-bin
           key: fonts
 
-      - name: Setup Fontist
-        if: steps.cache.outputs.cache-hit != 'true'
-        uses: fontist/setup-fontist@v2
-
-      - name: Check if Iosevka is available
-        run: |
-          fontist list "Iosevka"
-          fontlist list -all | grep -i "Iosevka"
-          if ! fontist list "Iosevka" || ! fontlist list -all | grep -i "Iosevka"; then
-            echo "Iosevka is not available in Fontist. Please check the font name and try again."
-            exit 1
-          fi
-
-      - name: Install Iosevka
+      - name: Download Iosevka
         if: steps.cache.outputs.cache-hit != 'true'
         run: |
-          fontist install "Iosevka"
           mkdir -p fonts-bin
-          cp -r ~/.fontist/fonts/* fonts-bin/
+          curl -L https://github.com/be5invis/Iosevka/releases/latest/download/PkgTTF-IosevkaTerm-Regular.zip -o iosevka.zip
+          unzip iosevka.zip -d fonts-bin/
+          rm iosevka.zip
