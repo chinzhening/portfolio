@@ -7,7 +7,14 @@ const config = {
 		// Force runes mode for the project, except for libraries. Can be removed in svelte 6.
 		runes: ({ filename }) => (filename.split(/[/\\]/).includes('node_modules') ? undefined : true)
 	},
-	kit: { adapter: adapter() },
+	kit: {
+		adapter: adapter({
+			fallback: '404.html'
+		}),
+		paths: {
+			base: process.argv.includes('dev') ? '' : process.env.BASE_PATH
+		}
+	},
 	preprocess: [mdsvex({ extensions: ['.svx', '.md'] })],
 	extensions: ['.svelte', '.svx', '.md']
 };
