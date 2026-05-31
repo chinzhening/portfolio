@@ -20,6 +20,7 @@
     } = $props();
 </script>
 
+<!-- Generic CTA link primitive with a small variant system. -->
 <a href={href} target={target} rel={rel} class={`link-button link-button--${variant} ${className}`.trim()}>
     {@render children?.()}
 </a>

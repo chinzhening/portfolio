@@ -29,6 +29,7 @@
     });
 </script>
 
+<!-- Footer quote block: swaps in a new verse when the navigation opens. -->
 <div class="nav-footer__quote hidden md:block text-center font-serif
             mt-6 mb-4 md:mt-12 md:mb-6
             w-full max-w-[calc(100vw-2rem)] md:max-w-[min(32rem,calc(100vw-3rem))]">

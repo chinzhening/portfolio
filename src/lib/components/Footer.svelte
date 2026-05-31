@@ -2,6 +2,7 @@
     import * as config from '$lib/config';
 </script>
 
+<!-- Site footer: renders copyright and platform links. -->
 <footer class="footer-blend px-6 py-8 text-center text-muted-foreground/55 md:px-12 lg:px-20">
     <p class="relative z-10 font-monospace text-[0.68rem] uppercase tracking-[0.22em] md:text-[0.72rem]">
         <span class="block md:inline">Copyright &copy; {config.year} {config.name}</span>

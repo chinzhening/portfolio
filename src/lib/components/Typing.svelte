@@ -69,6 +69,7 @@
     });
 </script>
 
+<!-- Typing animation primitive with a configurable cursor style. -->
 <span>
 {displayedText}<span class="cursor" class:blink data-cursor={cursor}>
     {cursor === 'block' ? ('*') : cursor === 'underscore' ? '_' : '|'}

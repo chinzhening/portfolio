@@ -21,9 +21,11 @@
     } = $props();
 </script>
 
+<!-- Post preview card: date, title, summary, and up to three tags. -->
 <a href={post.href} class="group block h-full transition-transform duration-200 hover:-translate-y-0.5">
     <HomeNoteCard eyebrow={post.readingTime} soft={index % 2 === 1}>
         <div class="flex h-full flex-col">
+            <!-- Card header: publish date and open indicator. -->
             <div class="flex items-center justify-between gap-4">
                 <span class="font-monospace text-xs uppercase tracking-[0.24em] text-muted-foreground">
                     {formatDate(post.published)}
@@ -38,6 +40,7 @@
                 </span>
             </div>
 
+            <!-- Card body: title and summary. -->
             <h2 class="mt-5 text-balance font-display text-3xl leading-tight font-medium text-foreground md:text-[2rem]">
                 {post.title}
             </h2>
@@ -46,6 +49,7 @@
                 {post.desc.text}
             </p>
 
+            <!-- Card footer: up to three preview tags. -->
             <div class="mt-auto pt-6">
                 <div class="flex flex-wrap gap-3">
                     {#each post.tags.slice(0, 3) as tag, tagIndex (tag)}

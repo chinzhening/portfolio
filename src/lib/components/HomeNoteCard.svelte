@@ -12,6 +12,7 @@
     }>();
 </script>
 
+<!-- Reusable note card shell with an eyebrow label and rendered content. -->
 <div class:home-postcard__note--soft={soft} class="home-postcard__note" use:animate={fadeUp}>
     <h3 class="font-monospace text-xs uppercase tracking-[0.3em] text-muted-foreground">{eyebrow}</h3>
     <div class="mt-4 text-pretty leading-8 text-muted-foreground md:text-lg">

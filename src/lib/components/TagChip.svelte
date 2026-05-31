@@ -27,6 +27,7 @@
 
 </script>
 
+<!-- Small tag/badge primitive that can render as text or as a link. -->
 <svelte:element
     this={href ? 'a' : 'span'}
     href={href}

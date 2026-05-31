@@ -118,6 +118,7 @@
 
 <div class="fixed top-0 left-0 right-0 z-150">
     <div class="container mx-auto px-0">
+        <!-- Floating toggle button that opens and closes the overlay nav. -->
         <header class="fixed mt-8 mr-4 md:m-8 right-0">
             <button
                 type="button"
@@ -142,6 +143,7 @@
     </div>
 </div>
 
+<!-- Full-screen navigation overlay with page links, social links, and a verse footer. -->
 <nav bind:this={overlay} id="nav-overlay"
     class="fixed z-100 inset-0"
     >
@@ -153,6 +155,7 @@
                 px-6 pt-24 pb-8
                 md:px-12 md:pt-10 md:pb-10">
 
+        <!-- Overlay header: title on the left, short note on the right. -->
         <div class="nav-header md:col-span-2 flex flex-wrap items-end justify-between gap-3 pb-10 md:pb-12">
             <div>
                 <p class="font-monospace text-[0.7rem] uppercase tracking-[0.35em] text-current/70">Navigation</p>
@@ -163,7 +166,7 @@
             </p>
         </div>
 
-        <!-- Left: page links -->
+        <!-- Page links list. -->
         <div class="nav-links
                     font-display text-2xl
                     flex flex-col gap-4 pt-1 md:pt-2
@@ -178,7 +181,7 @@
             {/each}
         </div>
 
-        <!-- Right: social links -->
+        <!-- Social links list. -->
         <div class="nav-social
                     flex flex-col justify-center gap-1
                     md:mt-0 md:border-l md:border-current/15 md:pl-10
@@ -192,7 +195,7 @@
             {/each}
         </div>
 
-        <!-- Footer -->
+        <!-- Verse footer. -->
         <div class="nav-footer md:col-span-2 md:col-start-1 md:flex md:justify-end">
             <Verse open={isOpen}/>
         </div>  
