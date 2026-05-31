@@ -2,6 +2,8 @@
 	import PostCards from "$lib/components/PostCards.svelte";
     import LinkButton from '$lib/components/LinkButton.svelte';
 
+    import { resolve }from '$app/paths';
+
     let { data } = $props();
 
 </script>
@@ -10,7 +12,7 @@
     <main class="pt-32 pb-24 md:pt-40">
         <header class="container mx-auto mb-20 px-6 md:px-12 lg:px-20">
             <div class="mx-auto max-w-6xl">
-                <LinkButton href="/" variant="back" className="mb-12">
+                <LinkButton href={resolve('/')} variant="back" className="mb-12">
                     <span class="inline-flex items-center justify-center text-[0.85rem] leading-none" aria-hidden="true">&laquo;</span>
                     <span>Back</span>
                 </LinkButton>

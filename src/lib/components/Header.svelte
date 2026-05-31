@@ -37,7 +37,7 @@
         isOpen = false;
     }
 
-    function navigate(href: string) {
+    function navigate(href) {
         closeMenu();
         tl?.kill();
         setTimeout(() => goto(href), NAVIGATE_DELAY_MS);
@@ -188,7 +188,7 @@
                     text-right">
             {#each socials as social (social.name)}
                 <div class="border-b border-current/10 pb-1">
-                    <a href={social.href} target="_blank" rel="noopener">
+                    <a href="{social.href}" target="_blank" rel="noopener">
                         {social.name}
                     </a>
                 </div>
