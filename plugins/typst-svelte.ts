@@ -4,6 +4,7 @@ import { createHighlighter, type Highlighter } from 'shiki'
 import { load } from 'cheerio'
 import { dirname } from 'path'
 
+const fontPath = process.env.TYPST_FONT_PATH
 const SUPPORTED_LANGS = ['css', 'python', 'javascript', 'rust', 'typst', 'cpp', 'c'] as const
 const THEMES = {
     light: 'min-light',
@@ -113,7 +114,7 @@ function compile(source: string, id: string): Promise<string> {
             'compile',
             '--features', 'html',
             '--format', 'html',
-            '--font-path', 'fonts',
+            ...(fontPath ?['--font-path', fontPath] : []),
             '-', '-'
         ], { cwd: dirname(id) },
         )

@@ -1,0 +1,26 @@
+name: Cache fonts
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check cache
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: fonts-bin
+          key: fonts
+
+      - name: Setup Fontist
+        if: steps.cache.outputs.cache-hit != 'true'
+        uses: fontist/setup-fontist@v2
+
+      - name: Install Iosevka
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          fontist install "Iosevka"
+          mkdir -p fonts-bin
+          cp -r ~/.fontist/fonts/* fonts-bin/

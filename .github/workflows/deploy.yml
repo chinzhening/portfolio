@@ -31,8 +31,22 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Setup Typst
-        uses: typst-community/setup-typst@v5
+      - name: Restore Typst cache
+        uses: actions/cache@v4
+        with:
+          path: typst-bin
+          key: typst-main
+    
+      - name: Restore fonts cache
+        uses: actions/cache@v4
+        with:
+          path: fonts-bin
+          key: fonts
+
+      - name: Add Typst to PATH
+        run: |
+          chmod +x typst-bin/typst
+          echo "$PWD/typst-bin" >> $GITHUB_PATH
 
       - name: Build site
         env:

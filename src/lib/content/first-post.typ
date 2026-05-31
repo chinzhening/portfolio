@@ -123,9 +123,9 @@ This pipeline strikes a balance between authoring convenience (write in Typst) a
       edge(<raw>, <processing>, "--|>", stroke: muted-colors.dark-gray + 1.5pt),
       edge(<processing>, <output>,"--|>", stroke: muted-colors.dark-gray + 1.5pt),
 
-      node((0, 2.25), text(size: 0.8em, font: "MonoLisa")[raw]),
-      node((2.5, 3), text(size: 0.8em, font: "MonoLisa")[processing]),
-      node((5, 2.25), text(size: 0.8em, font: "MonoLisa")[output])
+      node((0, 2.25), text(size: 0.8em, font: font-mono)[raw]),
+      node((2.5, 3), text(size: 0.8em, font: font-mono)[processing]),
+      node((5, 2.25), text(size: 0.8em, font: font-mono)[output])
     )
   ]
 ] <pipeline>
