@@ -1,0 +1,72 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+@import "./theme.css";
+@import "./token.css";
+@import "./article.css";
+
+@theme {
+	--color-brand: var(--brand);
+	--color-text-1: var(--text-1);
+	--color-text-2: var(--text-2);
+	--color-surface-1: var(--surface-1);
+	--color-surface-2: var(--surface-2);
+	--color-surface-3: var(--surface-3);
+	--color-surface-4: var(--surface-4);
+	--color-border: var(--border);
+	--color-background: var(--background);
+	--color-foreground: var(--text-1);
+	--color-muted-foreground: var(--text-2);
+	
+	--font-serif: var(--font-serif), ui-serif, system-ui, serif;
+	--font-monospace: var(--font-monospace), ui-monospace, system-ui, monospace;
+	--font-sans: var(--font-system-ui), ui-sans-serif, system-ui, sans-serif;
+	--font-display: var(--font-display), var(--font-serif), ui-serif, system-ui, serif;
+}
+
+@custom-variant dark (&:is([color-scheme='dark'] *));
+
+html,
+body {
+	height: 100%;
+}
+
+html {
+	color: var(--text-1);
+	background: var(--background);
+}
+
+body {
+	margin: 0;
+	background: transparent;
+}
+
+img {
+	border-radius: var(--radius-3);
+}
+
+ul,
+ol {
+	list-style: none;
+	padding: 0;
+}
+
+li {
+	padding-inline-start: 0;
+}
+
+/* Selection color */
+::selection {
+	background-color: var(--brand);
+	color: var(--surface-1);
+}
+
+/* Hide scrollbar globally */
+html, body {
+  -ms-overflow-style: none;  /* IE 10+ & Legacy Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;             /* Chrome, Safari, Edge, Opera */
+}

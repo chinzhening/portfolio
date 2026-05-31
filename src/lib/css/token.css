@@ -1,0 +1,20 @@
+@layer utilities {
+	/* Surface utility classes */
+	.surface-1 {
+		background-color: var(--surface-1);
+	}
+
+	.surface-2 {
+		background-color: var(--surface-2);
+	}
+
+	.contrast {
+		background-color: var(--contrast-surface);
+		color: var(--contrast-text);
+	}
+
+	/* Text utilities */
+	.text-primary { color: var(--text-1); }
+	.text-secondary { color: var(--text-2); }
+	.text-brand { color: var(--brand); }
+}

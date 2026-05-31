@@ -1,0 +1,48 @@
+@font-face {
+	font-family: 'NewCMMath-Regular';
+	src:
+		url('https://cdn.jsdelivr.net/gh/fred-wang/MathFonts@gh-pages/NewComputerModern/NewCMMath-Book.woff2')
+			format('woff2'),
+		url('https://cdn.jsdelivr.net/gh/fred-wang/MathFonts@gh-pages/NewComputerModern/NewCMMath-Book.woff')
+			format('woff');
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+
+math {
+	color: var(--text-1);
+	font-family:
+		'NewCMMath-Regular', 'New Computer Modern Math', 'Latin Modern Math', 'STIX Two Math',
+		'Times New Roman', serif;
+
+	svg,
+	svg * {
+		stroke: currentColor;
+	}
+
+	mi,
+	mn,
+	mo,
+	mtext {
+		font-family: 'NewCMMath-Regular', 'New Computer Modern Math', 'Times New Roman', serif;
+	}
+
+	
+
+	cal {
+		font-family: 'NewCMMath-Regular', cursive;
+	}
+
+	bb {
+		font-family: 'NewCMMath-Regular', 'Times New Roman', serif;
+	}
+
+	frak {
+		font-family: 'NewCMMath-Regular', fantasy;
+	}
+
+	upright {
+		font-family: 'NewCMMath-Regular', 'Times New Roman', serif;
+	}
+}
