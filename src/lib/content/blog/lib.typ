@@ -4,6 +4,8 @@
   This file defines the metadata component for the blog.
   It can be queried by the backend to generate the list of posts and their metadata.
 */
+
+// Build the post metadata block used by the content pipeline.
 #let generate-metadata(
   title,
   desc,
@@ -28,26 +30,30 @@
   ) <metadata>]
 }
 
+// Render a short side note inside the article body.
 #let side-note(content) = html.elem("div", attrs: (class: "side-note"),
   html.elem("p", content)
 )
 
+// Insert a simple horizontal rule element.
 #let hrule = html.elem(
   "div",
   attrs: ("class": "hrule"),
 )[]
 
+// Wrap figures so diagrams get a consistent container.
 #let my-figure(
   content,
   caption: none,
 ) = figure(
   caption: caption,
-  html.elem("div", attrs: ("class": "diagram-container"))[
+  html.elem("div", attrs: ("class": "diagram-container"))[ 
     #content
   ]
 )
 
 
+// Default tab sizes for supported code languages.
 #let lang-tab-size = (
   "python": 4,
   "javascript": 2,
@@ -56,6 +62,7 @@
   "rust": 2,
 )
 
+// Number block code fences and expose their metadata to the HTML output.
 #let codeblock-counter = counter("codeblock")
 #let codeblock-rules(body) = context {
   show raw.where(block: true): it => {
@@ -72,6 +79,7 @@
   body
 }
 
+// Format figure captions with the blog's consistent typography.
 #let figure-rules(body) = context {
   show figure.caption: it => context [
       *#it.supplement #it.counter.display(it.numbering)*#it.separator#it.body
@@ -80,7 +88,7 @@
 }
 
 
-/// This file defines the article component for the blog.
+// Main article wrapper: emits metadata, applies the rules, and renders content.
 #let article(
   content,
   title: "Untitled",
