@@ -19,7 +19,12 @@ export interface CodeBlock {
     highlightedHtml: string
 }
 
-export type PostBlock = HtmlBlock | CodeBlock
+export interface SideNoteBlock {
+    type: 'side-note'
+    content: string
+}
+
+export type PostBlock = HtmlBlock | CodeBlock | SideNoteBlock
 
 export interface PostDocument {
     metadata: PostMetadata

@@ -3,6 +3,7 @@
     import '$lib/css/shiki.css';
 
     import CodeBlock from '$lib/components/CodeBlock.svelte';
+    import SideNote from '$lib/components/SideNote.svelte';
     import TagChip from '$lib/components/TagChip.svelte';
     import { formatDate } from '$lib/utils';
 
@@ -53,6 +54,8 @@
                 {#each data.blocks as block, index (block.type === 'code' ? block.id : `${index}`)}
                     {#if block.type === 'html'}
                         {@html block.html}
+                    {:else if block.type === 'side-note'}
+                        <SideNote content={block.content} />
                     {:else}
                         <CodeBlock language={block.language} source={block.source} highlightedHtml={block.highlightedHtml} />
                     {/if}

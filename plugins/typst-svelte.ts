@@ -4,7 +4,7 @@ import { createHighlighter, type Highlighter } from 'shiki'
 import { load, type CheerioAPI } from 'cheerio'
 import type { AnyNode } from 'domhandler'
 import { dirname } from 'path'
-import type { CodeBlock, HtmlBlock, PostBlock, PostDocument, PostMetadata } from '$lib/types'
+import type { CodeBlock, HtmlBlock, PostBlock, PostDocument, PostMetadata, SideNoteBlock } from '$lib/types'
 
 const fontPath = process.env.TYPST_FONT_PATH
 const SUPPORTED_LANGS = ['css', 'python', 'javascript', 'rust', 'typst', 'cpp', 'c', 'svelte'] as const
@@ -123,6 +123,11 @@ function collectBlocks(
         }
 
         const $node = $(node)
+
+        if ($node.hasClass('side-note')) {
+            blocks.push(createSideNoteBlock($node.html() ?? ''))
+            continue
+        }
         const codeElement = $node.find(CODE_FENCE_SELECTOR)
 
         if (codeElement.length) {
@@ -141,6 +146,10 @@ function collectBlocks(
 
 function createHtmlBlock(html: string): HtmlBlock {
     return { type: 'html', html }
+}
+
+function createSideNoteBlock(content: string): SideNoteBlock {
+    return { type: 'side-note', content }
 }
 
 function createCodeBlock(
