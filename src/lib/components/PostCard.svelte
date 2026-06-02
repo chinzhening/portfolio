@@ -2,14 +2,11 @@
     import HomeNoteCard from '$lib/components/HomeNoteCard.svelte';
     import TagChip from '$lib/components/TagChip.svelte';
     import { formatDate, padZero } from '$lib/utils';
+    import type { PostSummary } from '$lib/posts';
 
-    type PostCardData = {
-        href: string;
-        readingTime: string;
-        published: string;
-        title: string;
-        desc: { text: string };
-        tags: string[];
+    type PostCardData = PostSummary & {
+        readingTime?: string;
+        desc?: string | { text?: string };
     };
 
     let {
@@ -19,6 +16,8 @@
         post: PostCardData;
         index: number;
     } = $props();
+
+    const descText = typeof post.desc === 'string' ? post.desc : (post.desc && typeof post.desc.text === 'string' ? post.desc.text : '');
 </script>
 
 <!-- Post preview card: date, title, summary, and up to three tags. -->

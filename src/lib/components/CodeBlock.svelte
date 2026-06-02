@@ -171,11 +171,6 @@
         background: var(--background);
     }
 
-    .code-block-card__body {
-        padding: 0;
-        background: var(--background);
-    }
-
     .code-block-card__body :global(pre[class*='shiki']) {
         max-height: 800px;
         font-size: 0.875rem;
@@ -184,10 +179,8 @@
         padding: 1rem;
         border: 0;
         border-top: 1px solid var(--border);
-        border-radius: 0 0 0.75rem 0.75rem;
         box-shadow: none;
         margin: 0;
-        background: var(--background) !important;
         width: 100%;
     }
 </style>

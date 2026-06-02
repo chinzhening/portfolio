@@ -17,4 +17,5 @@
 	.text-primary { color: var(--text-1); }
 	.text-secondary { color: var(--text-2); }
 	.text-brand { color: var(--brand); }
+
 }

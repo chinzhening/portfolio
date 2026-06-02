@@ -12,21 +12,24 @@
   title,
   desc,
   published,
-  updated,
+  publish_date,
+  edited_date,
   tags,
 ) = {
-  if updated != none [ #metadata(
+  if edited_date != none [ #metadata(
     (title: title,
      desc: desc,
-     published: published.display(),
-     updated: updated.display(),
+     published: published,
+     publish_date: publish_date.display(),
+     edited_date: edited_date.display(),
      tags: tags
     )
   ) <metadata>]
   else [ #metadata(
     (title: title,
      desc: desc,
-     published: published.display(),
+     published: published,
+     publish_date: publish_date.display(),
      tags: tags
     )
   ) <metadata>]
@@ -104,15 +107,17 @@
   content,
   title: "Untitled",
   desc: [This is a blog post.],
-  published: none,
-  updated: none,
+  published: "false",
+  publish_date: none,
+  edited_date: none,
   tags: (),
 ) = {
   generate-metadata(
     title,
     desc,
     published,
-    updated,
+    publish_date,
+    edited_date,
     tags,
   )
 

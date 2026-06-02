@@ -14,7 +14,7 @@
             <div class="mx-auto max-w-6xl">
                 <LinkButton href={resolve('/')} variant="back" className="mb-12">
                     <span class="inline-flex items-center justify-center text-[0.85rem] leading-none" aria-hidden="true">&laquo;</span>
-                    <span>Back</span>
+                    <span>Home</span>
                 </LinkButton>
                 <!-- Main title with decorative elements -->
                 <div class="relative">

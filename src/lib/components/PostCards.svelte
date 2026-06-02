@@ -1,7 +1,9 @@
 <script lang="ts">
     import PostCard from '$lib/components/PostCard.svelte';
 
-    let { posts } = $props();
+    import type { PostSummary } from '$lib/posts'
+
+    let { posts }: { posts: PostSummary[] } = $props();
 </script>
 
 <!-- Post grid wrapper: keeps layout here and delegates each card to PostCard. -->

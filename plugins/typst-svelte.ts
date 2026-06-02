@@ -235,6 +235,7 @@ function query(id: string): Promise<PostMetadata> {
         '<metadata>',
     ], dirname(id)).then((raw) => {
         const results = JSON.parse(raw)
+        console.log(results)
         return results[0].value as PostMetadata
     })
 }

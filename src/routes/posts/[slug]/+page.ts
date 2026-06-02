@@ -1,20 +1,25 @@
 import { error } from '@sveltejs/kit'
+
+import { getPrevAndNextPostLinks } from '$lib/posts'
 import type { PostDocument } from '$lib/types'
 
-export const entries = () => {
-    const modules = import.meta.glob('$lib/content/*.typ', { eager: true })
-    
-    return Object.keys(modules).map((path) => ({
-        slug: path.split('/').at(-1)!.replace('.typ', '')
-    }))
-}
-
-// +page.ts
-export async function load({ params }) {
+export async function load({ params, parent }) {
     try {
-        const { default: { blocks, metadata } } = await import(`../../../lib/content/${params.slug}.typ`)
-        return { blocks, metadata } satisfies PostDocument
+        const { metadata, blocks } = await importPostDocument(params.slug)
+        const { posts } = await parent()
+        const { prevPost, nextPost } = getPrevAndNextPostLinks(posts, params.slug)
+        return {
+            metadata,
+            blocks,
+            prevPost,
+            nextPost,
+        }
     } catch {
         error(404)
     }
+}
+
+async function importPostDocument(slug: string): Promise<PostDocument> {
+    const module = await import(`../../../lib/content/${slug}.typ`)
+    return module.default as PostDocument
 }

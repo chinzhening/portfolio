@@ -3,7 +3,8 @@
 #show: article.with(
   title: "First Post",
   desc: [Setting up the blog and writing the first post.],
-  published: datetime(year: 2026, month: 5, day: 31),
+  published: "true",
+  publish_date: datetime(year: 2026, month: 5, day: 31),
   tags: (
     "dev-log",
     "typst",

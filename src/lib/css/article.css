@@ -167,10 +167,9 @@
 .typst figure .diagram-container {
 	width: 100%;
 	overflow-x: auto;
-	padding-block: 0.5rem;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
+	padding: 0.5rem 0.75rem;
+	box-sizing: border-box;
+	display: block;
 }
 
 .typst figure p:last-child {
@@ -192,7 +191,7 @@
 .typst table th,
 .typst table td {
 	border: 1px solid var(--border);
-	padding: 0.5rem 1rem;
+	padding: 1rem 1rem;
 }
 
 

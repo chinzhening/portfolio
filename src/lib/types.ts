@@ -1,8 +1,9 @@
 export interface PostMetadata {
     title: string
     desc: string
-    published: string
-    updated?: string
+    published: "true" | "false"
+    publish_date: string
+    edited_date?: string
     tags: string[]
 }
 
