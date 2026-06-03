@@ -91,9 +91,9 @@
                                 <p class="font-monospace text-xs uppercase tracking-[0.3em] text-muted-foreground">
                                     address side
                                 </p>
-                                <h3 class="mt-3 font-display text-3xl leading-tight text-foreground md:text-4xl">
+                                <h2 class="mt-3 font-display text-3xl leading-tight text-foreground md:text-4xl">
                                     I like tools with a bit of paper texture.
-                                </h3>
+                                </h2>
                             </div>
 
                             <div class="space-y-5 text-base leading-8 text-muted-foreground">

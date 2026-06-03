@@ -27,7 +27,7 @@
             <!-- Card header: publish date and open indicator. -->
             <div class="flex items-center justify-between gap-4">
                 <span class="font-monospace text-xs uppercase tracking-[0.24em] text-muted-foreground">
-                    {formatDate(post.published)}
+                    {formatDate(post.publish_date)}
                 </span>
 
                 <span class="post-card__open mt-1 text-xs uppercase tracking-[0.18em] text-muted-foreground transition-transform duration-200 group-hover:translate-x-1 group-hover:translate-y-0.5">
