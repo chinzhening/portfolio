@@ -14,7 +14,8 @@
 
 Hello, I will be using this blog to share my thoughts, experiments, and projects. Let's start with a simple introduction to the blog itself.
 
-This blog is built using SvelteKit, which is a framework for web-apps. I am using `static-adapter` to generate a static site which you are reading right now. There is no particular reason for choosing #link("https://svelte.dev")[Svelte] over other frameworks, it was simply a learning opportunity and I took it. Like most static site generated blogs, the content is authored in a structured text format like #link("https://typst.app")[Typst] and then transformed into HTML for the web. I chose Typst because I like writing in it, it has lovely syntax, and has some experimental support for generating HTML output.
+This blog is built using SvelteKit, which is a framework for web-apps. I am using `static-adapter` to generate a static site which you are reading right now. There is no particular reason for choosing #link("https://svelte.dev")[Svelte] over other frameworks, the static adapter is easy to set up, and I have some prior experience with Svelte that made it a convenient choice for this project. Static sites can be hosted for free on GitHub Pages, which is a bonus.
+Like most static site generated blogs, the content is authored in a structured text format like #link("https://typst.app")[Typst] and then transformed into HTML for the web. I chose Typst because I like writing in it, it has lovely syntax, and has some experimental support for generating HTML output.
 
 /// Flesh out
 I am not the first person to write a blog using Typst, and I want to acknowledge a few projects and communities that inspired this site. In particular, Myriad Dreamin's typst blog template (#link("https://github.com/Myriad-Dreamin/tylant")[tylant]) provided useful ideas and examples, and the Typst community at large has produced excellent tooling, examples, and discussion that made experimenting with Typst feasible.
@@ -60,6 +61,7 @@ This pipeline strikes a balance between authoring convenience (write in Typst) a
   caption: [Content pipeline from Typst source to deployed blog. Yes, this diagram was also made in Typst `html.frame` retains the SVG in HTML output.],
 )[
   #html.frame[
+    #let text-style(body) = text(size: 0.8em, font: font-mono, fill: muted-colors.dark-gray, body)
     #diagram(
       spacing: 8pt,
       cell-size: (14mm, 12mm),
@@ -86,13 +88,13 @@ This pipeline strikes a balance between authoring convenience (write in Typst) a
       blob((3, 1), [SvelteKit\ #text(size: 0.8em)[(static-adapter)]], tint: muted-colors.blue, name: <sveltekit>),
       blob((5, 0.5), text(size: 0.8em)[Static Site], width: 24mm, tint: muted-colors.red, name: <site>),
       blob((5, 1.5), text(size: 0.8em)[GitHub Pages], width: 24mm, tint: muted-colors.purple, name: <gh-pages>),
-      edge(<sveltekit>, <site>, "-|>", stroke: muted-colors.dark-gray, `build`),
-      edge(<site>, <gh-pages>, "-|>", stroke: muted-colors.dark-gray, `deploy`),
+      edge(<sveltekit>, <site>, "-|>", stroke: muted-colors.dark-gray, text-style[`build`]),
+      edge(<site>, <gh-pages>, "-|>", stroke: muted-colors.dark-gray, text-style[`deploy`]),
 
       // --- Front-matter: queried from .typ, feeds into sveltekit ---
       blob((2, -1), [#text(size: 0.8em)[metadata]], width: 24mm, tint: muted-colors.cyan, name: <metadata>),
-      edge(<src.north>, <metadata.west>, "-|>", corner: right, stroke: muted-colors.dark-gray, `query`,),
-      edge(<src>, <html>, "-|>", stroke: muted-colors.dark-gray, `compile`),
+      edge(<src.north>, <metadata.west>, "-|>", corner: right, stroke: muted-colors.dark-gray, text-style[`query`],),
+      edge(<src>, <html>, "-|>", stroke: muted-colors.dark-gray, text-style[`compile`]),
       edge(<metadata.east>, <sveltekit.north>, "-|>", stroke: muted-colors.dark-gray, corner: right),
       edge(<article.north>, <sveltekit.south>, "-|>", stroke: muted-colors.dark-gray),
 
@@ -101,17 +103,17 @@ This pipeline strikes a balance between authoring convenience (write in Typst) a
         let tint(c) = (stroke: c, fill: rgb(..c.components().slice(0, 3), 30%), inset: 10pt)
         node(
           enclose: ((0, 0.5), (0, 1.5)),
-          ..tint(muted-colors.gray),
+          ..tint(muted-colors.dark-gray),
           name: <raw>,
         )
         node(
           enclose: ((2, 0), (2, 2), (3, 1)),
-          ..tint(muted-colors.gray),
+          ..tint(muted-colors.dark-gray),
           name: <processing>,
         )
         node(
           enclose: ((5, 0.5), (5, 1.5)),
-          ..tint(muted-colors.gray),
+          ..tint(muted-colors.dark-gray),
           name: <output>,
         )
       },
@@ -119,10 +121,9 @@ This pipeline strikes a balance between authoring convenience (write in Typst) a
       // --- Inter-group arrows ---
       edge(<raw>, <processing>, "--|>", stroke: muted-colors.dark-gray + 1.5pt),
       edge(<processing>, <output>,"--|>", stroke: muted-colors.dark-gray + 1.5pt),
-
-      node((0, 2.25), text(size: 0.8em, font: font-mono)[raw]),
-      node((2.5, 3), text(size: 0.8em, font: font-mono)[processing]),
-      node((5, 2.25), text(size: 0.8em, font: font-mono)[output])
+      node((0, 2.25), text-style[raw]),
+      node((2.5, 3), text-style[processing]),
+      node((5, 2.25), text-style[output]),
     )
   ]
 ] <pipeline>
@@ -222,7 +223,7 @@ I initially started this blog to document my learning journey with Typst and Sve
 - Capstone Monte Carlo Methods in Finance
 - Simulation Based Inference: Adaptive Networks for Modeling Epidemics
 - Portfolio Website: Detailed walkthrough of building my site with SvelteKit and Typst.
-- Github Metrics: ???
+- Github Metrics: Custom analytics for my GitHub profile, repos, and coding activity.
 
 = Acknowledgements
 - Myriad Dreamin — for the `tylant` template and example workflows. A great reference for how to structure Typst content for a blog.
