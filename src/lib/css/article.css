@@ -155,30 +155,6 @@
 	background: var(--background);
 }
 
-/* ─── Figure ───────────────────────────────────────────────────────────────────── */
-
-.typst figure {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 1.5rem;
-}
-
-.typst figure .diagram-container {
-	width: 100%;
-	overflow-x: auto;
-	padding: 0.5rem 0.75rem;
-	box-sizing: border-box;
-	display: block;
-}
-
-.typst figure p:last-child {
-	font-family: var(--font-system-ui);
-	font-size: 0.875rem;
-	line-height: 1.5;
-	text-wrap: pretty;
-	max-width: 70ch;
-}
 
 /* --- Tables ----────────────────────────────────────────────────────────────────────────────── */
 

@@ -6,6 +6,7 @@
     import { title } from '$lib/config';
 
     import CodeBlock from '$lib/components/CodeBlock.svelte';
+    import FigureBlock from '$lib/components/FigureBlock.svelte';
     import LinkButton from '$lib/components/LinkButton.svelte';
     import PostNavTable from '$lib/components/PostNavTable.svelte';
     import SideNote from '$lib/components/SideNote.svelte';
@@ -41,7 +42,8 @@
                  
                 <header class="post-header-card relative overflow-hidden rounded-[2rem] px-6 py-6 md:px-8 md:py-8">
                     <!-- Background Letter -->
-                    <span class="absolute -top-6 -left-4 select-none font-serif text-[8rem] leading-none font-light text-foreground/8 md:-left-6 md:-top-9 md:text-[12rem]">
+                    <span class="absolute -top-6 -left-4 select-none font-serif text-[8rem] leading-none font-light text-foreground/8 md:-left-6 md:-top-9 md:text-[12rem]"
+                        aria-hidden="true">
                         {metadata.title.charAt(0).toUpperCase()}
                     </span>
                     <!-- Post Title -->
@@ -50,15 +52,23 @@
                     </h1>
 
                     <dl class="relative z-10 mb-6 flex flex-col gap-2 py-4 text-sm font-monospace uppercase tracking-[0.15em]">
-                        <div class="grid grid-cols-[5.75rem_minmax(0,1fr)] items-center gap-2">
+                        <div class="
+                            grid grid-cols-[5.75rem_minmax(0,1fr)]
+                            items-center gap-2">
                             <dt class="text-muted-foreground">published</dt>
-                            <dd>{formatDate(metadata.publish_date)}</dd>
+                            <dd>
+                                <time datetime="{metadata.publish_date}">{formatDate(metadata.publish_date)}</time>
+                            </dd>
                         </div>
                         {#if metadata.edited_date}
-                            <div class="grid grid-cols-[5.75rem_minmax(0,1fr)] items-center gap-2">
-                                <dt class="text-muted-foreground">edited</dt>
-                                <dd>{formatDate(metadata.edited_date)}</dd>
-                            </div>
+                        <div class="
+                            grid grid-cols-[5.75rem_minmax(0,1fr)]
+                            items-center gap-2">
+                            <dt class="text-muted-foreground">edited</dt>
+                            <dd>
+                                <time datetime="{metadata.edited_date}">{formatDate(metadata.edited_date)}</time>
+                            </dd>
+                        </div>
                         {/if}
                     </dl>
 
@@ -81,8 +91,10 @@
                         {@html block.html}
                     {:else if block.type === 'side-note'}
                         <SideNote content={block.content} />
-                    {:else}
+                    {:else if block.type === 'code'}
                         <CodeBlock language={block.language} source={block.source} highlightedHtml={block.highlightedHtml} />
+                    {:else if block.type === 'figure'}
+                        <FigureBlock id={block.id} content={block.content} caption={block.caption} />
                     {/if}
                 {/each}
             </div>

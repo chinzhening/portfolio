@@ -46,15 +46,12 @@
   attrs: ("class": "hrule"),
 )[]
 
-// Wrap figures so diagrams get a consistent container.
 #let my-figure(
   content,
   caption: none,
 ) = figure(
   caption: caption,
-  html.elem("div", attrs: ("class": "diagram-container"))[ 
-    #content
-  ]
+  content,
 )
 #let my-table(
   columns: 1,

@@ -201,7 +201,7 @@ to ensure cross-browser consistency and accessibility.
 /// Tables and MathML + MathJax
 #let expr = $ u(x, t) + integral_0^t f(x, s) dif s minus log p_pi (x|t) $
 #my-figure(
-  caption: [An example of MathML output from Typst and MathJax-rendered MathML output fsor comparison.],
+  caption: [An example of MathML output from Typst and MathJax-rendered MathML output for comparison.],
   my-table(
     columns: 6,
     [Typst -> MathML #expr],
