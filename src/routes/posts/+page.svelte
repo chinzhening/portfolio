@@ -3,10 +3,15 @@
     import LinkButton from '$lib/components/LinkButton.svelte';
 
     import { resolve }from '$app/paths';
+    import { title } from '$lib/config';
 
     let { data } = $props();
 
 </script>
+
+<svelte:head>
+    <title>All Posts | {title}</title>
+</svelte:head>
 
 <div class="bg-background min-h-screen">
     <main class="pt-32 pb-24 md:pt-40">

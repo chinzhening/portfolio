@@ -23,6 +23,10 @@
 
 </script>
 
+<svelte:head>
+    <title>Blog | {config.name}</title>
+</svelte:head>
+
 <main class="home-postcard min-h-screen overflow-hidden py-16 md:py-24">
 
     <section class="container mx-auto px-4 md:px-8">

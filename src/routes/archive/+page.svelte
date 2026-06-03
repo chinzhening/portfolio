@@ -1,3 +1,9 @@
-Archive
+<script lang="ts">;
+    import { title } from '$lib/config';
+</script>
 
-<p>Note: This page is a work in progress. Check back later for updates!</p>
+<svelte:head>
+    <title>Categories | {title}</title>
+</svelte:head>
+
+Note: This page is a work in progress. Check back later for updates!

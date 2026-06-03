@@ -3,6 +3,7 @@
     import '$lib/css/shiki.css';
 
     import { resolve } from '$app/paths';
+    import { title } from '$lib/config';
 
     import CodeBlock from '$lib/components/CodeBlock.svelte';
     import LinkButton from '$lib/components/LinkButton.svelte';
@@ -22,6 +23,10 @@
         nextPost: PostSummary | null,
     }
 </script>
+
+<svelte:head>
+    <title>{metadata.title} | {title}</title>
+</svelte:head>
 
 <div class="relative text-foreground min-h-screen">
     <main class="pt-32 pb-12 md:pt-40">
