@@ -287,7 +287,7 @@
 }
 
 /* --- Horizontal Line --- */
-.typst .hrule {
+.typst hr {
 	border: none;
 	border-top: 1px solid var(--border);
 	margin: 1rem 0;

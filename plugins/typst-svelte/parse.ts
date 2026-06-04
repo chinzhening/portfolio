@@ -107,7 +107,11 @@ export function extractFigureData($: CheerioAPI, $node: Cheerio<AnyNode>): { id:
     const first = children.first()
     const content = first.length ? $.html(first) ?? '' : ''
     const last = children.last()
-    const caption = last.is('p') ? $.html(last) ?? undefined : undefined
+    if (!last.is('figcaption')) {
+        throw new Error(`Expected last child of <figure> to be <figcaption>, but got <${last[0].tagName}>`)
+    }
+    const caption = last.html() ?? undefined
+    
     return { id, content, caption }
 }
 

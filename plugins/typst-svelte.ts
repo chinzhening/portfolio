@@ -1,7 +1,6 @@
 import type { Plugin } from 'vite'
 import { compile, query, getHighlighter } from './typst-svelte/index'
 import type { Highlighter } from 'shiki'
-import { SUPPORTED_LANGS, THEMES } from './typst-svelte/constants'
 import { load } from 'cheerio'
 import type { PostDocument } from '$lib/types'
 

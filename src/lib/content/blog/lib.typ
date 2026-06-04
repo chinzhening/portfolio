@@ -41,10 +41,7 @@
 )
 
 // Insert a simple horizontal rule element.
-#let hrule = html.elem(
-  "div",
-  attrs: ("class": "hrule"),
-)[]
+#let hrule = html.elem("hr")
 
 #let my-figure(
   content,
@@ -91,13 +88,13 @@
 }
 
 // Format figure captions with the blog's consistent typography.
+// todo: clean separation between normal export and html export
 #let figure-rules(body) = context {
-  show figure.caption: it => context [
-      *#it.supplement #it.counter.display(it.numbering)*#it.separator#it.body
+  show figure.caption: it => html.figcaption[
+    #strong[#it.supplement #context it.counter.display(it.numbering).] #it.body
   ]
   body
 }
-
 
 // Main article wrapper: emits metadata, applies the rules, and renders content.
 #let article(

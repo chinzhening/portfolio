@@ -1,3 +1,4 @@
+import type { PostMetadata } from '$lib/types'
 import { spawn } from 'child_process'
 import { dirname } from 'path'
 
@@ -43,7 +44,7 @@ export function compile(source: string, id: string): Promise<string> {
     ], dirname(id), source)
 }
 
-export function query(id: string): Promise<any> {
+export function query(id: string): Promise<PostMetadata> {
     return runTypst([
         'query',
         '--features', 'html',
