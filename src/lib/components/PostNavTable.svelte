@@ -177,7 +177,7 @@
 
 <style>
     .interactive {
-        transition: color transform 0.2s ease;
+        transition: color 0.2s ease, transform 0.2s ease;
     }
     .interactive:hover {
         color: var(--brand);
