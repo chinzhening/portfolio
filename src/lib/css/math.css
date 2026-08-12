@@ -12,7 +12,6 @@
 
 math {
 	color: var(--text-1);
-	margin-bottom: 1.25rem;
 	font-family:
 		'NewCMMath-Regular', 'New Computer Modern Math', 'Latin Modern Math', 'STIX Two Math',
 		'Times New Roman', serif;
@@ -46,4 +45,10 @@ math {
 	upright {
 		font-family: 'NewCMMath-Regular', 'Times New Roman', serif;
 	}
+}
+
+math[display="block"] {
+	margin: 1em 0;
+	overflow-x: auto;
+	overflow-y: hidden;
 }

@@ -26,9 +26,9 @@ export default function typstToSvelte(): Plugin {
 
             const $ = load(html)
             // parsing helpers
-            const { normalizeMathFrames, collectRawSourceByLabel, collectBlocks } = await import('./typst-svelte/parse')
+            const { annotateStretchyMathFrames, collectRawSourceByLabel, collectBlocks } = await import('./typst-svelte/parse')
 
-            normalizeMathFrames($)
+            annotateStretchyMathFrames($)
 
             const rawSourceByLabel = collectRawSourceByLabel($)
             const blocks = collectBlocks($, highlighter, rawSourceByLabel, this.warn.bind(this), id)

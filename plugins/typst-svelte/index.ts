@@ -1,6 +1,6 @@
 export { compile, query } from './runner'
 export {
-    normalizeMathFrames,
+    annotateStretchyMathFrames,
     collectRawSourceByLabel,
     collectBlocks,
     extractFigureData,

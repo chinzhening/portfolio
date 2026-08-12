@@ -3,6 +3,7 @@ import type { Highlighter } from 'shiki'
 import type { AnyNode } from 'domhandler'
 import type { CodeBlock, FigureBlock, HtmlBlock, PostBlock, SideNoteBlock } from '$lib/types'
 import { RAW_SOURCE_SELECTOR, CODE_FENCE_SELECTOR, SUPPORTED_LANGS, THEMES } from './constants'
+import { normalizeStretchy } from './math'
 
 interface CodeElementLike { attr(name: string): string | undefined }
 
@@ -10,13 +11,9 @@ function isSupportedLang(lang: string): boolean {
     return (SUPPORTED_LANGS as readonly string[]).includes(lang)
 }
 
-export function normalizeMathFrames($: CheerioAPI) {
-    $('svg.typst-frame use').each((_, el) => {
-        $(el).attr('fill', 'currentColor')
-    })
-
-    $('svg.typst-frame path.typst-shape').each((_, el) => {
-        $(el).attr('stroke', 'currentColor')
+export function annotateStretchyMathFrames($: CheerioAPI) {
+    $('math').each((_, el) => {
+        normalizeStretchy($, el)
     })
 }
 

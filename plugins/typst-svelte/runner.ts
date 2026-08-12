@@ -46,10 +46,9 @@ export function compile(source: string, id: string): Promise<string> {
 
 export function query(id: string): Promise<PostMetadata> {
     return runTypst([
-        'query',
+        'eval', 'query(<metadata>)',
         '--features', 'html',
-        id,
-        '<metadata>',
+        '--in', id,
     ], dirname(id)).then((raw) => {
         const results = JSON.parse(raw)
         return results[0].value
