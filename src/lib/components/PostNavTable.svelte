@@ -177,7 +177,10 @@
 
 <style>
     .interactive {
-        transition: color 0.2s ease, transform 0.2s ease;
+        /* Tailwind v4 writes movement to `translate`, not `transform`. This
+           scoped rule is unlayered and beats `transition-transform`, so it has
+           to name `translate` itself or the hover lift snaps. */
+        transition: color 0.2s ease, translate 0.2s ease;
     }
     .interactive:hover {
         color: var(--brand);
