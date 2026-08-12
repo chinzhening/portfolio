@@ -1,0 +1,8 @@
+# Commits that only reformat. `git blame` skips these and reports the author
+# of the line underneath instead.
+#
+# GitHub reads this file automatically. Locally it is inert until you run:
+#   git config blame.ignoreRevsFile .git-blame-ignore-revs
+
+# style: format the repository with prettier
+15ae08dfb63de4ef364af98104a2aa91f91a8ce9
