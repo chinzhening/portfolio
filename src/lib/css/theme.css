@@ -1,17 +1,17 @@
 @import "./fonts.css";
 
+/*
+ * Primitive palette + the light/dark semantic mapping.
+ *
+ * Font stacks live in app.css `@theme` so that Tailwind owns every
+ * `--font-*` name; defining them here as well would shadow that block.
+ * Never declare a `--color-*` name here — that namespace is reserved by
+ * Tailwind's `@theme`, and an unlayered declaration silently overrides it.
+ */
 html {
-	/* Fonts */
-	--font-system-ui: var(--font-bricolage-grotesque), ui-sans-serif, system-ui, sans-serif;
-	--font-serif: var(--font-merriweather), ui-serif, Georgia, Cambria, serif;
-	--font-monospace: var(--font-iosevka), ui-monospace, system-ui, monospace;
-	--font-display: var(--font-playfair-display), var(--font-serif), ui-serif, Georgia, Cambria, serif;
-
 	/* Brown accent */
-	--brown-3:  oklch(47.366% 0.13781 43.034);   /* #ff8a50 — vivid coral brown */
-	--brown-10: oklch(48.941% 0.10956 50.674);   /* #e6a972 — muted warm amber */
-
-	--cross: oklch(0.6 0.01 58); /* #8b0000 — light tint of red, for dark mode */
+	--brown-3:  oklch(63.646% 0.18901 42.277);   /* #ff8a50 — vivid coral brown */
+	--brown-10: oklch(60.423% 0.14029 49.911);   /* #e6a972 — muted warm amber */
 
 	/* Grayscale — subtle warm tint (h=60), spread wide for contrast */
 	--gray-0:  oklch(1.00  0.000 60);   /* white */
@@ -28,15 +28,8 @@ html {
 	--gray-12: oklch(0.09  0.006 60);   /* almost black */
 
 	/* Parchment */
-	--color-parchment: oklch(0.98 0.001 70);
-	--color-ink: oklch(0.22 0.01 85);
-	--color-stone: oklch(0.84 0.02 80);
-	--color-bronze-green: oklch(0.50 0.03 145);
-	--color-candle-gold: oklch(0.72 0.06 75);
-	--color-shadow: oklch(0.16 0.01 80);
-	--color-border: oklch(0.78 0.018 82);
-	--color-muted: oklch(0.58 0.015 80);
-	--color-overlay: oklch(0.12 0.008 80);
+	--parchment: oklch(0.98 0.001 70);
+	--ink: oklch(0.22 0.01 85);
 
 	/* Dark mode semantic colors */
 	--brand-dark:          oklch(0.78 0.10 50.674);
@@ -53,13 +46,13 @@ html {
 
 	/* Light mode semantic colors */
 	--brand-light:         var(--brown-3);
-	--text-1-light:        var(--color-ink);
+	--text-1-light:        var(--ink);
 	--text-2-light:        var(--gray-9);
-	--surface-1-light:     var(--color-parchment);
+	--surface-1-light:     var(--parchment);
 	--surface-2-light:     var(--gray-1);
 	--surface-3-light:     var(--gray-2);
 	--surface-4-light:     var(--gray-3);
-	--background-light:    var(--color-parchment);
+	--background-light:    var(--parchment);
 	--border-light:        var(--gray-4);
 	--contrast-text-light:    var(--gray-1);
 	--contrast-surface-light: var(--gray-11);
