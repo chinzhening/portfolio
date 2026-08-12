@@ -1,0 +1,46 @@
+name: Cache Typst
+
+on:
+  workflow_dispatch:
+  # The version is pinned, so this is not chasing upstream — it keeps the
+  # cache entry from being evicted after 7 days of no reads.
+  schedule:
+    - cron: '0 0 * * 0' # weekly, every Sunday
+
+env:
+  # Bumping this must be matched by the `Restore Typst cache` key in deploy.yml.
+  TYPST_VERSION: '0.15.0'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check cache
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: typst-bin
+          key: typst-${{ env.TYPST_VERSION }}
+
+      - name: Download Typst ${{ env.TYPST_VERSION }}
+        if: steps.cache.outputs.cache-hit != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p typst-bin
+          gh release download "v$TYPST_VERSION" \
+            --repo typst/typst \
+            --pattern '*x86_64-unknown-linux-musl.tar.xz' \
+            --output typst.tar.xz \
+            --clobber
+          tar -xJf typst.tar.xz --strip-components=1 --wildcards '*/typst' -C typst-bin
+          rm typst.tar.xz
+          chmod +x typst-bin/typst
+
+      - name: Verify binary
+        run: |
+          set -euo pipefail
+          typst-bin/typst --version
+          typst-bin/typst --version | grep -q "typst $TYPST_VERSION"
