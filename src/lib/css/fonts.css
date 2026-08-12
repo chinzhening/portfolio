@@ -1,5 +1,3 @@
-@import '@fontsource/crimson-pro';
-@import '@fontsource/cormorant';
 @import '@fontsource/merriweather';
 @import '@fontsource/playfair-display';
 @import '@fontsource/inter';
@@ -10,8 +8,6 @@
 html { 
     --font-inter: 'inter', sans-serif;
     --font-bricolage-grotesque: 'Bricolage Grotesque Variable', 'Bricolage Grotesque Fallback', sans-serif;
-    --font-crimson-pro: 'Crimson Pro', serif;
-    --font-cormorant: 'Cormorant', serif;
     --font-merriweather: 'Merriweather', serif;
     --font-iosevka: 'Iosevka', monospace;
     --font-playfair-display: 'Playfair Display', serif;
