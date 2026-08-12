@@ -106,9 +106,6 @@
         {#each data.posts as post, i (i)}
             <PostCard {post} class="border-t md:border-t-0 md:not-first:border-t md:border-l border-border/50" />
         {/each}
-        {#each data.posts as post, i (i)}
-            <PostCard {post} class="border-t md:border-t-0 md:not-first:border-t md:border-l border-border/50" />
-        {/each}
         <div class="min-h-10 border-l border-border/50"></div>
     </section>
     </div>
