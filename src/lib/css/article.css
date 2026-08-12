@@ -269,15 +269,13 @@
 	transition: height 0.3s ease;
 }
 
-.typst a:hover::after {
-	height: 3px;
-}
-
 .typst a::after {
 	transform-origin: top;
 }
 
-.typst a:hover::after {
+.typst a:hover::after,
+.typst a:focus-visible::after {
+	height: 3px;
 	transform-origin: bottom;
 }
 

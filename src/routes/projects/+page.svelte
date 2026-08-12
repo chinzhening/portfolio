@@ -19,6 +19,7 @@
                     tracking-[0.24em]
                     transition-transform duration-200
                     group-hover:translate-x-[-1em]
+                    group-focus-visible:translate-x-[-1em]
                 ">
                     &laquo; home
                 </span>

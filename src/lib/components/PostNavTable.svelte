@@ -182,7 +182,8 @@
            to name `translate` itself or the hover lift snaps. */
         transition: color 0.2s ease, translate 0.2s ease;
     }
-    .interactive:hover {
+    .interactive:hover,
+    .interactive:focus-visible {
         color: var(--brand);
     }
 </style>

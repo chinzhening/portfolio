@@ -51,6 +51,7 @@
                                 translate-x-0 translate-y-0
                                 transition-transform duration-200
                                 group-hover:translate-x-[-1em]
+                                group-focus-visible:translate-x-[-1em]
                             "
                         >
                             &laquo; Posts
@@ -84,13 +85,17 @@
                     </dl>
 
                     {#if metadata.tags.length}
-                        <ul aria-label="Post tags" class="relative z-10 flex gap-px text-md font-monospace text-muted-foreground/50">
-                            <span>.</span>
-                            {#each metadata.tags as tag (tag)}
-                                <span>/</span>
-                                <span>{toKebabCase(tag)}</span>
-                            {/each}
-                        </ul>
+                        <div class="relative z-10 flex gap-px text-md font-monospace text-muted-foreground/50">
+                            <span aria-hidden="true">.</span>
+                            <ul aria-label="Post tags" class="flex gap-px">
+                                {#each metadata.tags as tag (tag)}
+                                    <li class="flex gap-px">
+                                        <span aria-hidden="true">/</span>
+                                        <span>{toKebabCase(tag)}</span>
+                                    </li>
+                                {/each}
+                            </ul>
+                        </div>
                     {/if}
                 </header>
             </div>
