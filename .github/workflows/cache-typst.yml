@@ -23,21 +23,33 @@ jobs:
           path: typst-bin
           key: typst-${{ env.TYPST_VERSION }}
 
+      # Also runs on a cache hit that restored no binary, so a bad entry
+      # written by a failed run repairs itself instead of sticking.
       - name: Download Typst ${{ env.TYPST_VERSION }}
-        if: steps.cache.outputs.cache-hit != 'true'
+        if: steps.cache.outputs.cache-hit != 'true' || hashFiles('typst-bin/typst') == ''
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          mkdir -p typst-bin
+          mkdir -p typst-bin extract
           gh release download "v$TYPST_VERSION" \
             --repo typst/typst \
             --pattern '*x86_64-unknown-linux-musl.tar.xz' \
             --output typst.tar.xz \
             --clobber
-          tar -xJf typst.tar.xz --strip-components=1 --wildcards '*/typst' -C typst-bin
-          rm typst.tar.xz
+          # Unpack whole, then locate the binary: the archive's directory
+          # layout is not part of any contract, and tar's -C is positional.
+          tar -xJf typst.tar.xz -C extract
+          echo "Archive contents:"
+          find extract -maxdepth 2
+          binary="$(find extract -type f -name typst -print -quit)"
+          if [ -z "$binary" ]; then
+            echo "::error::no typst binary in the v$TYPST_VERSION release archive"
+            exit 1
+          fi
+          mv "$binary" typst-bin/typst
           chmod +x typst-bin/typst
+          rm -rf extract typst.tar.xz
 
       - name: Verify binary
         run: |
