@@ -6,3 +6,12 @@ export function formatDate(date: string): string {
 export function padZero(num: number): string {
     return num.toString().padStart(2, '0');
 }
+
+export function toKebabCase(str: string): string {
+  return str
+    .trim()
+    .replace(/([a-z])([A-Z])/g, '$1-$2')
+    .replace(/[^a-zA-Z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .toLowerCase();
+}
