@@ -1,9 +1,10 @@
 /* ─── Article Styling ────────────────────────────────────────────────────────── */
 
 .typst {
-	font-family: var(--font-serif);
-	font-size: 1.125rem;
-	line-height: 1.8;
+	font-family: var(--font-sans-serif);
+	font-size: 15.5px;
+	line-height: 1.6;
+	color: var(--text-2);
 	text-rendering: optimizeLegibility;
 	font-kerning: normal;
 	hyphens: auto;
@@ -19,8 +20,7 @@
 .typst h4,
 .typst h5,
 .typst h6 {
-	font-family: var(--font-display);
-	letter-spacing: 0.06rem;
+	font-family: var(--font-sans-serif);
 	line-height: 1.1;
 	text-wrap: balance;
 	position: relative;
@@ -40,59 +40,42 @@
 }
 
 .typst h1 {
-	font-size: 2rem;
-	font-weight: normal;
+	font-size: 28px;
 	margin-top: 1.5rem;
 }
 
-@media (min-width: 42rem) {
-	.typst h1 {
-		font-size: 2.6rem;
-	}
-}
-
 .typst h2 {
-	font-size: 1.6rem;
-	font-weight: bold;
-	z-index: 2;
+	font-size: 22px;
 	margin-top: 2rem;
 	margin-bottom: 1rem;
 }
 
 @media (min-width: 42rem) {
 	.typst h2 {
-		font-size: 2rem;
 		margin-top: 2.5rem;
 	}
 }
 
 .typst h2 + .typst h3 {
-	margin-top: 1.5rem;
+	margin-top: 1.15rem;
 }
 
 .typst h3 {
-	font-weight: bold;
-	font-size: 1.3rem;
+	font-size: 18px;
 	margin-top: 1.75rem;
 }
 
-@media (min-width: 42rem) {
-	.typst h3 {
-		font-size: 1.5rem;
-	}
-}
-
 .typst h4 {
-	font-size: 1rem;
+	font-size: 16px;
 	text-transform: uppercase;
 }
 
 .typst h5 {
-	font-size: 1.1rem;
+	font-size: 15.5px;
 }
 
 .typst h6 {
-	font-size: 1rem;
+	font-size: 15.5px;
 }
 
 .typst h4,
@@ -138,23 +121,11 @@
 	white-space: nowrap;
 	border-radius: 0.25rem;
 	vertical-align: middle;
-	font-size: 0.9rem;
+	font-size: 12.5px;
 	font-family: var(--font-monospace);
-	background-color: oklch(from var(--brand) calc(l * 1.25) c h / 0.1);
-	border: 1px solid var(--border);
-	padding: 0.2rem 0.4rem;
+	background-color: oklch(from var(--brand) calc(l * 1.25) c h / 0.15);
+	padding: 2px 5px;
 }
-
-/* ─── Block code (Shiki) ───────────────────────────────────────────────────────── */
-
-.code-block-card {
-	border: 1px solid var(--border);
-	box-shadow: 0 1.25rem 2.5rem oklch(from var(--text-1) l c h / 0.06);
-	margin-block: 1.5rem;
-	overflow: hidden;
-	background: var(--background);
-}
-
 
 /* --- Tables ----────────────────────────────────────────────────────────────────────────────── */
 
@@ -188,7 +159,7 @@
 }
 
 .typst li {
-	margin-bottom: 0.375rem;
+	margin-bottom: 0.2rem;
 	line-height: 1.6;
 	text-wrap: pretty;
 }
@@ -203,35 +174,59 @@
 
 .typst li > ul,
 .typst li > ol {
-	margin-top: 0.375rem;
+	margin-top: 0.2rem;
 	margin-bottom: 0;
 }
 
-/* ─── Endnotes ────────────────────────────────────────────────────────────────── */
+/* ─── Callouts (side notes, endnotes) ─────────────────────────────────────────── */
 
+.typst .callout,
 .typst section[role='doc-endnotes'] {
 	position: relative;
-	margin: 3rem 0 1.5rem;
+	margin: 2.5rem 0;
 	padding: 3rem 1.5rem 1.5rem;
 	border: 1px solid var(--border);
-	border-radius: 0.75rem;
-	background: var(--surface-1);
-	box-shadow: 0 1.25rem 2.5rem oklch(from var(--text-1) l c h / 0.06);
+	background: var(--surface-2);
+}
+
+.typst .callout > .label,
+.typst section[role='doc-endnotes']::before {
+	position: absolute;
+	top: 1.5rem;
+	left: 1rem;
+	z-index: 1;
+	transform: translateY(-50%);
+	padding: 0.35rem 0.6rem;
+	font-family: var(--font-monospace);
+	font-size: 0.8rem;
+	line-height: 1;
+	letter-spacing: 0.05rem;
+	text-transform: uppercase;
+	color: var(--color-faint-foreground);
 }
 
 .typst section[role='doc-endnotes']::before {
 	content: 'Footnotes';
-	font-family: var(--font-monospace);
-	font-size: 0.8rem;
-	letter-spacing: 0.05rem;
-	text-transform: uppercase;
-	position: absolute;
-	top: 1.5rem;
-	left: 1rem;
-	padding: 0.35rem 0.6rem;
-	color: var(--text-2);
-	transform: translateY(-50%);
-	z-index: 1;
+}
+
+/* Neutralise the trailing margin of whatever ends the callout. */
+.typst .callout > :last-child {
+	margin-bottom: 0;
+}
+
+/* Edge-to-edge on narrow viewports. */
+@media (width < 40rem) {
+	.typst .callout {
+		margin-inline: -1.5rem;
+		width: calc(100% + 3rem);
+		border-inline: 0;
+	}
+}
+
+@media (width >= 64rem) {
+	.typst .callout {
+		padding: 3rem 1.75rem 1.75rem;
+	}
 }
 
 .typst section[role='doc-endnotes'] ol {

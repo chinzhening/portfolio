@@ -10,7 +10,7 @@
     } = $props();
 </script>
 
-<figure id={id}>
+<figure id={id} class="my-4">
     <div class="container">
         {@html content}
     </div>
@@ -22,19 +22,20 @@
 </figure>
 
 <style>
-    .container {
-        width: 100%;
-        overflow-x: auto;
-        padding: 0.5rem 0.75rem;
-        box-sizing: border-box;
-        display: block;
-    }
-
     figure {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 1.5rem;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .container {
+        width: 100%;
+        overflow-x: auto;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: safe center;
     }
 
     figcaption {
