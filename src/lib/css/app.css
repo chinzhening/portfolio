@@ -1,7 +1,7 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 @plugin "@tailwindcss/typography";
-@import "./theme.css";
-@import "./math.css";
+@import './theme.css';
+@import './math.css';
 
 @theme {
 	--color-brand: var(--brand);
@@ -31,7 +31,8 @@
 	--font-sans-serif: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 	--font-serif: var(--font-merriweather), ui-serif, Georgia, Cambria, serif;
 	--font-monospace: var(--font-iosevka), ui-monospace, system-ui, monospace;
-	--font-display: var(--font-playfair-display), var(--font-merriweather), ui-serif, Georgia, Cambria, serif;
+	--font-display:
+		var(--font-playfair-display), var(--font-merriweather), ui-serif, Georgia, Cambria, serif;
 }
 
 @custom-variant dark (&:is([color-scheme='dark'] *));
@@ -41,13 +42,13 @@ body {
 	height: 100%;
 
 	/* Hide scrollbar globally */
-	-ms-overflow-style: none;  /* IE 10+ & Legacy Edge */
-	scrollbar-width: none;     /* Firefox */
+	-ms-overflow-style: none; /* IE 10+ & Legacy Edge */
+	scrollbar-width: none; /* Firefox */
 }
 
 html::-webkit-scrollbar,
 body::-webkit-scrollbar {
-	display: none;             /* Chrome, Safari, Edge, Opera */
+	display: none; /* Chrome, Safari, Edge, Opera */
 }
 
 html {

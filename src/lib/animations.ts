@@ -16,7 +16,7 @@ export function animate(
     const method = gsap[type] as
         | ((target: gsap.TweenTarget, vars: GSAPTweenVars) => GSAPTween)
         | undefined;
-    
+
     if (!method) {
         console.warn(`GSAP method "${type}" does not exist.`);
         return {};
@@ -26,12 +26,12 @@ export function animate(
         ...args,
         scrollTrigger: scrollTrigger
             ? {
-                ...scrollTrigger,
-                trigger: scrollTrigger.trigger || node,
-            }
+                  ...scrollTrigger,
+                  trigger: scrollTrigger.trigger || node
+              }
             : undefined
     });
-    
+
     return {
         destroy() {
             // kill the animation
@@ -45,15 +45,17 @@ export function animate(
     };
 }
 
-export function fadeIn(direction: 'up' | 'down' | 'left' | 'right' | 'static' = 'up'): AnimationOptions {
+export function fadeIn(
+    direction: 'up' | 'down' | 'left' | 'right' | 'static' = 'up'
+): AnimationOptions {
     const options: AnimationOptions = {
         type: 'from',
         opacity: 0.25,
-        duration: .9,
+        duration: 0.9,
         scrollTrigger: {
-            start: "top 80%",
-            end: "bottom 60%",
-            toggleActions: "play none none"
+            start: 'top 80%',
+            end: 'bottom 60%',
+            toggleActions: 'play none none'
         }
     };
     const distance = 25;
@@ -71,21 +73,21 @@ export const fadeUp: AnimationOptions = {
     type: 'from',
     y: 25,
     opacity: 0.3,
-    duration: .7,
+    duration: 0.7,
     scrollTrigger: {
-        start: "top 80%",
-        end: "bottom 60%",
-        toggleActions: "play none none"
+        start: 'top 80%',
+        end: 'bottom 60%',
+        toggleActions: 'play none none'
     }
 };
 
 export const down: AnimationOptions = {
     type: 'from',
     y: -20,
-    duration: .7,
+    duration: 0.7,
     scrollTrigger: {
-        start: "top 80%",
-        end: "bottom 60%",
-        toggleActions: "play none none"
+        start: 'top 80%',
+        end: 'bottom 60%',
+        toggleActions: 'play none none'
     }
 };

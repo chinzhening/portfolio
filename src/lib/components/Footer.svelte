@@ -3,7 +3,8 @@
 </script>
 
 <!-- Site footer: renders copyright and platform links. -->
-<footer class="
+<footer
+    class="
     container mx-auto
     px-6 pb-8 pt-6 md:px-6 lg:px-20
     border-t border-border/50
@@ -12,19 +13,21 @@
     <div class="flex flex-col gap-2">
         <p class="text-3xl text-muted-foreground" lang="zh">陈哲宁</p>
         <p class="font-monospace text-dim-foreground">portfolio@a57sdf ~/socials $ ls</p>
-        <nav class="
+        <nav
+            class="
             flex flex-col gap-1
             font-monospace
             text-dim-foreground
             lowercase tracking-widest
             text-xs"
         >
-        {#each config.socials as social (social.name)}
-            <a class="hover-link" href={social.href}>{social.name}</a>
-        {/each}
+            {#each config.socials as social (social.name)}
+                <a class="hover-link" href={social.href}>{social.name}</a>
+            {/each}
         </nav>
     </div>
-    <p class="
+    <p
+        class="
         relative z-10
         mt-4
         font-monospace

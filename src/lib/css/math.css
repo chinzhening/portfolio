@@ -28,8 +28,6 @@ math {
 		font-family: 'NewCMMath-Regular', 'New Computer Modern Math', 'Times New Roman', serif;
 	}
 
-	
-
 	cal {
 		font-family: 'NewCMMath-Regular', cursive;
 	}
@@ -47,7 +45,7 @@ math {
 	}
 }
 
-math[display="block"] {
+math[display='block'] {
 	margin: 1em 0;
 	overflow-x: auto;
 	overflow-y: hidden;

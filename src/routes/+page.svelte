@@ -7,13 +7,7 @@
 
     let { data } = $props();
 
-    const roles = [
-        "creator.",
-        "developer.",
-        "ai enthusiast.",
-        "coffee lover."
-    ];
-
+    const roles = ['creator.', 'developer.', 'ai enthusiast.', 'coffee lover.'];
 </script>
 
 <svelte:head>
@@ -21,33 +15,40 @@
 </svelte:head>
 
 <main class="min-h-screen bg-background">
-    <div class="
+    <div
+        class="
         grid
         md:grid-cols-[minmax(0,0.4fr)_minmax(0,.62fr)]
         md:items-start
         mx-auto px-6 md:px-12 lg:px-20
         max-w-6xl
         border-b border-border/50
-    ">
+    "
+    >
         <header class="py-16 md:py-24 md:pr-16 v-full" use:animate={fadeUp}>
-            <h1 class="
+            <h1
+                class="
                 text-5xl md:text-6xl lg:text-7xl
                 tracking-tight text-balance
                 font-display text-foreground
-            ">
+            "
+            >
                 {config.name}
             </h1>
 
             <p class="mt-4 font-monospace uppercase tracking-widest text-muted-foreground">
                 i'm a
-                <span class="text-brand"><Typing words={roles} typeSpeed={200} cursor="block" /></span>
+                <span class="text-brand"
+                    ><Typing words={roles} typeSpeed={200} cursor="block" /></span
+                >
             </p>
 
             <p class="mt-3 font-serif text-dim-foreground">{config.status}</p>
         </header>
 
         <section class="flex flex-col md:pt-24">
-            <div class="
+            <div
+                class="
                 border-t md:border-t-0 md:not-first:border-t
                 md:border-l
                 border-border/50
@@ -59,16 +60,16 @@
                     about
                 </h2>
                 <p class="mt-4 text-pretty text-muted-foreground">
-                    I grew up in New Zealand but have been based
-                    in Singapore since 2022. In 2026, I graduated from the
-                    National University of Singapore with a B.Sc. in Mathematics.
+                    I grew up in New Zealand but have been based in Singapore since 2022. In 2026, I
+                    graduated from the National University of Singapore with a B.Sc. in Mathematics.
                 </p>
                 <p class="mt-4 text-pretty text-muted-foreground">
                     I work in applied mathematics and software development.
                 </p>
             </div>
 
-            <div class="
+            <div
+                class="
                 border-t md:border-t-0 md:not-first:border-t
                 md:border-l
                 border-border/50
@@ -80,21 +81,17 @@
                     this blog
                 </h2>
                 <p class="mt-4 text-pretty text-muted-foreground">
-                    Where the experiments and notes end up. Posts are written in Typst and
-                    compiled to HTML at build time, so the mathematics is typeset rather
-                    than approximated.
+                    Where the experiments and notes end up. Posts are written in Typst and compiled
+                    to HTML at build time, so the mathematics is typeset rather than approximated.
                 </p>
             </div>
-
         </section>
     </div>
 
     <div class="px-6">
         <section class="py-10 md:py-16 mx-auto max-w-200" use:animate={fadeUp}>
             <div class="flex justify-between font-monospace text-sm uppercase tracking-widest">
-                <h2 class="text-faint-foreground">
-                    recent writing
-                </h2>
+                <h2 class="text-faint-foreground">recent writing</h2>
 
                 <a
                     class="
@@ -119,4 +116,3 @@
         </section>
     </div>
 </main>
-

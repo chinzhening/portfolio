@@ -5,7 +5,7 @@
     let {
         language,
         source,
-        highlightedHtml,
+        highlightedHtml
     }: {
         language: string;
         source: string;
@@ -24,7 +24,7 @@
             opacity,
             duration: 0.2,
             ease: 'power2.out',
-            overwrite: true,
+            overwrite: true
         });
     }
 
@@ -53,7 +53,7 @@
         return {
             update(nextHtml: string) {
                 node.innerHTML = nextHtml;
-            },
+            }
         };
     }
 
@@ -106,7 +106,13 @@
     });
 </script>
 
-<div role="group" aria-label={`${language} code`} class="code-block-card relative bg-surface-1/60" onmouseenter={showCopyButton} onmouseleave={hideCopyButton}>
+<div
+    role="group"
+    aria-label={`${language} code`}
+    class="code-block-card relative bg-surface-1/60"
+    onmouseenter={showCopyButton}
+    onmouseleave={hideCopyButton}
+>
     <div class="code-block-card__header">
         <div class="code-title">{language}</div>
         <button
@@ -121,14 +127,37 @@
             onblur={hideCopyButton}
         >
             <div class="relative">
-                <div class="copy-button__icon flex items-center justify-center" style="width: 20px; height: 20px;">
+                <div
+                    class="copy-button__icon flex items-center justify-center"
+                    style="width: 20px; height: 20px;"
+                >
                     {#if copied}
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink: 0;">
-                            <path d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"></path>
+                        <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            xmlns="http://www.w3.org/2000/svg"
+                            aria-hidden="true"
+                            style="flex-shrink: 0;"
+                        >
+                            <path
+                                d="M15.188 5.11a.5.5 0 0 1 .752.626l-.056.084-7.5 9a.5.5 0 0 1-.738.033l-3.5-3.5-.064-.078a.501.501 0 0 1 .693-.693l.078.064 3.113 3.113 7.15-8.58z"
+                            ></path>
                         </svg>
                     {:else}
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink: 0;">
-                            <path d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"></path>
+                        <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            xmlns="http://www.w3.org/2000/svg"
+                            aria-hidden="true"
+                            style="flex-shrink: 0;"
+                        >
+                            <path
+                                d="M12.5 3A1.5 1.5 0 0 1 14 4.5V6h1.5A1.5 1.5 0 0 1 17 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 15.5V14H4.5A1.5 1.5 0 0 1 3 12.5v-8A1.5 1.5 0 0 1 4.5 3zm1.5 9.5a1.5 1.5 0 0 1-1.5 1.5H7v1.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5H14zM4.5 4a.5.5 0 0 0-.5.5v8a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-8a.5.5 0 0 0-.5-.5z"
+                            ></path>
                         </svg>
                     {/if}
                 </div>
@@ -136,7 +165,10 @@
         </button>
     </div>
     <div class="code-block-card__content">
-        <div class="code-block-card__body overflow-x-auto" use:renderHighlighted={highlightedHtml}></div>
+        <div
+            class="code-block-card__body overflow-x-auto"
+            use:renderHighlighted={highlightedHtml}
+        ></div>
     </div>
 </div>
 

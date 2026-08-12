@@ -5,9 +5,5 @@ import tailwindcss from '@tailwindcss/vite';
 import typstToSvelte from './plugins/typst-svelte';
 
 export default defineConfig({
-	plugins: [
-		typstToSvelte(),
-		tailwindcss(),
-		sveltekit()
-	]
+    plugins: [typstToSvelte(), tailwindcss(), sveltekit()]
 });

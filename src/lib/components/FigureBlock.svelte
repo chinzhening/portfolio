@@ -2,7 +2,7 @@
     let {
         id,
         content,
-        caption,
+        caption
     }: {
         id?: string;
         content: string;
@@ -10,14 +10,14 @@
     } = $props();
 </script>
 
-<figure id={id} class="my-4">
+<figure {id} class="my-4">
     <div class="container">
         {@html content}
     </div>
     {#if caption}
-    <figcaption>
-        {@html caption}
-    </figcaption>
+        <figcaption>
+            {@html caption}
+        </figcaption>
     {/if}
 </figure>
 

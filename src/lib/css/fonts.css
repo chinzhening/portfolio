@@ -4,11 +4,11 @@
 @import '@fontsource/iosevka';
 @import '@fontsource-variable/bricolage-grotesque';
 
-
-html { 
-    --font-inter: 'inter', sans-serif;
-    --font-bricolage-grotesque: 'Bricolage Grotesque Variable', 'Bricolage Grotesque Fallback', sans-serif;
-    --font-merriweather: 'Merriweather', serif;
-    --font-iosevka: 'Iosevka', monospace;
-    --font-playfair-display: 'Playfair Display', serif;
+html {
+	--font-inter: 'inter', sans-serif;
+	--font-bricolage-grotesque:
+		'Bricolage Grotesque Variable', 'Bricolage Grotesque Fallback', sans-serif;
+	--font-merriweather: 'Merriweather', serif;
+	--font-iosevka: 'Iosevka', monospace;
+	--font-playfair-display: 'Playfair Display', serif;
 }

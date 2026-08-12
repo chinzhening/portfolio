@@ -5,7 +5,7 @@
         deleteSpeed?: number;
         pauseDelay?: number;
         loop?: boolean;
-        cursor?: "line" | "block" | "underscore";
+        cursor?: 'line' | 'block' | 'underscore';
         blink?: boolean;
     };
 
@@ -15,8 +15,8 @@
         deleteSpeed = 80,
         pauseDelay = 1000,
         loop = true,
-        cursor = "line",
-        blink = true,
+        cursor = 'line',
+        blink = true
     }: Props = $props();
 
     let displayedText = $state('');
@@ -27,38 +27,38 @@
         let cancelled = false;
 
         const run = async () => {
-        let wordIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
+            let wordIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
 
-        while (!cancelled) {
-            const current = words[wordIndex];
-            if (!current) return;
+            while (!cancelled) {
+                const current = words[wordIndex];
+                if (!current) return;
 
-            if (!isDeleting) {
-            if (charIndex < current.length) {
-                charIndex++;
-                displayedText = current.slice(0, charIndex);
-                await sleep(typeSpeed);
-            } else {
-                if (!loop && wordIndex === words.length - 1) return;
-                isDeleting = true;
-                await sleep(pauseDelay);
-            }
-            } else {
-            if (charIndex > 0) {
-                charIndex--;
-                displayedText = current.slice(0, charIndex);
-                await sleep(deleteSpeed);
-            } else {
-                isDeleting = false;
-                wordIndex = (wordIndex + 1) % words.length;
-                await sleep(typeSpeed);
-            }
-            }
+                if (!isDeleting) {
+                    if (charIndex < current.length) {
+                        charIndex++;
+                        displayedText = current.slice(0, charIndex);
+                        await sleep(typeSpeed);
+                    } else {
+                        if (!loop && wordIndex === words.length - 1) return;
+                        isDeleting = true;
+                        await sleep(pauseDelay);
+                    }
+                } else {
+                    if (charIndex > 0) {
+                        charIndex--;
+                        displayedText = current.slice(0, charIndex);
+                        await sleep(deleteSpeed);
+                    } else {
+                        isDeleting = false;
+                        wordIndex = (wordIndex + 1) % words.length;
+                        await sleep(typeSpeed);
+                    }
+                }
 
-            if (cancelled) break;
-        }
+                if (cancelled) break;
+            }
         };
 
         run();
@@ -71,29 +71,31 @@
 
 <!-- Typing animation primitive with a configurable cursor style. -->
 <span>
-{displayedText}<span class="cursor" class:blink data-cursor={cursor}>
-    {cursor === 'block' ? ('*') : cursor === 'underscore' ? '_' : '|'}
-</span>
+    {displayedText}<span class="cursor" class:blink data-cursor={cursor}>
+        {cursor === 'block' ? '*' : cursor === 'underscore' ? '_' : '|'}
+    </span>
 </span>
 
 <style>
-.cursor {
-    display: inline-block;
-    margin-left: 1px;
-}
+    .cursor {
+        display: inline-block;
+        margin-left: 1px;
+    }
 
-.cursor[data-cursor='block'] {
-    background: currentColor;
-    height: 1.1em;
-    vertical-align: baseline;
-    margin-left: 0;
-}
+    .cursor[data-cursor='block'] {
+        background: currentColor;
+        height: 1.1em;
+        vertical-align: baseline;
+        margin-left: 0;
+    }
 
-.cursor.blink {
-    animation: blink 0.8s infinite;
-}
+    .cursor.blink {
+        animation: blink 0.8s infinite;
+    }
 
-@keyframes blink {
-    50% { opacity: 0; }
-}
+    @keyframes blink {
+        50% {
+            opacity: 0;
+        }
+    }
 </style>

@@ -37,7 +37,7 @@ jobs:
           path: typst-bin
           # Populated by cache-typst.yml; keep in sync with TYPST_VERSION there.
           key: typst-0.15.0
-    
+
       - name: Restore fonts cache
         uses: actions/cache@v4
         with:

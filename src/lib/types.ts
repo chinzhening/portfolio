@@ -1,10 +1,10 @@
 export interface PostMetadata {
-    title: string
-    desc: string
-    published: "true" | "false"
-    publish_date: string
-    edited_date?: string
-    tags: string[]
+    title: string;
+    desc: string;
+    published: 'true' | 'false';
+    publish_date: string;
+    edited_date?: string;
+    tags: string[];
 }
 
 export interface HtmlBlock {
@@ -36,7 +36,7 @@ export interface SideNoteBlock {
     content: string;
 }
 
-export type PostBlock = HtmlBlock | CodeBlock | FigureBlock | SideNoteBlock 
+export type PostBlock = HtmlBlock | CodeBlock | FigureBlock | SideNoteBlock;
 
 export interface PostDocument {
     metadata: PostMetadata;

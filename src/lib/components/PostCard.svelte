@@ -18,13 +18,16 @@
         class?: string;
     } = $props();
 
-    const descText = typeof post.desc === 'string' ? post.desc : (post.desc && typeof post.desc.text === 'string' ? post.desc.text : '');
+    const descText =
+        typeof post.desc === 'string'
+            ? post.desc
+            : post.desc && typeof post.desc.text === 'string'
+              ? post.desc.text
+              : '';
 </script>
 
 <!-- Post preview card: date, title, summary, and up to three tags. -->
-<a class={["group h-full py-4 px-4 md:px-8", className]}
-    href={post.href}
-    >
+<a class={['group h-full py-4 px-4 md:px-8', className]} href={post.href}>
     <div class="flex h-full flex-col" use:animate={fadeIn('static')}>
         <!-- Card header: publish date and open indicator. -->
         <div class="flex justify-between pt-4">
@@ -38,7 +41,9 @@
                     {/each}
                 </div>
             </div>
-            <span class="font-monospace text-[0.7rem] uppercase tracking-widest text-muted-foreground">
+            <span
+                class="font-monospace text-[0.7rem] uppercase tracking-widest text-muted-foreground"
+            >
                 {formatDate(post.publish_date)}
             </span>
         </div>

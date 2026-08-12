@@ -1,15 +1,14 @@
-<script lang="ts">	
-	import '$lib/css/fonts.css'
-	import '$lib/css/app.css';
-	import Header from '$lib/components/Header.svelte';
-	import Footer from '$lib/components/Footer.svelte';
+<script lang="ts">
+    import '$lib/css/fonts.css';
+    import '$lib/css/app.css';
+    import Header from '$lib/components/Header.svelte';
+    import Footer from '$lib/components/Footer.svelte';
 
-	let { children } = $props();
-
+    let { children } = $props();
 </script>
 
 <div>
-	<Header />
-	{@render children()}
-	<Footer />
+    <Header />
+    {@render children()}
+    <Footer />
 </div>

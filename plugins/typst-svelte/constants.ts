@@ -1,5 +1,5 @@
-export const RAW_SOURCE_SELECTOR = 'script[type="text/plain"][data-typst-label]'
-export const CODE_FENCE_SELECTOR = 'pre code[data-typst-label]'
+export const RAW_SOURCE_SELECTOR = 'script[type="text/plain"][data-typst-label]';
+export const CODE_FENCE_SELECTOR = 'pre code[data-typst-label]';
 
 export const SUPPORTED_LANGS = [
     'css',
@@ -9,8 +9,7 @@ export const SUPPORTED_LANGS = [
     'typst',
     'cpp',
     'c',
-    'svelte',
-    
-] as const
+    'svelte'
+] as const;
 
-export const THEMES = { light: 'min-light', dark: 'everforest-dark' }
+export const THEMES = { light: 'min-light', dark: 'everforest-dark' };

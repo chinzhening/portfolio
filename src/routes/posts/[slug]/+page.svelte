@@ -14,13 +14,13 @@
     import type { PostBlock, PostMetadata } from '$lib/types';
     import type { PostSummary } from '$lib/posts';
 
-    let { data } = $props()
+    let { data } = $props();
     let { metadata, blocks, prevPost, nextPost } = $derived(data) as {
-        metadata: PostMetadata,
-        blocks: PostBlock[],
-        prevPost: PostSummary | null,
-        nextPost: PostSummary | null,
-    }
+        metadata: PostMetadata;
+        blocks: PostBlock[];
+        prevPost: PostSummary | null;
+        nextPost: PostSummary | null;
+    };
 </script>
 
 <svelte:head>
@@ -31,7 +31,6 @@
     <main class="pt-16 pb-12 md:pt-40">
         <article class="container mx-auto max-w-3xl px-5 lg:px-20">
             <div class="mx-auto mb-16">
-                 
                 <header class="relative">
                     <button
                         type="button"
@@ -42,7 +41,8 @@
                             flex flex-col
                             text-left
                             mb-4
-                        ">
+                        "
+                    >
                         <span
                             class="font-monospace
                                 text-muted-foreground
@@ -57,35 +57,49 @@
                             &laquo; Posts
                         </span>
                     </button>
-                    
+
                     <!-- Post Title -->
-                    <h1 class="relative mb-2 font-display text-3xl font-medium tracking-tight text-balance md:text-5xl lg:text-6xl">
+                    <h1
+                        class="relative mb-2 font-display text-3xl font-medium tracking-tight text-balance md:text-5xl lg:text-6xl"
+                    >
                         {metadata.title}
                     </h1>
 
-                    <dl class="relative z-10 mb-2 flex flex-col gap-2 py-4 text-sm font-monospace uppercase tracking-wider">
-                        <div class="
+                    <dl
+                        class="relative z-10 mb-2 flex flex-col gap-2 py-4 text-sm font-monospace uppercase tracking-wider"
+                    >
+                        <div
+                            class="
                             grid grid-cols-[5.75rem_minmax(0,1fr)]
-                            items-center gap-2">
+                            items-center gap-2"
+                        >
                             <dt>published</dt>
                             <dd>
-                                <time datetime={metadata.publish_date}>{formatDate(metadata.publish_date)}</time>
+                                <time datetime={metadata.publish_date}
+                                    >{formatDate(metadata.publish_date)}</time
+                                >
                             </dd>
                         </div>
                         {#if metadata.edited_date}
-                        <div class="
+                            <div
+                                class="
                             grid grid-cols-[5.75rem_minmax(0,1fr)]
-                            items-center gap-2">
-                            <dt>edited</dt>
-                            <dd>
-                                <time datetime={metadata.edited_date}>{formatDate(metadata.edited_date)}</time>
-                            </dd>
-                        </div>
+                            items-center gap-2"
+                            >
+                                <dt>edited</dt>
+                                <dd>
+                                    <time datetime={metadata.edited_date}
+                                        >{formatDate(metadata.edited_date)}</time
+                                    >
+                                </dd>
+                            </div>
                         {/if}
                     </dl>
 
                     {#if metadata.tags.length}
-                        <div class="relative z-10 flex gap-px text-md font-monospace text-muted-foreground/50">
+                        <div
+                            class="relative z-10 flex gap-px text-md font-monospace text-muted-foreground/50"
+                        >
                             <span aria-hidden="true">.</span>
                             <ul aria-label="Post tags" class="flex gap-px">
                                 {#each metadata.tags as tag (tag)}
@@ -108,9 +122,17 @@
                     {:else if block.type === 'side-note'}
                         <SideNote content={block.content} />
                     {:else if block.type === 'code'}
-                        <CodeBlock language={block.language} source={block.source} highlightedHtml={block.highlightedHtml} />
+                        <CodeBlock
+                            language={block.language}
+                            source={block.source}
+                            highlightedHtml={block.highlightedHtml}
+                        />
                     {:else if block.type === 'figure'}
-                        <FigureBlock id={block.id} content={block.content} caption={block.caption} />
+                        <FigureBlock
+                            id={block.id}
+                            content={block.content}
+                            caption={block.caption}
+                        />
                     {/if}
                 {/each}
             </div>
@@ -118,5 +140,5 @@
     </main>
     <div class="container mx-auto px-6 md:px-12 lg:px-20 max-w-6xl">
         <PostNavTable {prevPost} {nextPost} />
-    </div>  
-</div>  
+    </div>
+</div>

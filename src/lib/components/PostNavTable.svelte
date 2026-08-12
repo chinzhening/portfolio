@@ -1,7 +1,10 @@
 <script lang="ts">
     import type { PostSummary } from '$lib/posts';
 
-    let { prevPost = null, nextPost = null }: { prevPost?: PostSummary | null; nextPost?: PostSummary | null } = $props();
+    let {
+        prevPost = null,
+        nextPost = null
+    }: { prevPost?: PostSummary | null; nextPost?: PostSummary | null } = $props();
 
     function navigateTo(path: string) {
         window.location.assign(path);
@@ -180,7 +183,9 @@
         /* Tailwind v4 writes movement to `translate`, not `transform`. This
            scoped rule is unlayered and beats `transition-transform`, so it has
            to name `translate` itself or the hover lift snaps. */
-        transition: color 0.2s ease, translate 0.2s ease;
+        transition:
+            color 0.2s ease,
+            translate 0.2s ease;
     }
     .interactive:hover,
     .interactive:focus-visible {
