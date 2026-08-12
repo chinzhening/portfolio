@@ -16,8 +16,7 @@
     class="
         mt-12
         overflow-hidden
-        rounded-[2rem]
-        bg-[linear-gradient(180deg,color-mix(in_oklab,var(--surface-1)_78%,transparent),transparent),repeating-linear-gradient(180deg,transparent_0,transparent_1.65rem,color-mix(in_oklab,var(--border)_18%,transparent)_1.65rem,color-mix(in_oklab,var(--border)_18%,transparent)_1.72rem)]
+        border-t border-border/30
     "
     aria-label="Post navigation"
 >
@@ -36,21 +35,19 @@
                     group interactive
                     min-h-[7.25rem] w-full
                     flex flex-col justify-center gap-[0.65rem]
-                    border-b border-r border-border/30
                     px-[1.15rem] py-[1.1rem]
-                    text-left text-text-1
+                    text-left text-foreground
                 "
                 onclick={() => navigateTo(prevPost.href)}
             >
                 <span
                     class="font-monospace
-                        text-text-2 text-[0.68rem]
+                        text-muted-foreground text-[0.68rem]
                         uppercase
                         tracking-[0.24em]
                         translate-x-0 translate-y-0
                         transition-transform duration-200
-                        group-hover:translate-x-[-0.15em]
-                        group-hover:translate-y-[-0.15em]
+                        group-hover:translate-x-[-1em]
                     "
                 >
                     &laquo; previous post
@@ -60,25 +57,15 @@
                         font-display
                         text-[clamp(1.15rem,2.3vw,1.55rem)]
                         leading-[1.15]
-                        [text-wrap:balance]
+                        text-balance
                         translate-y-0
-                        transition-transform duration-200
-                        group-hover:translate-y-[0.15em]
                     "
                 >
                     <span>{prevPost.title}</span>
                 </span>
             </button>
         {:else}
-            <div
-                class="
-                    min-h-[7.25rem]
-                    border-b
-                    border-r
-                    border-border/14
-                    opacity-45
-                "
-            ></div>
+            <div class="min-h-[7.25rem] opacity-45" aria-hidden="true"></div>
         {/if}
 
         <div
@@ -86,11 +73,9 @@
                 grid grid-cols-1 md:grid-cols-2
                 min-h-[8rem] md:min-h-[7.25rem]
                 items-stretch
-                border-b
-                border-r
-                border-border/40
-                divide-x
-                divide-border/12
+                md:border-r
+                md:border-l
+                border-border/50
             "
         >
             <button
@@ -105,10 +90,15 @@
                     font-monospace
                     uppercase
                     tracking-[0.18em]
-                    text-text-1
+                    text-foreground
+
+                    border-b md:border-b-0
+                    md:border-r
+                    border-border/50
+
 
                     transition-transform duration-200
-                    hover:translate-y-[-0.15em]
+                    hover:translate-y-[-0.5em]
                 "
                 onclick={scrollToTop}
             >
@@ -127,10 +117,9 @@
                     font-monospace
                     uppercase
                     tracking-[0.18em]
-                    text-text-1
+                    text-foreground
 
                     transition-transform duration-200
-                    hover:translate-y-[-0.15em]
                 "
                 onclick={() => navigateTo('/posts')}
             >
@@ -149,11 +138,8 @@
                     flex-col
                     justify-center
                     gap-[0.65rem]
-                    border-b
-                    border-r
-                    border-border/15
                     px-[1.15rem] py-[1.1rem]
-                    text-right text-text-1
+                    text-right text-foreground
                 "
                 onclick={() => navigateTo(nextPost.href)}
             >
@@ -163,11 +149,10 @@
                         text-[0.68rem]
                         uppercase
                         tracking-[0.24em]
-                        text-text-2
+                        text-muted-foreground
                         translate-x-0 translate-y-0
                         transition-transform duration-200
-                        group-hover:translate-x-[0.15em]
-                        group-hover:translate-y-[-0.15em]
+                        group-hover:translate-x-[1em]
                     "
                 >
                     next post &raquo;
@@ -177,40 +162,24 @@
                         font-display
                         text-[clamp(1.15rem,2.3vw,1.55rem)]
                         leading-[1.15]
-                        [text-wrap:balance]
+                        text-balance
                         translate-y-0
-                        transition-transform duration-200
-                        group-hover:translate-y-[0.15em]
                     "
                 >
                     <span>{nextPost.title}</span>
                 </span>
             </button>
         {:else}
-            <div
-                class="
-                    min-h-[7.25rem]
-                    border-b
-                    border-r
-                    border-border/14
-                    opacity-45
-                "
-                aria-hidden="true"
-            ></div>
+            <div class="min-h-[7.25rem]" aria-hidden="true"></div>
         {/if}
     </div>
 </nav>
 
 <style>
     .interactive {
-        cursor: pointer;
-        background-color: transparent;
-        transition: all 0.2s;
-        text-decoration: none;
+        transition: color transform 0.2s ease;
     }
-
     .interactive:hover {
-        background: color-mix(in oklab, var(--surface-3) 80%, transparent);
-        color: color-mix(in oklab, var(--text-1) 70%, var(--brand) 30%);
+        color: var(--brand);
     }
 </style>

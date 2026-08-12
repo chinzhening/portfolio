@@ -45,30 +45,32 @@ export function animate(
     };
 }
 
-export function fadeIn(direction: 'up' | 'down' | 'left' | 'right' = 'up'): AnimationOptions {
+export function fadeIn(direction: 'up' | 'down' | 'left' | 'right' | 'static' = 'up'): AnimationOptions {
     const options: AnimationOptions = {
         type: 'from',
-        opacity: 0,
-        duration: .7,
+        opacity: 0.25,
+        duration: .9,
         scrollTrigger: {
             start: "top 80%",
             end: "bottom 60%",
             toggleActions: "play none none"
         }
     };
+    const distance = 25;
     return {
         ...options,
-        ...(direction === 'up' && { y: 50 }),
-        ...(direction === 'down' && { y: -50 }),
-        ...(direction === 'left' && { x: 50 }),
-        ...(direction === 'right' && { x: -50 })
+        ...(direction === 'up' && { y: distance }),
+        ...(direction === 'down' && { y: -distance }),
+        ...(direction === 'left' && { x: distance }),
+        ...(direction === 'right' && { x: -distance }),
+        ...(direction === 'static' && { y: 0 })
     };
 }
 
 export const fadeUp: AnimationOptions = {
     type: 'from',
-    y: 50,
-    opacity: 0,
+    y: 25,
+    opacity: 0.3,
     duration: .7,
     scrollTrigger: {
         start: "top 80%",

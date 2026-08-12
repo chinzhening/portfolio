@@ -106,12 +106,12 @@
     });
 </script>
 
-<div role="group" aria-label={`${language} code`} class="code-block-card relative border border-border/15 rounded-lg bg-surface-1/60" onmouseenter={showCopyButton} onmouseleave={hideCopyButton}>
+<div role="group" aria-label={`${language} code`} class="code-block-card relative bg-surface-1/60" onmouseenter={showCopyButton} onmouseleave={hideCopyButton}>
     <div class="code-block-card__header">
         <div class="code-title">{language}</div>
         <button
             bind:this={copyButton}
-            class="code-block-card__button inline-flex items-center justify-center relative isolate shrink-0 can-focus select-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none disabled:drop-shadow-none border-transparent transition font-base duration-300 ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-md backdrop-blur-md bg-surface-1/90 text-text-1 cursor-default hover:cursor-pointer hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 opacity-0"
+            class="code-block-card__button inline-flex items-center justify-center relative isolate shrink-0 can-focus select-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none disabled:drop-shadow-none border-transparent transition font-base duration-300 ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-xl backdrop-blur-md bg-surface-1/90 text-foreground cursor-default hover:cursor-pointer hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 opacity-0"
             type="button"
             aria-label="Copy to clipboard"
             aria-pressed={copied}
@@ -141,13 +141,20 @@
 </div>
 
 <style>
+    .code-block-card {
+        margin-block: 1.5rem;
+        overflow: hidden;
+        background: var(--background);
+    }
+
     .code-block-card__header {
         display: flex;
         align-items: center;
         font-weight: bold;
         justify-content: space-between;
         letter-spacing: 0.05rem;
-        padding: 0.5rem 0.75rem;
+        padding-inline: 0.75rem;
+        padding-block: 0.2rem;
         background: var(--background);
     }
 
@@ -176,9 +183,8 @@
         font-size: 0.875rem;
         line-height: 1.6;
         overflow-x: auto;
-        padding: 1rem;
-        border: 0;
-        border-top: 1px solid var(--border);
+        padding: 0.75rem;
+        border-radius: 5px;
         box-shadow: none;
         margin: 0;
         width: 100%;
