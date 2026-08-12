@@ -36,7 +36,7 @@ export function getPrevAndNextPostLinks(
 	const index = posts.findIndex((post) => post.slug === slug)
 
 	return {
-		prevPost: index < posts.length - 1 ? posts[index + 1] : null,
-		nextPost: index > 0 ? posts[index - 1] : null
+		nextPost: index < posts.length - 1 ? posts[index + 1] : null,
+		prevPost: index > 0 ? posts[index - 1] : null
 	}
 }
