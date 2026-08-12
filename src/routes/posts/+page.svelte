@@ -54,6 +54,7 @@
                         translate-x-0 translate-y-0
                         transition-transform duration-200
                         group-hover:translate-x-[-1em]
+                        group-focus-visible:translate-x-[-1em]
                     "
                 >
                     &laquo; home

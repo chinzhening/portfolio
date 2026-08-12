@@ -16,7 +16,7 @@
         flex gap-4 justify-between
     "
     >
-        <a class="text-lg py-2" href={resolve("/")}>哲宁</a>
+        <a class="text-lg py-2" href={resolve("/")} aria-label="Home"><span lang="zh">哲宁</span></a>
         <nav class="items-center flex font-monospace lowercase text-dim-foreground">
             
         {#each pages as page (page.name)}    
@@ -40,7 +40,8 @@
     .hover-link {
         transition: color 0.2s ease;
     }
-    .hover-link:hover {
+    .hover-link:hover,
+    .hover-link:focus-visible {
         color: var(--brand);
         text-underline-offset: 4px;
     }

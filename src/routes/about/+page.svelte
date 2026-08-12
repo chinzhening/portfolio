@@ -19,6 +19,7 @@
                     tracking-[0.24em]
                     transition-transform duration-200
                     group-hover:translate-x-[-1em]
+                    group-focus-visible:translate-x-[-1em]
                 ">
                     &laquo; home
                 </span>
@@ -42,7 +43,8 @@
                         items-center
                         translate-x-0 translate-y-0
                         transition-transform duration-200
-                        group-hover:translate-y-[0.5em]"
+                        group-hover:translate-y-[0.5em]
+                        group-focus-within:translate-y-[0.5em]"
                         href={asset('/resume.pdf')}
                         download="resume.pdf"
                     >
@@ -100,7 +102,8 @@
     .hover-link {
         transition: color 0.2s ease;
     }
-    .hover-link:hover {
+    .hover-link:hover,
+    .hover-link:focus-visible {
         color: var(--brand);
         text-underline-offset: 4px;
     }

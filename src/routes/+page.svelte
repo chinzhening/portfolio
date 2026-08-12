@@ -98,10 +98,11 @@
 
                 <a
                     class="
-                        text-muted-foreground hover:text-brand
+                        text-muted-foreground hover:text-brand focus-visible:text-brand
                         translate-x-0 translate-y-0
                         transition-transform duration-200
-                        hover:translate-x-[1em]"
+                        hover:translate-x-[1em]
+                        focus-visible:translate-x-[1em]"
                     href={resolve('/posts')}
                 >
                     all posts &raquo;

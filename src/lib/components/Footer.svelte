@@ -10,7 +10,7 @@
     "
 >
     <div class="flex flex-col gap-2">
-        <p class="text-3xl text-muted-foreground">陈哲宁</p>
+        <p class="text-3xl text-muted-foreground" lang="zh">陈哲宁</p>
         <p class="font-monospace text-dim-foreground">portfolio@a57sdf ~/socials $ ls</p>
         <nav class="
             flex flex-col gap-1
@@ -46,7 +46,8 @@
     .hover-link {
         transition: color 0.2s ease;
     }
-    .hover-link:hover {
+    .hover-link:hover,
+    .hover-link:focus-visible {
         color: var(--brand);
         text-underline-offset: 4px;
     }
