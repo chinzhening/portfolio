@@ -11,7 +11,7 @@
 </script>
 
 <figure {id} class="my-4">
-    <div class="container">
+    <div class="figure-frame">
         {@html content}
     </div>
     {#if caption}
@@ -30,7 +30,10 @@
         gap: 0.5rem;
     }
 
-    .container {
+    /* Not `.container`: that is a Tailwind utility, emitted because the post
+       route uses it, and it would add breakpoint max-widths this rule does
+       not override. */
+    .figure-frame {
         width: 100%;
         overflow-x: auto;
         box-sizing: border-box;
