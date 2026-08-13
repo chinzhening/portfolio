@@ -110,7 +110,7 @@
         <div class="code-title">{language}</div>
         <button
             bind:this={copyButton}
-            class="code-block-card__button inline-flex items-center justify-center relative isolate shrink-0 can-focus select-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none disabled:drop-shadow-none border-transparent transition font-base duration-300 ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-xl backdrop-blur-md bg-surface-1/90 text-foreground cursor-default hover:cursor-pointer hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 opacity-0"
+            class="code-block-card__button inline-flex items-center justify-center relative isolate select-none transition-colors duration-300 ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-xl backdrop-blur-md bg-surface-1/90 text-foreground hover:cursor-pointer hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 opacity-0"
             type="button"
             aria-label="Copy to clipboard"
             aria-pressed={copied}
