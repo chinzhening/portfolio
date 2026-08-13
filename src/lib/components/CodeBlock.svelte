@@ -113,8 +113,6 @@
             class="code-block-card__button inline-flex items-center justify-center relative isolate select-none transition-colors duration-300 ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-xl backdrop-blur-md bg-surface-1/90 text-foreground hover:cursor-pointer hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 opacity-0"
             type="button"
             aria-label="Copy to clipboard"
-            aria-pressed={copied}
-            data-state={copied ? 'open' : 'closed'}
             onclick={copyToClipboard}
             onfocus={showCopyButton}
             onblur={hideCopyButton}
@@ -153,6 +151,8 @@
                 </div>
             </div>
         </button>
+        <!-- Present from first render so the announcement is not missed. -->
+        <div role="status" class="sr-only">{copied ? 'Copied to clipboard' : ''}</div>
     </div>
     <!-- Scrolls here, not on the injected <pre>, which cannot take a
          tabindex. Focusable per WCAG 2.1.1. -->
