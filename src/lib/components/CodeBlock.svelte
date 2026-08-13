@@ -158,8 +158,14 @@
         </button>
     </div>
     <div class="code-block-card__content">
+        <!-- Scrolls here, not on the injected <pre>, which cannot take a
+             tabindex. Focusable per WCAG 2.1.1. -->
+        <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
         <div
-            class="code-block-card__body overflow-x-auto"
+            class="code-block-card__body"
+            tabindex="0"
+            role="region"
+            aria-label={`${language} source`}
             use:renderHighlighted={highlightedHtml}
         ></div>
     </div>
@@ -203,15 +209,26 @@
         background: var(--background);
     }
 
-    .code-block-card__body :global(pre[class*='shiki']) {
+    /* The single scroll container, both axes. The <pre> no longer scrolls. */
+    .code-block-card__body {
         max-height: 800px;
+        overflow: auto;
+    }
+
+    .code-block-card__body:focus-visible {
+        outline: 2px solid var(--brand);
+        outline-offset: -2px;
+    }
+
+    .code-block-card__body :global(pre[class*='shiki']) {
         font-size: 0.875rem;
         line-height: 1.6;
-        overflow-x: auto;
         padding: 0.75rem;
         border-radius: 5px;
         box-shadow: none;
         margin: 0;
-        width: 100%;
+        /* Keeps the highlighter background covering the full scroll width. */
+        width: max-content;
+        min-width: 100%;
     }
 </style>
