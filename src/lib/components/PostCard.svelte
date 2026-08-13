@@ -27,7 +27,7 @@
 </script>
 
 <!-- Post preview card: date, title, summary, and up to three tags. -->
-<a class={['group h-full py-4 px-4 md:px-8', className]} href={post.href}>
+<div class={['relative h-full py-4 px-4 md:px-8', className]}>
     <div class="flex h-full flex-col" use:animate={fadeIn('static')}>
         <!-- Card header: publish date and open indicator. -->
         <div class="flex justify-between pt-4">
@@ -49,12 +49,16 @@
         </div>
 
         <!-- Card body: title and summary. -->
-        <h2 class="mt-2 balance font-display leading-tight font-medium text-xl md:text-2xl">
-            {post.title}
+        <!-- Only the title is the link; ::after stretches its hit area over
+             the whole card, so the accessible name stays just the title. -->
+        <h2 class="mt-2 text-balance font-display leading-tight font-medium text-xl md:text-2xl">
+            <a class="after:absolute after:inset-0 after:content-['']" href={post.href}>
+                {post.title}
+            </a>
         </h2>
 
         <p class="mt-2 line-clamp-3 text-pretty text-dim-foreground">
             {descText}
         </p>
     </div>
-</a>
+</div>
