@@ -37,8 +37,12 @@ export default defineConfig(
         }
     },
     {
-        // Override or add rule settings here, such as:
-        // 'svelte/button-has-type': 'error'
-        rules: {}
+        files: ['**/*.svelte'],
+        rules: {
+            // Every `{@html}` here renders build-time Typst output from this
+            // repo's own pipeline, never user input, so the XSS premise does
+            // not apply. Revisit if untrusted content is ever rendered.
+            'svelte/no-at-html-tags': 'off'
+        }
     }
 );
