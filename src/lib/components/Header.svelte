@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { page } from '$app/state';
     import { pages } from '$lib/config';
     import { resolve } from '$app/paths';
 </script>
@@ -24,17 +25,19 @@
             <!-- Block form, not disable-next-line: the href sits mid-tag and the
                  directive can only target the line after it. -->
             <!-- eslint-disable svelte/no-navigation-without-resolve -- already resolved, in config.ts:8-10 -->
-            {#each pages as page (page.name)}
+            {#each pages as navPage (navPage.name)}
                 <a
                     class="
-                hover-link
-                py-3 px-4
-                justify-self-center
-                border-l border-border/50
-                text-sm
-                uppercase tracking-widest
-                "
-                    href={page.href}>{page.name}</a
+                        hover-link
+                        py-3 px-4
+                        justify-self-center
+                        border-l border-border/50
+                        text-sm
+                        uppercase tracking-widest
+                        "
+                    href={navPage.href}
+                    aria-current={page.url.pathname === navPage.href ? 'page' : undefined}
+                    >{navPage.name}</a
                 >
             {/each}
             <!-- eslint-enable svelte/no-navigation-without-resolve -->
