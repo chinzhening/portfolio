@@ -1,6 +1,13 @@
+/**
+ * `typst query` serialises content values, so a `desc: [text]` in the post
+ * header arrives as a content node rather than a string. `title: "Foo"` is a
+ * string literal in the header, so it survives as one.
+ */
+export type TypstText = { func: 'text'; text: string };
+
 export interface PostMetadata {
     title: string;
-    desc: string;
+    desc: string | TypstText;
     published: 'true' | 'false';
     publish_date: string;
     edited_date?: string;

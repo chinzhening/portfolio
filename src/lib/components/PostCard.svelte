@@ -4,26 +4,16 @@
 
     import type { PostSummary } from '$lib/posts';
 
-    type PostCardData = PostSummary & {
-        readingTime?: string;
-        desc?: string | { text?: string };
-    };
-
     let {
         post,
         class: className = ''
     }: {
-        post: PostCardData;
+        post: PostSummary;
         /* Positioning and dividers are the caller's business — see posts/+page.svelte. */
         class?: string;
     } = $props();
 
-    const descText =
-        typeof post.desc === 'string'
-            ? post.desc
-            : post.desc && typeof post.desc.text === 'string'
-              ? post.desc.text
-              : '';
+    const descText = $derived(typeof post.desc === 'string' ? post.desc : post.desc.text);
 </script>
 
 <!-- Post preview card: date, title, summary, and up to three tags. -->

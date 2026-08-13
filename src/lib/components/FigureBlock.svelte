@@ -6,7 +6,7 @@
     }: {
         id?: string;
         content: string;
-        caption: string | null;
+        caption?: string;
     } = $props();
 </script>
 
