@@ -188,6 +188,21 @@
 	background: var(--surface-2);
 }
 
+/*
+ * The house label: uppercase monospace, worn by callout labels, the footnotes
+ * heading and code block titles. Declared once so the three cannot drift.
+ */
+.typst .callout > .label,
+.typst section[role='doc-endnotes']::before,
+.typst .code-title {
+	font-family: var(--font-monospace);
+	font-size: 0.8rem;
+	line-height: 1;
+	letter-spacing: 0.05rem;
+	text-transform: uppercase;
+}
+
+/* Floating variant: sits astride the container's top border. */
 .typst .callout > .label,
 .typst section[role='doc-endnotes']::before {
 	position: absolute;
@@ -196,11 +211,6 @@
 	z-index: 1;
 	transform: translateY(-50%);
 	padding: 0.35rem 0.6rem;
-	font-family: var(--font-monospace);
-	font-size: 0.8rem;
-	line-height: 1;
-	letter-spacing: 0.05rem;
-	text-transform: uppercase;
 	color: var(--color-faint-foreground);
 }
 
@@ -274,6 +284,58 @@
 	line-height: 1.5;
 	text-wrap: pretty;
 	max-width: 70ch;
+}
+
+/* ─── Code blocks ──────────────────────────────────────────────────────────────── */
+
+.typst .code-block-card {
+	margin-block: 1.5rem;
+	overflow: hidden;
+	background: var(--background);
+}
+
+.typst .code-block-card__header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding-inline: 0.75rem;
+	padding-block: 0.2rem;
+}
+
+.typst .code-block-card__button {
+	flex: none;
+}
+
+/* Typography comes from the shared house label above; this is the inline
+   variant, so only the parts that differ are set here. */
+.typst .code-title {
+	display: flex;
+	align-items: center;
+	font-weight: bold;
+	color: var(--text-2);
+}
+
+/* The single scroll container, both axes. The <pre> no longer scrolls. */
+.typst .code-block-card__body {
+	max-height: 800px;
+	overflow: auto;
+}
+
+.typst .code-block-card__body:focus-visible {
+	outline: 2px solid var(--brand);
+	outline-offset: -2px;
+}
+
+.typst .code-block-card__body pre[class*='shiki'] {
+	font-size: 0.875rem;
+	line-height: 1.6;
+	padding: 0.75rem;
+	border-radius: 5px;
+	box-shadow: none;
+	margin: 0;
+	/* Keeps the highlighter background covering the full scroll width. */
+	width: max-content;
+	min-width: 100%;
 }
 
 /* --- links --- */

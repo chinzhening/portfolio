@@ -99,6 +99,7 @@
     }
 </script>
 
+<!-- Styled from article.css under `.typst`, like SideNote and FigureBlock. -->
 <div
     role="group"
     aria-label={`${language} code`}
@@ -165,58 +166,3 @@
         use:renderHighlighted={highlightedHtml}
     ></div>
 </div>
-
-<style>
-    .code-block-card {
-        margin-block: 1.5rem;
-        overflow: hidden;
-        background: var(--background);
-    }
-
-    .code-block-card__header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding-inline: 0.75rem;
-        padding-block: 0.2rem;
-    }
-
-    .code-block-card__button {
-        flex: none;
-    }
-
-    .code-title {
-        display: flex;
-        align-items: center;
-        font-family: var(--font-monospace);
-        font-size: 0.8rem;
-        font-weight: bold;
-        letter-spacing: 0.05rem;
-        text-transform: uppercase;
-        line-height: 1;
-        color: var(--text-2);
-    }
-
-    /* The single scroll container, both axes. The <pre> no longer scrolls. */
-    .code-block-card__body {
-        max-height: 800px;
-        overflow: auto;
-    }
-
-    .code-block-card__body:focus-visible {
-        outline: 2px solid var(--brand);
-        outline-offset: -2px;
-    }
-
-    .code-block-card__body :global(pre[class*='shiki']) {
-        font-size: 0.875rem;
-        line-height: 1.6;
-        padding: 0.75rem;
-        border-radius: 5px;
-        box-shadow: none;
-        margin: 0;
-        /* Keeps the highlighter background covering the full scroll width. */
-        width: max-content;
-        min-width: 100%;
-    }
-</style>
