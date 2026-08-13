@@ -14,8 +14,7 @@ export function animate(
     { type, scrollTrigger, ...args }: AnimationOptions
 ): { destroy?: () => void } {
     const method = gsap[type] as
-        | ((target: gsap.TweenTarget, vars: GSAPTweenVars) => GSAPTween)
-        | undefined;
+        ((target: gsap.TweenTarget, vars: GSAPTweenVars) => GSAPTween) | undefined;
 
     if (!method) {
         console.warn(`GSAP method "${type}" does not exist.`);
