@@ -98,4 +98,12 @@
             opacity: 0;
         }
     }
+
+    /* WCAG 2.2.2: the blink never stops, so it has to be opt-out. The cursor
+       stays visible, it just holds still. */
+    @media (prefers-reduced-motion: reduce) {
+        .cursor.blink {
+            animation: none;
+        }
+    }
 </style>
