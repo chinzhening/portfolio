@@ -30,6 +30,13 @@ jobs:
           node-version: 22
           cache: npm
 
+      # Node 22 ships npm 10, which rejects a lockfile written by npm 11:
+      # @tailwindcss/oxide-wasm32-wasi lists its @emnapi deps as
+      # bundleDependencies, so npm 11 correctly keeps them out of the lock
+      # while npm 10 reports them missing. Pin to the major used locally.
+      - name: Pin npm
+        run: npm install --global npm@11
+
       - name: Install dependencies
         run: npm ci
 
