@@ -50,16 +50,6 @@
         };
     });
 
-    function renderHighlighted(node: HTMLElement, html: string) {
-        node.innerHTML = html;
-
-        return {
-            update(nextHtml: string) {
-                node.innerHTML = nextHtml;
-            }
-        };
-    }
-
     async function copyToClipboard() {
         if (navigator.clipboard?.writeText) {
             await navigator.clipboard.writeText(source);
@@ -155,14 +145,10 @@
         <!-- Present from first render so the announcement is not missed. -->
         <div role="status" class="sr-only">{copied ? 'Copied to clipboard' : ''}</div>
     </div>
-    <!-- Scrolls here, not on the injected <pre>, which cannot take a
-         tabindex. Focusable per WCAG 2.1.1. -->
+    <!-- Scrolls here; the injected <pre> no longer does. Focusable per WCAG 2.1.1.
+         Shiki also emits its own tabindex on the <pre> - see plugin #15 -->
     <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-    <div
-        class="code-block-card__body"
-        tabindex="0"
-        role="region"
-        aria-label={`${language} source`}
-        use:renderHighlighted={highlightedHtml}
-    ></div>
+    <div class="code-block-card__body" tabindex="0" role="region" aria-label={`${language} source`}>
+        {@html highlightedHtml}
+    </div>
 </div>
