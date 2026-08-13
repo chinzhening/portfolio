@@ -22,7 +22,7 @@
             text-xs"
         >
             {#each config.socials as social (social.name)}
-                <a class="hover-link" href={social.href}>{social.name}</a>
+                <a class="hover-link" rel="external" href={social.href}>{social.name}</a>
             {/each}
         </nav>
     </div>
