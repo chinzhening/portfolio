@@ -98,7 +98,7 @@
 
                     {#if metadata.tags.length}
                         <div
-                            class="relative z-10 flex gap-px text-md font-monospace text-muted-foreground/50"
+                            class="relative z-10 flex gap-px text-md font-monospace text-faint-foreground"
                         >
                             <span aria-hidden="true">.</span>
                             <ul aria-label="Post tags" class="flex gap-px">

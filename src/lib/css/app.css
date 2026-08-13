@@ -15,11 +15,16 @@
 	/*
 	 * Text ramp, brightest to faintest. Use these instead of ad-hoc opacity
 	 * modifiers (`text-muted-foreground/80`) so the steps stay countable.
+	 *
+	 * Each step is its own lightness, not an alpha of the one above. Alpha
+	 * over a pure-black background put dim at 4.08:1 and faint at 2.33:1,
+	 * both under the 4.5:1 WCAG 1.4.3 needs for body text. Every step now
+	 * clears it in both themes; the floor is faint at 4.89:1 dark.
 	 */
 	--color-foreground: var(--text-1);
 	--color-muted-foreground: var(--text-2);
-	--color-dim-foreground: oklch(from var(--text-2) l c h / 0.75);
-	--color-faint-foreground: oklch(from var(--text-2) l c h / 0.5);
+	--color-dim-foreground: var(--text-3);
+	--color-faint-foreground: var(--text-4);
 
 	/*
 	 * Stacks are composed from the raw families in fonts.css. Do not write
