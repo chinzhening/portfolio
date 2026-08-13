@@ -1,42 +1,46 @@
-# sv
+# svelte-blog
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+Personal site and blog. SvelteKit with `adapter-static`, deployed to GitHub Pages.
 
-## Creating a project
+Posts are written in [Typst](https://typst.app), not Markdown, and compiled to
+HTML at build time by a Vite plugin in `plugins/`.
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Requirements
 
-```sh
-# create a new project
-npx sv create my-app
-```
+- **Node 22 or newer.**
+- **The `typst` binary on your `PATH`**, version **0.15.0**, built with HTML
+  export support. The build shells out to it for every post; without it the
+  first `.typ` transform fails.
+- **TTF fonts** reachable via the `TYPST_FONT_PATH` environment variable. Typst
+  needs them to render text inside SVG figures. The deploy workflow uses
+  [Iosevka](https://github.com/be5invis/Iosevka).
 
-To recreate this project with the same configuration:
-
-```sh
-# recreate this project
-npx sv@0.15.1 create --template minimal --types ts --add prettier eslint sveltekit-adapter="adapter:static" mdsvex --install npm svelte-blog
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+## Getting started
 
 ```sh
+npm ci
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
 
-## Building
+## Commands
 
-To create a production version of your app:
+| Command           | Does                            |
+| ----------------- | ------------------------------- |
+| `npm run dev`     | Start the dev server            |
+| `npm run build`   | Build to `build/`               |
+| `npm run preview` | Serve the built site            |
+| `npm run check`   | `svelte-check`                  |
+| `npm run lint`    | `prettier --check` and `eslint` |
+| `npm run format`  | `prettier --write`              |
 
-```sh
-npm run build
-```
+## Writing a post
 
-You can preview the production build with `npm run preview`.
+Add a `.typ` file to `src/lib/content/`. It is picked up automatically and
+compiled into typed blocks that `src/routes/posts/[slug]/+page.svelte` renders.
+Shared Typst helpers live in `src/lib/content/blog/lib.typ`.
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+## Notes
+
+`package-lock.json` must be regenerated on Linux. A lock resolved on Windows
+records wasm packages whose peer dependencies are missing on Linux, and `npm ci`
+then refuses to install it.
