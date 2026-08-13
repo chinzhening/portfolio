@@ -1,5 +1,6 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { prefersReducedMotion } from 'svelte/motion';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,6 +14,8 @@ export function animate(
     node: HTMLElement,
     { type, scrollTrigger, ...args }: AnimationOptions
 ): { destroy?: () => void } {
+    if (prefersReducedMotion.current) return {};
+
     const method = gsap[type] as
         ((target: gsap.TweenTarget, vars: GSAPTweenVars) => GSAPTween) | undefined;
 
