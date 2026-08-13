@@ -11,16 +11,10 @@
     import SideNote from '$lib/components/SideNote.svelte';
     import { formatDate, toKebabCase } from '$lib/utils';
 
-    import type { PostBlock, PostMetadata } from '$lib/types';
-    import type { PostSummary } from '$lib/posts';
+    import type { PageProps } from './$types';
 
-    let { data } = $props();
-    let { metadata, blocks, prevPost, nextPost } = $derived(data) as {
-        metadata: PostMetadata;
-        blocks: PostBlock[];
-        prevPost: PostSummary | null;
-        nextPost: PostSummary | null;
-    };
+    let { data }: PageProps = $props();
+    let { metadata, blocks, prevPost, nextPost } = $derived(data);
 </script>
 
 <svelte:head>
@@ -32,9 +26,8 @@
         <article class="container mx-auto max-w-3xl px-5 lg:px-20">
             <div class="mx-auto mb-16">
                 <header class="relative">
-                    <button
-                        type="button"
-                        onclick={() => window.location.assign(resolve('/posts'))}
+                    <a
+                        href={resolve('/posts')}
                         class="
                             group
                             hover:cursor-pointer
@@ -56,7 +49,7 @@
                         >
                             &laquo; Posts
                         </span>
-                    </button>
+                    </a>
 
                     <!-- Post Title -->
                     <h1
@@ -116,25 +109,35 @@
 
             <!-- Post Content -->
             <div class="typst mx-auto text-muted-foreground leading-relaxed">
-                {#each blocks as block, index (block.type === 'code' ? block.id : `${index}`)}
-                    {#if block.type === 'html'}
-                        {@html block.html}
-                    {:else if block.type === 'side-note'}
-                        <SideNote content={block.content} />
-                    {:else if block.type === 'code'}
-                        <CodeBlock
-                            language={block.language}
-                            source={block.source}
-                            highlightedHtml={block.highlightedHtml}
-                        />
-                    {:else if block.type === 'figure'}
-                        <FigureBlock
-                            id={block.id}
-                            content={block.content}
-                            caption={block.caption}
-                        />
-                    {/if}
-                {/each}
+                <svelte:boundary onerror={(error) => console.error('post render failed', error)}>
+                    {#each blocks as block, index (`${block.type}:${block.type === 'code' ? block.id : index}`)}
+                        {#if block.type === 'html'}
+                            {@html block.html}
+                        {:else if block.type === 'side-note'}
+                            <SideNote content={block.content} />
+                        {:else if block.type === 'code'}
+                            <CodeBlock
+                                language={block.language}
+                                source={block.source}
+                                highlightedHtml={block.highlightedHtml}
+                            />
+                        {:else if block.type === 'figure'}
+                            <FigureBlock
+                                id={block.id}
+                                content={block.content}
+                                caption={block.caption}
+                            />
+                        {/if}
+                    {/each}
+
+                    <!-- eslint-disable-next-line @typescript-eslint/no-unused-vars -->
+                    {#snippet failed(error, reset)}
+                        <p role="alert">
+                            This post failed to render.
+                            <button type="button" onclick={reset}>Try again</button>
+                        </p>
+                    {/snippet}
+                </svelte:boundary>
             </div>
         </article>
     </main>

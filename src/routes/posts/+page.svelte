@@ -1,10 +1,11 @@
-<script>
+<script lang="ts">
     import PostCard from '$lib/components/PostCard.svelte';
 
     import { resolve } from '$app/paths';
     import { title } from '$lib/config';
+    import type { PageProps } from './$types';
 
-    let { data } = $props();
+    let { data }: PageProps = $props();
 
     /* getPosts() returns newest-first, so the head of the list is the latest post. */
     const latestMonth = $derived(
@@ -39,17 +40,7 @@
         z-5 bg-background
     "
         >
-            <button
-                type="button"
-                onclick={() => window.location.assign(resolve('/'))}
-                class="
-                    group
-                    hover:cursor-pointer
-                    flex flex-col
-                    text-left
-                    mb-4
-                "
-            >
+            <a href={resolve('/')} class="group flex flex-col text-left mb-4">
                 <span
                     class="font-monospace
                         text-muted-foreground
@@ -63,7 +54,7 @@
                 >
                     &laquo; home
                 </span>
-            </button>
+            </a>
             <!-- Main title with decorative elements -->
             <div class="relative">
                 <h1
@@ -114,7 +105,7 @@
         </header>
         <!-- Post List -->
         <section class="flex flex-col">
-            {#each data.posts as post, i (i)}
+            {#each data.posts as post (post.slug)}
                 <PostCard
                     {post}
                     class="border-t md:border-t-0 md:not-first:border-t md:border-l border-border/50"
