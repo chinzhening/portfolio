@@ -28,7 +28,7 @@
 </svelte:head>
 
 <div class="relative text-foreground min-h-screen">
-    <main class="pt-16 pb-12 md:pt-40">
+    <main id="main" class="pt-16 pb-12 md:pt-40">
         <article class="container mx-auto max-w-3xl px-5 lg:px-20">
             <div class="mx-auto mb-16">
                 <header class="relative">

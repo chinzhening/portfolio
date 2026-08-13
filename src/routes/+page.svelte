@@ -14,7 +14,7 @@
     <title>{config.title}</title>
 </svelte:head>
 
-<main class="min-h-screen bg-background">
+<main id="main" class="min-h-screen bg-background">
     <div
         class="
         grid

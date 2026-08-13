@@ -21,7 +21,7 @@
     <title>All Posts | {title}</title>
 </svelte:head>
 
-<main class="bg-background mb-10">
+<main id="main" class="bg-background mb-10">
     <div
         class="
         grid grid-rows-[auto_1fr] md:grid-cols-[minmax(0,0.4fr)_minmax(0,.62fr)]

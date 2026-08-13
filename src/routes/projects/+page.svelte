@@ -8,7 +8,7 @@
     <title>Projects | {title}</title>
 </svelte:head>
 
-<main class="bg-background">
+<main id="main" class="bg-background">
     <div class="mx-auto px-6 md:px-12 lg:px-20 max-w-3xl">
         <header class="py-16" use:animate={fadeUp}>
             <a class="group mb-4 flex flex-col text-left" href={resolve('/')}>
