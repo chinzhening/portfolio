@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { resolve } from '$app/paths';
+    import { prefersReducedMotion } from 'svelte/motion';
     import type { PostSummary } from '$lib/posts';
 
     let {
@@ -6,12 +8,12 @@
         nextPost = null
     }: { prevPost?: PostSummary | null; nextPost?: PostSummary | null } = $props();
 
-    function navigateTo(path: string) {
-        window.location.assign(path);
-    }
-
     function scrollToTop() {
-        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+        window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: prefersReducedMotion.current ? 'auto' : 'smooth'
+        });
     }
 </script>
 
@@ -32,8 +34,8 @@
         "
     >
         {#if prevPost}
-            <button
-                type="button"
+            <!-- eslint-disable svelte/no-navigation-without-resolve -- already resolved, in posts.ts:20 -->
+            <a
                 class="
                     group interactive
                     min-h-[7.25rem] w-full
@@ -41,7 +43,7 @@
                     px-[1.15rem] py-[1.1rem]
                     text-left text-foreground
                 "
-                onclick={() => navigateTo(prevPost.href)}
+                href={prevPost.href}
             >
                 <span
                     class="font-monospace
@@ -66,7 +68,8 @@
                 >
                     <span>{prevPost.title}</span>
                 </span>
-            </button>
+            </a>
+            <!-- eslint-enable svelte/no-navigation-without-resolve -->
         {:else}
             <div class="min-h-[7.25rem] opacity-45" aria-hidden="true"></div>
         {/if}
@@ -107,8 +110,7 @@
             >
                 top
             </button>
-            <button
-                type="button"
+            <a
                 class="
                     interactive
                     inline-flex
@@ -124,15 +126,15 @@
 
                     transition-transform duration-200
                 "
-                onclick={() => navigateTo('/posts')}
+                href={resolve('/posts')}
             >
                 posts
-            </button>
+            </a>
         </div>
 
         {#if nextPost}
-            <button
-                type="button"
+            <!-- eslint-disable svelte/no-navigation-without-resolve -- already resolved, in posts.ts:20 -->
+            <a
                 class="
                     group interactive
                     flex
@@ -144,7 +146,7 @@
                     px-[1.15rem] py-[1.1rem]
                     text-right text-foreground
                 "
-                onclick={() => navigateTo(nextPost.href)}
+                href={nextPost.href}
             >
                 <span
                     class="
@@ -171,7 +173,8 @@
                 >
                     <span>{nextPost.title}</span>
                 </span>
-            </button>
+            </a>
+            <!-- eslint-enable svelte/no-navigation-without-resolve -->
         {:else}
             <div class="min-h-[7.25rem]" aria-hidden="true"></div>
         {/if}
