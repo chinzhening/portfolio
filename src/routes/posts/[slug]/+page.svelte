@@ -93,11 +93,9 @@
                         <div
                             class="relative z-10 flex gap-px text-md font-monospace text-faint-foreground"
                         >
-                            <span aria-hidden="true">.</span>
-                            <ul aria-label="Post tags" class="flex gap-px">
+                            <ul aria-label="Post tags" class="flex gap-4">
                                 {#each metadata.tags as tag (tag)}
                                     <li class="flex gap-px">
-                                        <span aria-hidden="true">/</span>
                                         <span>{toKebabCase(tag)}</span>
                                     </li>
                                 {/each}
