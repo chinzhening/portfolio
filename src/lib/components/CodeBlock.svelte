@@ -1,6 +1,5 @@
 <script lang="ts">
     import { gsap } from 'gsap';
-    import { onDestroy, onMount } from 'svelte';
 
     let {
         language,
@@ -15,7 +14,7 @@
     let copied = $state(false);
     let isHovered = $state(false);
     let resetTimer: number | undefined;
-    let copyButton: HTMLButtonElement | undefined;
+    let copyButton = $state<HTMLButtonElement>();
 
     function animateCopyButton(opacity: number) {
         if (!copyButton) return;
@@ -41,10 +40,14 @@
         }
     }
 
-    onMount(() => {
-        if (copyButton) {
-            gsap.set(copyButton, { opacity: 0 });
-        }
+    $effect(() => {
+        const button = copyButton;
+        if (!button) return;
+        gsap.set(button, { opacity: 0 });
+        return () => {
+            if (resetTimer) window.clearTimeout(resetTimer);
+            gsap.killTweensOf(button);
+        };
     });
 
     function renderHighlighted(node: HTMLElement, html: string) {
@@ -94,16 +97,6 @@
             }, 200);
         }, 2400);
     }
-
-    onDestroy(() => {
-        if (resetTimer) {
-            window.clearTimeout(resetTimer);
-        }
-
-        if (copyButton) {
-            gsap.killTweensOf(copyButton);
-        }
-    });
 </script>
 
 <div
