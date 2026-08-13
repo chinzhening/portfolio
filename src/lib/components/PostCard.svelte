@@ -42,6 +42,7 @@
         <!-- Only the title is the link; ::after stretches its hit area over
              the whole card, so the accessible name stays just the title. -->
         <h2 class="mt-2 text-balance font-display leading-tight font-medium text-xl md:text-2xl">
+            <!-- eslint-disable-next-line svelte/no-navigation-without-resolve -- already resolved, in posts.ts:20 -->
             <a class="after:absolute after:inset-0 after:content-['']" href={post.href}>
                 {post.title}
             </a>

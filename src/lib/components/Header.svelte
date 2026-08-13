@@ -21,6 +21,9 @@
         <a class="text-lg py-2" href={resolve('/')} aria-label="Home"><span lang="zh">哲宁</span></a
         >
         <nav class="items-center flex font-monospace lowercase text-dim-foreground">
+            <!-- Block form, not disable-next-line: the href sits mid-tag and the
+                 directive can only target the line after it. -->
+            <!-- eslint-disable svelte/no-navigation-without-resolve -- already resolved, in config.ts:8-10 -->
             {#each pages as page (page.name)}
                 <a
                     class="
@@ -34,6 +37,7 @@
                     href={page.href}>{page.name}</a
                 >
             {/each}
+            <!-- eslint-enable svelte/no-navigation-without-resolve -->
         </nav>
     </div>
 </header>
