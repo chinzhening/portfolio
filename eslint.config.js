@@ -44,5 +44,22 @@ export default defineConfig(
             // not apply. Revisit if untrusted content is ever rendered.
             'svelte/no-at-html-tags': 'off'
         }
+    },
+    {
+        files: ['plugins/**/*.ts'],
+        rules: {
+            'no-restricted-imports': [
+                'error',
+                {
+                    patterns: [
+                        {
+                            group: ['$lib', '$lib/*', '$app', '$app/*', '$tyquire'],
+                            message:
+                                'plugins/ is extracted as a standalone package and must not import app-space aliases.'
+                        }
+                    ]
+                }
+            ]
+        }
     }
 );
