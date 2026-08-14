@@ -1,8 +1,10 @@
 <script lang="ts">
-    let { content }: { content: string } = $props();
+    import type { TypstComponentProps } from '$tyquire/svelte/types';
+
+    let { children }: TypstComponentProps = $props();
 </script>
 
 <aside class="callout side-note" role="note" aria-label="Side note">
     <div class="label" aria-hidden="true">Side note</div>
-    {@html content}
+    {@render children()}
 </aside>

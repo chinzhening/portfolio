@@ -1,15 +1,15 @@
 <script lang="ts">
     import { gsap } from 'gsap';
 
-    let {
-        language,
-        source,
-        highlightedHtml
-    }: {
-        language: string;
-        source: string;
-        highlightedHtml: string;
-    } = $props();
+    import type { TypstComponentProps } from '$tyquire/svelte/types';
+
+    let { props }: TypstComponentProps = $props();
+
+    // A `code` node's fields arrive through `props`, since every entry in the
+    // components map shares one signature.
+    let language = $derived(props.lang as string);
+    let source = $derived(props.source as string);
+    let highlightedHtml = $derived(props.highlighted as string);
 
     let copied = $state(false);
     let isHovered = $state(false);

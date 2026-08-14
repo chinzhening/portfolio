@@ -5,16 +5,15 @@
     import { resolve } from '$app/paths';
     import { title } from '$lib/config';
 
-    import CodeBlock from '$lib/components/CodeBlock.svelte';
-    import FigureBlock from '$lib/components/FigureBlock.svelte';
     import PostNavTable from '$lib/components/PostNavTable.svelte';
-    import SideNote from '$lib/components/SideNote.svelte';
+    import { components } from '$lib/components/article/components';
     import { formatDate, toKebabCase } from '$lib/utils';
+    import TypstRenderer from '$tyquire/svelte/TypstRenderer.svelte';
 
     import type { PageProps } from './$types';
 
     let { data }: PageProps = $props();
-    let { metadata, blocks, prevPost, nextPost } = $derived(data);
+    let { metadata, children: nodes, prevPost, nextPost } = $derived(data);
 </script>
 
 <svelte:head>
@@ -108,25 +107,7 @@
             <!-- Post Content -->
             <div class="typst mx-auto text-muted-foreground leading-relaxed">
                 <svelte:boundary onerror={(error) => console.error('post render failed', error)}>
-                    {#each blocks as block, index (`${block.type}:${block.type === 'code' ? block.id : index}`)}
-                        {#if block.type === 'html'}
-                            {@html block.html}
-                        {:else if block.type === 'side-note'}
-                            <SideNote content={block.content} />
-                        {:else if block.type === 'code'}
-                            <CodeBlock
-                                language={block.language}
-                                source={block.source}
-                                highlightedHtml={block.highlightedHtml}
-                            />
-                        {:else if block.type === 'figure'}
-                            <FigureBlock
-                                id={block.id}
-                                content={block.content}
-                                caption={block.caption}
-                            />
-                        {/if}
-                    {/each}
+                    <TypstRenderer {nodes} {components} />
 
                     <!-- eslint-disable-next-line @typescript-eslint/no-unused-vars -->
                     {#snippet failed(error, reset)}

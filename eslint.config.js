@@ -29,7 +29,12 @@ export default defineConfig(
         files: ['**/*.svelte', '**/*.svelte.ts', '**/*.svelte.js'],
         languageOptions: {
             parserOptions: {
-                projectService: true,
+                projectService: {
+                    // The renderer lives under plugins/, which is deliberately
+                    // outside the app tsconfig's include, so the project service
+                    // cannot place it on its own.
+                    allowDefaultProject: ['plugins/tyquire/src/svelte/*.svelte']
+                },
                 extraFileExtensions: ['.svelte'],
                 parser: ts.parser,
                 svelteConfig
