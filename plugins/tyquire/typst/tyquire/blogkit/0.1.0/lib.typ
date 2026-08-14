@@ -1,7 +1,3 @@
-#import "colors.typ": muted-colors
-
-#let font-mono = "Iosevka"
-
 /* 
   This file defines the metadata component for the blog.
   It can be queried by the backend to generate the list of posts and their metadata.

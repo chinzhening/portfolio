@@ -1,0 +1,7 @@
+[package]
+name = "blogkit"
+version = "0.1.0"
+entrypoint = "lib.typ"
+authors = ["Chin Zhe Ning"]
+license = "MIT"
+description = "Typst prelude for the tyquire HTML pipeline."

@@ -1,4 +1,7 @@
-#import "blog/lib.typ": *
+#import "@tyquire/blogkit:0.1.0": *
+#import "blog/colors.typ": muted-colors
+
+#let font-mono = "Iosevka"
 
 #show: article.with(
   title: "First Post",
