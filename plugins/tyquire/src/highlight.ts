@@ -1,5 +1,5 @@
 import { createHighlighter, type Highlighter } from 'shiki';
-import { SUPPORTED_LANGS, THEMES } from './constants';
+import { SUPPORTED_LANGS, THEMES } from './constants.ts';
 
 let cached: Highlighter | null = null;
 

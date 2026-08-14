@@ -1,4 +1,4 @@
-import type { PostMetadata } from './types';
+import type { PostMetadata } from './types.ts';
 import { spawn } from 'child_process';
 import { dirname } from 'path';
 

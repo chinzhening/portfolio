@@ -1,13 +1,13 @@
 import type { Plugin } from 'vite';
 import type { Highlighter } from 'shiki';
 import { load } from 'cheerio';
-import type { PostDocument } from './types';
+import type { PostDocument } from './types.ts';
 
-import { getHighlighter } from './highlight';
-import { compile, query } from './runner';
-import { annotateStretchyMathFrames, collectRawSourceByLabel, collectBlocks } from './parse';
+import { getHighlighter } from './highlight.ts';
+import { compile, query } from './runner.ts';
+import { annotateStretchyMathFrames, collectRawSourceByLabel, collectBlocks } from './parse.ts';
 
-export type * from './types';
+export type * from './types.ts';
 
 export default function typstToSvelte(): Plugin {
     let highlighter: Highlighter;
