@@ -41,15 +41,8 @@
 )
 
 // Insert a simple horizontal rule element.
-#let hrule = html.elem("hr")
+#let hrule() = html.elem("hr")
 
-#let my-figure(
-  content,
-  caption: none,
-) = figure(
-  caption: caption,
-  content,
-)
 #let my-table(
   columns: 1,
   ..content,
@@ -59,7 +52,6 @@
     it => html.elem("div", attrs: ("class": "table-cell"), it)
   )
 )
-
 
 // Default tab sizes for supported code languages.
 #let lang-tab-size = (
