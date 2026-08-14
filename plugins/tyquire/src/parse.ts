@@ -2,7 +2,7 @@ import { type CheerioAPI, type Cheerio } from 'cheerio';
 import type { Highlighter } from 'shiki';
 import type { AnyNode } from 'domhandler';
 import type { CodeBlock, FigureBlock, HtmlBlock, PostBlock, SideNoteBlock } from './types.ts';
-import { RAW_SOURCE_SELECTOR, CODE_FENCE_SELECTOR, SUPPORTED_LANGS, THEMES } from './constants.ts';
+import { CODE_FENCE_SELECTOR, SUPPORTED_LANGS, THEMES } from './constants.ts';
 import { normalizeStretchy } from './math.ts';
 
 function isSupportedLang(lang: string): boolean {
@@ -15,30 +15,14 @@ export function annotateStretchyMathFrames($: CheerioAPI) {
     });
 }
 
-export function collectRawSourceByLabel($: CheerioAPI): Map<string, string> {
-    const rawSourceByLabel = new Map<string, string>();
-
-    $(RAW_SOURCE_SELECTOR).each((_, el) => {
-        const $el = $(el);
-        const label = $el.attr('data-typst-label');
-
-        if (!label) return;
-
-        rawSourceByLabel.set(label, $el.text());
-        $el.remove();
-    });
-
-    return rawSourceByLabel;
-}
-
 export function collectBlocks(
     $: CheerioAPI,
     highlighter: Highlighter,
-    rawSourceByLabel: Map<string, string>,
     warn: (message: string) => void,
     fileId: string
 ): PostBlock[] {
     const blocks: PostBlock[] = [];
+    let codeIndex = 0;
 
     for (const node of $('body').contents().toArray() as AnyNode[]) {
         if (node.type === 'text') {
@@ -70,12 +54,13 @@ export function collectBlocks(
         if (codeElement.length) {
             const codeBlock = createCodeBlock(
                 codeElement,
+                `codeblock-${codeIndex}`,
                 highlighter,
-                rawSourceByLabel,
                 warn,
                 fileId
             );
             if (codeBlock) {
+                codeIndex += 1;
                 blocks.push(codeBlock);
             }
             continue;
@@ -131,20 +116,14 @@ function extractFigureData(
 
 function createCodeBlock(
     codeElement: Cheerio<AnyNode>,
+    id: string,
     highlighter: Highlighter,
-    rawSourceByLabel: Map<string, string>,
     warn: (message: string) => void,
     fileId: string
 ): CodeBlock | null {
-    const label = codeElement.attr('data-typst-label');
-    if (!label) {
-        warn(`typst-to-svelte: <code> block missing data-typst-label in ${fileId}`);
-        return null;
-    }
-
-    const source = rawSourceByLabel.get(label);
+    const source = codeElement.text();
     if (!source) {
-        warn(`typst-to-svelte: no raw source found for label "${label}" in ${fileId}`);
+        warn(`typst-to-svelte: empty <code> block "${id}" in ${fileId}`);
         return null;
     }
 
@@ -154,7 +133,7 @@ function createCodeBlock(
 
     return {
         type: 'code',
-        id: label,
+        id,
         language,
         source,
         highlightedHtml: highlighter.codeToHtml(source, {

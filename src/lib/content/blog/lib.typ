@@ -56,32 +56,6 @@
   )
 )
 
-// Default tab sizes for supported code languages.
-#let lang-tab-size = (
-  "python": 4,
-  "javascript": 2,
-  "css": 2,
-  "typ": 2,
-  "rust": 2,
-)
-
-// Number block code fences and expose their metadata to the HTML output.
-#let codeblock-counter = counter("codeblock")
-#let codeblock-rules(body) = context {
-  show raw.where(block: true): it => {
-    codeblock-counter.step()
-    let attrs = (
-      "data-typst-label": "codeblock-" + codeblock-counter.display(),
-      "data-lang": it.lang,
-    )
-    let elem = html.elem("pre",
-      html.elem("code", attrs: attrs, [])
-    )
-    elem
-  }
-  body
-}
-
 // Format figure captions with the blog's consistent typography.
 // todo: clean separation between normal export and html export
 #let figure-rules(body) = context {
@@ -110,22 +84,7 @@
     tags,
   )
 
-  show: codeblock-rules
   show: figure-rules
 
   content
-
-  context {
-    query(raw.where(block: true))
-      .enumerate()
-      .map(((idx, it)) => {
-        let attrs = (
-          "data-typst-label": "codeblock-" + str(idx),
-          "type": "text/plain",
-        )
-        html.elem("script", attrs: attrs, it.text)
-      })
-      .join()
-  }
-  
 }

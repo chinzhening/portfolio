@@ -5,7 +5,7 @@ import type { PostDocument } from './types.ts';
 
 import { getHighlighter } from './highlight.ts';
 import { compile, query } from './runner.ts';
-import { annotateStretchyMathFrames, collectRawSourceByLabel, collectBlocks } from './parse.ts';
+import { annotateStretchyMathFrames, collectBlocks } from './parse.ts';
 
 export type * from './types.ts';
 
@@ -29,14 +29,7 @@ export default function typstToSvelte(): Plugin {
 
             annotateStretchyMathFrames($);
 
-            const rawSourceByLabel = collectRawSourceByLabel($);
-            const blocks = collectBlocks(
-                $,
-                highlighter,
-                rawSourceByLabel,
-                this.warn.bind(this),
-                id
-            );
+            const blocks = collectBlocks($, highlighter, this.warn.bind(this), id);
 
             const document: PostDocument = { metadata, blocks };
 

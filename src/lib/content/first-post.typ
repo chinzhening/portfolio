@@ -83,11 +83,13 @@ Wide diagrams need to scroll rather than break the layout, and that does not hap
 #hrule()
 
 == Highlighting
-Code blocks need a little more work than headings or paragraphs, because Typst cannot simply attach the final highlight classes at the source layer. The trick is a sidecar. Alongside the rendered `pre` element, the export also emits the raw text of every fence into a hidden `script` tagged with the same label. That keeps the rendered markup clean, and it preserves the exact source without extra whitespace or nested spans to unpick.
+Code blocks need more care than headings or paragraphs, because the source has to survive the export before anything can highlight it. This used to need a sidecar: the pipeline replaced each rendered fence with an empty `pre`, emitted the raw text separately into a hidden `script` tagged with a matching label, and the parser paired the two back up.
 
-The parser collects those sidecars into a label-to-source map and strips them out of the tree. When the walk later reaches a code fence, it reads the language off the element, looks up the original text by label, and hands both to Shiki. Highlighting happens on the server at build time, so the browser gets finished markup and no highlighting library.
+That is no longer necessary. Typst's HTML export preserves the source of a block fence, indentation and all, and tags the element with `data-lang` unprompted. The parser now reads the text straight off the `code` element and hands it to Shiki with the language beside it. Tabs are the only casualty, since the export expands them to spaces according to `raw`'s tab size.
 
-In the UI, the code is wrapped in a bordered card with the language label and a copy button that appears on hover; clicking it briefly swaps the icon to a tick before fading away again. The markup stays deterministic and themeable, and the interaction costs nothing on the client.
+Removing the sidecar took a numbering scheme with it. Labels were generated twice, once by a show rule as each fence rendered and once by a query over the finished document, and a block only found its source if the two agreed. They did agree, but nothing made them.
+
+Highlighting runs on the server at build time, so the browser gets finished markup and no highlighting library. In the UI the code sits in a bordered card with the language label and a copy button that appears on hover; clicking it briefly swaps the icon to a tick before fading away again. The markup stays deterministic and themeable, and the interaction costs nothing on the client.
 
 #hrule()
 

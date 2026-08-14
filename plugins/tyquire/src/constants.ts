@@ -1,8 +1,8 @@
-export const RAW_SOURCE_SELECTOR = 'script[type="text/plain"][data-typst-label]';
-export const CODE_FENCE_SELECTOR = 'pre code[data-typst-label]';
+export const CODE_FENCE_SELECTOR = 'pre > code';
 
 export const SUPPORTED_LANGS = [
     'css',
+    'html',
     'python',
     'javascript',
     'rust',
