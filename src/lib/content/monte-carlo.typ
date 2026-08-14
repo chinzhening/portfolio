@@ -1,4 +1,4 @@
-#import "@tyquire/blogkit:0.1.0": *
+#import "blog/lib.typ": *
 #import "blog/colors.typ": muted-colors
 
 #show: article.with(

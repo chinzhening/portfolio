@@ -1,9 +1,7 @@
 import type { PostMetadata } from './types.ts';
 import { spawn } from 'child_process';
-import { dirname, resolve } from 'path';
-import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
-const packagePath = resolve(dirname(fileURLToPath(import.meta.url)), '..', 'typst');
 const fontPath = process.env.TYPST_FONT_PATH;
 
 function runTypst(args: string[], cwd: string, input?: string): Promise<string> {
@@ -45,8 +43,6 @@ export function compile(source: string, id: string): Promise<string> {
             '--format',
             'html',
             ...(fontPath ? ['--font-path', fontPath] : []),
-            '--package-path',
-            packagePath,
             '-',
             '-'
         ],
@@ -57,16 +53,7 @@ export function compile(source: string, id: string): Promise<string> {
 
 export function query(id: string): Promise<PostMetadata> {
     return runTypst(
-        [
-            'eval',
-            'query(<metadata>)',
-            '--features',
-            'html',
-            '--in',
-            id,
-            '--package-path',
-            packagePath
-        ],
+        ['eval', 'query(<metadata>)', '--features', 'html', '--in', id],
         dirname(id)
     ).then((raw) => {
         const results = JSON.parse(raw);
