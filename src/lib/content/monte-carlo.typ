@@ -4,7 +4,7 @@
 #show: article.with(
   title: "Modern Monte Carlo",
   desc: [A deep dive into Monte Carlo methods, modern ideas, and some applications in financial modeling.],
-  published: "false",
+  published: false,
   tags: (
     "finance",
     "monte carlo",

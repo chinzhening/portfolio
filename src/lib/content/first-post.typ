@@ -6,7 +6,7 @@
 #show: article.with(
   title: "First Post",
   desc: [Setting up the blog and writing the first post.],
-  published: "true",
+  published: true,
   publish_date: datetime(year: 2026, month: 8, day: 14), 
   tags: (
     "dev-log",

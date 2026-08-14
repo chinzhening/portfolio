@@ -8,7 +8,7 @@ export type TypstText = { func: 'text'; text: string };
 export interface PostMetadata {
     title: string;
     desc: string | TypstText;
-    published: 'true' | 'false';
+    published: true | false;
     publish_date: string;
     edited_date?: string;
     tags: string[];
