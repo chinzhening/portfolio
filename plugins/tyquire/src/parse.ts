@@ -1,7 +1,7 @@
 import { type CheerioAPI, type Cheerio } from 'cheerio';
 import type { Highlighter } from 'shiki';
 import type { AnyNode } from 'domhandler';
-import type { CodeBlock, FigureBlock, HtmlBlock, PostBlock, SideNoteBlock } from '$lib/types';
+import type { CodeBlock, FigureBlock, HtmlBlock, PostBlock, SideNoteBlock } from './types';
 import { RAW_SOURCE_SELECTOR, CODE_FENCE_SELECTOR, SUPPORTED_LANGS, THEMES } from './constants';
 import { normalizeStretchy } from './math';
 

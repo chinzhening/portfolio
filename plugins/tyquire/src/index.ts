@@ -1,11 +1,13 @@
 import type { Plugin } from 'vite';
 import type { Highlighter } from 'shiki';
 import { load } from 'cheerio';
-import type { PostDocument } from '$lib/types';
+import type { PostDocument } from './types';
 
 import { getHighlighter } from './highlight';
 import { compile, query } from './runner';
 import { annotateStretchyMathFrames, collectRawSourceByLabel, collectBlocks } from './parse';
+
+export type * from './types';
 
 export default function typstToSvelte(): Plugin {
     let highlighter: Highlighter;

@@ -1,4 +1,4 @@
-import type { PostMetadata } from '$lib/types';
+import type { PostMetadata } from './types';
 import { spawn } from 'child_process';
 import { dirname } from 'path';
 
