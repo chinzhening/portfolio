@@ -1,10 +1,8 @@
-import type { PostMetadata } from '$tyquire';
+import type { PostMetadata } from '$lib/types';
+import type { TypstDocument } from '$tyquire';
 
 declare module '*.typ' {
-    const content: {
-        html: string;
-        metadata: PostMetadata;
-    };
+    const content: TypstDocument<PostMetadata>;
     export default content;
 }
 

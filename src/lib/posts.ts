@@ -1,6 +1,6 @@
 import { resolve } from '$app/paths';
 
-import type { PostMetadata } from '$tyquire';
+import type { PostMetadata } from '$lib/types';
 
 export interface PostSummary extends PostMetadata {
     slug: string;
@@ -8,7 +8,7 @@ export interface PostSummary extends PostMetadata {
 }
 
 export function getPosts(): PostSummary[] {
-    const modules = import.meta.glob<{ default: { html: string; metadata: PostMetadata } }>(
+    const modules = import.meta.glob<{ default: { metadata: PostMetadata } }>(
         '$lib/content/*.typ',
         { eager: true }
     );

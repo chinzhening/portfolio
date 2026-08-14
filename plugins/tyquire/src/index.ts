@@ -1,11 +1,11 @@
 import type { Plugin } from 'vite';
 import type { Highlighter } from 'shiki';
 import { load } from 'cheerio';
-import type { PostDocument } from './types.ts';
 
 import { getHighlighter } from './highlight.ts';
 import { compile, query } from './runner.ts';
-import { annotateStretchyMathFrames, collectBlocks } from './parse.ts';
+import { annotateStretchyMathFrames, walkDocument } from './parse.ts';
+import type { TypstDocument } from './types.ts';
 
 export type * from './types.ts';
 
@@ -23,15 +23,21 @@ export default function typstToSvelte(): Plugin {
             if (!id.endsWith('.typ')) return;
 
             const source = String(code);
-            const [html, metadata] = await Promise.all([compile(source, id), query(id)]);
+            const warn = this.warn.bind(this);
+
+            const [html, { metadata, count }] = await Promise.all([compile(source, id), query(id)]);
+
+            if (count > 1) {
+                warn(`tyquire: ${count} <metadata> found in ${id}, using the first`);
+            }
 
             const $ = load(html);
-
             annotateStretchyMathFrames($);
 
-            const blocks = collectBlocks($, highlighter, this.warn.bind(this), id);
-
-            const document: PostDocument = { metadata, blocks };
+            const document: TypstDocument = {
+                metadata,
+                children: walkDocument($, { highlighter, warn, fileId: id })
+            };
 
             return `export default ${JSON.stringify(document)};`;
         },

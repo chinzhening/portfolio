@@ -1,6 +1,7 @@
-import type { PostMetadata } from './types.ts';
 import { spawn } from 'child_process';
 import { dirname } from 'path';
+
+import { readMetadata, type MetadataResult } from './metadata.ts';
 
 const fontPath = process.env.TYPST_FONT_PATH;
 
@@ -51,12 +52,9 @@ export function compile(source: string, id: string): Promise<string> {
     );
 }
 
-export function query(id: string): Promise<PostMetadata> {
+export function query<M>(id: string): Promise<MetadataResult<M>> {
     return runTypst(
         ['eval', 'query(<metadata>)', '--features', 'html', '--in', id],
         dirname(id)
-    ).then((raw) => {
-        const results = JSON.parse(raw);
-        return results[0].value;
-    });
+    ).then((raw) => readMetadata<M>(raw, id));
 }

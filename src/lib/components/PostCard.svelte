@@ -12,8 +12,6 @@
         /* Positioning and dividers are the caller's business — see posts/+page.svelte. */
         class?: string;
     } = $props();
-
-    const descText = $derived(typeof post.desc === 'string' ? post.desc : post.desc.text);
 </script>
 
 <!-- Post preview card: date, title, summary, and up to three tags. -->
@@ -49,7 +47,7 @@
         </h2>
 
         <p class="mt-2 line-clamp-3 text-pretty text-dim-foreground">
-            {descText}
+            {post.desc}
         </p>
     </div>
 </div>
