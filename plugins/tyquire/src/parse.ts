@@ -5,10 +5,6 @@ import type { CodeBlock, FigureBlock, HtmlBlock, PostBlock, SideNoteBlock } from
 import { RAW_SOURCE_SELECTOR, CODE_FENCE_SELECTOR, SUPPORTED_LANGS, THEMES } from './constants.ts';
 import { normalizeStretchy } from './math.ts';
 
-interface CodeElementLike {
-    attr(name: string): string | undefined;
-}
-
 function isSupportedLang(lang: string): boolean {
     return (SUPPORTED_LANGS as readonly string[]).includes(lang);
 }
@@ -91,15 +87,15 @@ export function collectBlocks(
     return blocks;
 }
 
-export function createHtmlBlock(html: string): HtmlBlock {
+function createHtmlBlock(html: string): HtmlBlock {
     return { type: 'html', html };
 }
 
-export function createSideNoteBlock(content: string): SideNoteBlock {
+function createSideNoteBlock(content: string): SideNoteBlock {
     return { type: 'side-note', content };
 }
 
-export function createFigureBlock({
+function createFigureBlock({
     id,
     content,
     caption
@@ -114,7 +110,7 @@ export function createFigureBlock({
 /**
  * Extract id, first-child HTML content, and optional caption HTML from a <figure> node.
  */
-export function extractFigureData(
+function extractFigureData(
     $: CheerioAPI,
     $node: Cheerio<AnyNode>
 ): { id: string; content: string; caption?: string } {
@@ -134,7 +130,7 @@ export function extractFigureData(
 }
 
 function createCodeBlock(
-    codeElement: CodeElementLike,
+    codeElement: Cheerio<AnyNode>,
     highlighter: Highlighter,
     rawSourceByLabel: Map<string, string>,
     warn: (message: string) => void,

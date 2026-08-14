@@ -15,17 +15,3 @@ export async function getHighlighter(): Promise<Highlighter> {
     });
     return cached;
 }
-
-/**
- * Backwards-compatible setup function that accepts custom options.
- */
-export async function setupHighlighter(opts: {
-    themes: string[];
-    langs: string[];
-}): Promise<Highlighter> {
-    if (cached) return cached;
-    cached = await createHighlighter({ themes: opts.themes, langs: opts.langs });
-    return cached;
-}
-
-export type { Highlighter };

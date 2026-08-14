@@ -4,7 +4,7 @@ import { dirname } from 'path';
 
 const fontPath = process.env.TYPST_FONT_PATH;
 
-export function runTypst(args: string[], cwd: string, input?: string): Promise<string> {
+function runTypst(args: string[], cwd: string, input?: string): Promise<string> {
     return new Promise((resolve, reject) => {
         const child = spawn('typst', args, { cwd });
 
