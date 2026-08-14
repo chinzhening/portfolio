@@ -1,8 +1,11 @@
 import type { Plugin } from 'vite';
-import { compile, query, getHighlighter } from './typst-svelte/index';
 import type { Highlighter } from 'shiki';
 import { load } from 'cheerio';
 import type { PostDocument } from '$lib/types';
+
+import { getHighlighter } from './highlight';
+import { compile, query } from './runner';
+import { annotateStretchyMathFrames, collectRawSourceByLabel, collectBlocks } from './parse';
 
 export default function typstToSvelte(): Plugin {
     let highlighter: Highlighter;
@@ -21,9 +24,6 @@ export default function typstToSvelte(): Plugin {
             const [html, metadata] = await Promise.all([compile(source, id), query(id)]);
 
             const $ = load(html);
-            // parsing helpers
-            const { annotateStretchyMathFrames, collectRawSourceByLabel, collectBlocks } =
-                await import('./typst-svelte/parse');
 
             annotateStretchyMathFrames($);
 
@@ -56,5 +56,3 @@ export default function typstToSvelte(): Plugin {
         }
     };
 }
-
-// parsing helpers are implemented in ./typst-svelte/parse
