@@ -16,7 +16,7 @@
   edited_date,
   tags,
 ) = {
-  if edited_date != none [ #metadata(
+  if edited_date != none and publish_date != none [ #metadata(
     (title: title,
      desc: desc,
      published: published,
@@ -25,11 +25,18 @@
      tags: tags
     )
   ) <metadata>]
-  else [ #metadata(
+  else if publish_date != none [ #metadata(
     (title: title,
      desc: desc,
      published: published,
      publish_date: publish_date.display(),
+     tags: tags
+    )
+  ) <metadata>]
+  else [ #metadata(
+    (title: title,
+     desc: desc,
+     published: published,
      tags: tags
     )
   ) <metadata>]
