@@ -29,11 +29,13 @@ function contentToString(node: unknown): string {
     if (node.body !== undefined) return contentToString(node.body);
 
     const func = typeof node.func === 'string' ? node.func : '';
-    if (func === 'smartquote') return node.double === false ? '"' : '“';
+    // Typst reports whether the quote was double, never whether it opened or
+    // closed, so both sides render straight.
+    if (func === 'smartquote') return node.double === false ? "'" : '"';
 
-    // Math elements have neither `body` nor `children`,
-    // so an equation inside a metadata field flattens. Recovering it
-    // is not worth the effort, so just return ''.
+    // Math elements carry neither `body` nor `children`, so an equation in a
+    // metadata field flattens away. Recovering it would mean enumerating the
+    // math element set, which is what dispatching on shape exists to avoid.
     return LEAF_TEXT[func] ?? '';
 }
 
@@ -54,11 +56,12 @@ export function flattenContent(value: unknown): unknown {
 
 export interface MetadataResult<M> {
     metadata: M;
+    /** How many `<metadata>` labels matched. More than one is ambiguous. */
     count: number;
 }
 
 /**
- * Valudate the shape of `typst eval query(<metadata>)` output before casting it
+ * Validate the shape of `typst eval query(<metadata>)` output before casting it
  * to the consumer's schema. Every throw names the file, since the plugin runs
  * across a glob and the raw errors do not say which post failed.
  */

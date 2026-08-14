@@ -4,8 +4,10 @@ import { SUPPORTED_LANGS, THEMES } from './constants.ts';
 let cached: Highlighter | null = null;
 
 /**
- * Initialize and return a singleton Highlighter using project defaults.
- * Calling `getHighlighter()` multiple times returns the cached instance.
+ * A process-wide Highlighter, since creating one costs a WASM load.
+ *
+ * The cache outlives `buildEnd`'s `dispose()`, so a second build in the same
+ * process gets a disposed instance. Fixed by per-environment state in Phase 4.
  */
 export async function getHighlighter(): Promise<Highlighter> {
     if (cached) return cached;

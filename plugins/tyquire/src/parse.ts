@@ -9,7 +9,7 @@ import { normalizeStretchy } from './math.ts';
 const COMPONENT_SELECTOR = '[data-typst-node], [data-typst-slot]';
 
 /**
- * The `pre >` combinator is load-bearing. Inline `#raw(lang:)` emits a bare
+ * Keep the `pre >` combinator. Inline `#raw(lang:)` emits a bare
  * `<code data-lang>` with no `<pre>`, so a plain `code` selector would make
  * every paragraph containing inline code fail the base case and explode into
  * `element` nodes.
