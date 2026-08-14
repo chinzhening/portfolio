@@ -1,6 +1,6 @@
 import { resolve } from '$app/paths';
 
-import type { PostMetadata } from '$lib/types';
+import type { PostMetadata } from '$tyquire';
 
 export interface PostSummary extends PostMetadata {
     slug: string;

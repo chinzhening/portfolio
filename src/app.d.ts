@@ -1,4 +1,4 @@
-import type { PostMetadata } from '$lib/types';
+import type { PostMetadata } from '$tyquire';
 
 declare module '*.typ' {
     const content: {

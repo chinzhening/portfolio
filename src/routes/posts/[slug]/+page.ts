@@ -1,7 +1,7 @@
 import { error } from '@sveltejs/kit';
 
 import { getPrevAndNextPostLinks } from '$lib/posts';
-import type { PostDocument } from '$lib/types';
+import type { PostDocument } from '$tyquire';
 
 export async function load({ params, parent }) {
     try {

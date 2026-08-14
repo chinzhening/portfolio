@@ -11,6 +11,9 @@ const config = {
         adapter: adapter({
             fallback: '404.html'
         }),
+        alias: {
+            $tyquire: 'plugins/tyquire/src/index.ts'
+        },
         paths: {
             base: process.argv.includes('dev') ? '' : process.env.BASE_PATH
         }
