@@ -270,8 +270,12 @@
 
 /* Not `.container`: that is a Tailwind utility the post route emits, and it
    carries breakpoint max-widths this rule does not override. */
+/* The padding is not spacing. `overflow-x: auto` makes this a scroll container
+   on both axes, and those clip at the padding box. `html.frame` paints half a
+   stroke outside the viewBox, so with no padding the outer edges are cut. */
 .typst .figure-frame {
 	width: 100%;
+	padding: 0.125em;
 	overflow-x: auto;
 	box-sizing: border-box;
 	display: flex;
