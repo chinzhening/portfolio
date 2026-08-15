@@ -1,16 +1,21 @@
 import type { Plugin } from 'vite';
-import type { Highlighter } from 'shiki';
 import { load } from 'cheerio';
 
-import { createTyquireHighlighter } from './highlight.ts';
 import { compile, query } from './runner.ts';
 import { annotateStretchyMathFrames, walkDocument } from './parse.ts';
-import type { TypstDocument } from './types.ts';
+import { filterWatchableDeps } from './paths.ts';
+import { shikiHighlight } from './transforms/highlight.ts';
+import type { AstTransform, TypstDocument, TyquireOptions } from './types.ts';
 
+export { shikiHighlight } from './transforms/highlight.ts';
+export type { ShikiHighlightOptions } from './transforms/highlight.ts';
 export type * from './types.ts';
 
-export default function tyquire(): Plugin {
-    let highlighter: Highlighter;
+export default function tyquire(options: TyquireOptions = {}): Plugin {
+    const htmlTransforms = options.htmlTransforms ?? [annotateStretchyMathFrames];
+    const transforms: AstTransform[] = options.transforms ?? [shikiHighlight()];
+    const fontPaths = options.fontPaths ?? [];
+
     let root = '';
     return {
         name: 'tyquire',
@@ -18,9 +23,6 @@ export default function tyquire(): Plugin {
 
         configResolved(config) {
             root = config.root;
-        },
-        async buildStart() {
-            highlighter = await createTyquireHighlighter();
         },
 
         transform: {
@@ -30,29 +32,27 @@ export default function tyquire(): Plugin {
                 const warn = this.warn.bind(this);
 
                 const [{ html, deps }, { metadata, count }] = await Promise.all([
-                    compile(source, id),
-                    query(id)
+                    compile(source, id, { fontPaths }),
+                    query(id, { fontPaths })
                 ]);
 
-                for (const dep of deps) {
-                    const normalized = dep.replace(/^\\\\\?\\/, '').replace(/\\/g, '/');
-                    if (normalized.endsWith('/<stdin>') || normalized === '<stdin>') continue;
-                    if (normalized.startsWith(root)) {
-                        this.addWatchFile(normalized);
-                    }
-                }
+                // Add all watchable dependencies to the Vite watcher so that
+                // changes to them will trigger a rebuild.
+                filterWatchableDeps(deps, root).forEach((dep) => this.addWatchFile(dep));
 
                 if (count > 1) {
                     warn(`tyquire: ${count} <metadata> found in ${id}, using the first`);
                 }
 
                 const $ = load(html);
-                annotateStretchyMathFrames($);
+                for (const t of htmlTransforms) t($);
 
                 const document: TypstDocument = {
                     metadata,
-                    children: walkDocument($, { highlighter, warn, fileId: id })
+                    children: walkDocument($, { warn, fileId: id })
                 };
+
+                for (const t of transforms) await t(document, warn);
 
                 return `export default ${JSON.stringify(document)};`;
             }
@@ -61,7 +61,7 @@ export default function tyquire(): Plugin {
             return modules;
         },
         buildEnd() {
-            highlighter?.dispose();
+            for (const t of transforms) t.dispose?.();
         }
     };
 }

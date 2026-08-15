@@ -1,8 +1,7 @@
 import type { CheerioAPI } from 'cheerio';
-import type { Highlighter } from 'shiki';
 import type { AnyNode, Element } from 'domhandler';
 import type { TypstNode } from './types.ts';
-import { CODE_FENCE_SELECTOR, SUPPORTED_LANGS, THEMES } from './constants.ts';
+import { CODE_FENCE_SELECTOR } from './constants.ts';
 import { isRecord } from './metadata.ts';
 import { normalizeStretchy } from './math.ts';
 
@@ -17,7 +16,6 @@ const COMPONENT_SELECTOR = '[data-typst-node], [data-typst-slot]';
 const MARKER_SELECTOR = `${COMPONENT_SELECTOR}, ${CODE_FENCE_SELECTOR}`;
 
 export interface WalkOptions {
-    highlighter: Highlighter;
     warn: (message: string) => void;
     fileId: string;
 }
@@ -174,20 +172,11 @@ function createCodeNode($: CheerioAPI, node: Element, ctx: WalkContext): TypstNo
     ctx.codeIndex += 1;
 
     const rawLang = codeElement.attr('data-lang') ?? '';
-    const highlightLang = isSupportedLang(rawLang) ? rawLang : 'plaintext';
 
     return {
         kind: 'code',
         id,
         lang: rawLang || 'plaintext',
-        source,
-        highlighted: ctx.highlighter.codeToHtml(source, {
-            lang: highlightLang,
-            themes: THEMES
-        })
+        source
     };
-}
-
-function isSupportedLang(lang: string): boolean {
-    return (SUPPORTED_LANGS as readonly string[]).includes(lang);
 }

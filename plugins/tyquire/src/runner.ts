@@ -7,7 +7,13 @@ import { readFile, unlink } from 'fs/promises';
 
 import { readMetadata, type MetadataResult } from './metadata.ts';
 
-const fontPath = process.env.TYPST_FONT_PATH;
+interface RunnerOptions {
+    fontPaths?: string[];
+}
+
+function fontArgs(fontPaths: string[] = []): string[] {
+    return fontPaths.flatMap((p) => ['--font-path', p]);
+}
 
 function runTypst(args: string[], cwd: string, input?: string): Promise<string> {
     return new Promise((resolve, reject) => {
@@ -41,7 +47,8 @@ function runTypst(args: string[], cwd: string, input?: string): Promise<string> 
 
 export async function compile(
     source: string,
-    id: string
+    id: string,
+    opts: RunnerOptions = {}
 ): Promise<{ html: string; deps: string[] }> {
     const depsPath = join(tmpdir(), `typst-deps-${randomUUID()}.json`);
 
@@ -52,7 +59,7 @@ export async function compile(
             'html',
             '--format',
             'html',
-            ...(fontPath ? ['--font-path', fontPath] : []),
+            ...fontArgs(opts.fontPaths),
             '--deps',
             depsPath,
             '--deps-format',
@@ -72,9 +79,17 @@ export async function compile(
     return { html, deps: inputs };
 }
 
-export function query<M>(id: string): Promise<MetadataResult<M>> {
+export function query<M>(id: string, opts: RunnerOptions = {}): Promise<MetadataResult<M>> {
     return runTypst(
-        ['eval', 'query(<metadata>)', '--features', 'html', '--in', id],
+        [
+            'eval',
+            'query(<metadata>)',
+            '--features',
+            'html',
+            '--in',
+            id,
+            ...fontArgs(opts.fontPaths)
+        ],
         dirname(id)
     ).then((raw) => readMetadata<M>(raw, id));
 }

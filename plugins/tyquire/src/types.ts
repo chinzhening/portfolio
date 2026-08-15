@@ -1,3 +1,18 @@
+import type { CheerioAPI } from 'cheerio';
+
+export interface TyquireOptions {
+    fontPaths?: string[];
+    htmlTransforms?: ((doc: CheerioAPI) => void)[];
+    transforms?: AstTransform[];
+}
+
+export type AstTransform = ((
+    doc: TypstDocument,
+    warn: (message: string) => void
+) => void | Promise<void>) & {
+    dispose?: () => void;
+};
+
 /**
  * The parser's whole vocabulary. A subtree containing no marker stays an
  * `html` string, so prose, MathML and inline SVG never become node objects;

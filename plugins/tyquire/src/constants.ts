@@ -11,5 +11,3 @@ export const SUPPORTED_LANGS = [
     'c',
     'svelte'
 ] as const;
-
-export const THEMES = { light: 'min-light', dark: 'everforest-dark' };
