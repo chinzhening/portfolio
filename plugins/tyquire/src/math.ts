@@ -1,6 +1,25 @@
 import type { CheerioAPI } from 'cheerio';
 import type { AnyNode } from 'domhandler';
 
+/**
+ * Two different engine bugs, one wrapper fixes both. Applying `overflow-x:
+ * auto` (plus a width constraint) directly to `math[display="block"]` breaks
+ * differently per browser: Safari never constrains the math element's own box
+ * to its container width, so nothing overflows the box and no scrollbar ever
+ * appears -- the equation just runs past the edge. Chromium does constrain it,
+ * but a width-constrained `<math>` with non-visible overflow triggers automatic
+ * line-breaking, reflowing the equation into stacked fragments instead of
+ * scrolling it. An ordinary wrapper `<div>` sidesteps both: `<math>` keeps
+ * `overflow: visible` (its default) so neither quirk ever triggers, and the
+ * wrapper -- a completely ordinary block box with none of MathML's special
+ * sizing behaviour -- is what actually constrains the width and scrolls.
+ */
+export function wrapBlockMath($: CheerioAPI): void {
+    $('math[display="block"]').each((_, el) => {
+        $(el).wrap('<div class="math-frame"></div>');
+    });
+}
+
 const DELIMITERS = new Map<string, string>([
     ['(', ')'],
     ['[', ']'],

@@ -46,6 +46,21 @@ math {
 }
 
 math[display='block'] {
+	/* Must stay visible, not auto: a width-constrained, non-visible-overflow
+	   <math> reflows into stacked fragments on Chromium, and never scrolls at
+	   all on Safari (its box doesn't constrain to the container in the first
+	   place). The .math-frame wrapper below is what actually scrolls, on an
+	   ordinary <div> that has neither quirk. */
+	overflow: visible;
+}
+
+/*
+ * overflow-x: auto establishes a new block-formatting context, which blocks
+ * margin collapsing between this and math[display="block"] inside it -- so
+ * the spacing has to live here, not on the math element, or it ends up as
+ * dead scrollable space inside the frame instead of gaps around it.
+ */
+.math-frame {
 	margin: 1em 0;
 	overflow-x: auto;
 	overflow-y: hidden;

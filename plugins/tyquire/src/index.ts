@@ -3,6 +3,7 @@ import { load } from 'cheerio';
 
 import { compile, query } from './runner.ts';
 import { annotateStretchyMathFrames, walkDocument } from './parse.ts';
+import { wrapBlockMath } from './math.ts';
 import { filterWatchableDeps } from './paths.ts';
 import { shikiHighlight } from './transforms/highlight.ts';
 import type { AstTransform, TypstDocument, TyquireOptions } from './types.ts';
@@ -12,7 +13,7 @@ export type { ShikiHighlightOptions } from './transforms/highlight.ts';
 export type * from './types.ts';
 
 export default function tyquire(options: TyquireOptions = {}): Plugin {
-    const htmlTransforms = options.htmlTransforms ?? [annotateStretchyMathFrames];
+    const htmlTransforms = options.htmlTransforms ?? [annotateStretchyMathFrames, wrapBlockMath];
     const transforms: AstTransform[] = options.transforms ?? [shikiHighlight()];
     const fontPaths = options.fontPaths ?? [];
 
