@@ -8,17 +8,16 @@ export interface PostSummary extends PostMetadata {
 }
 
 export function getPosts(): PostSummary[] {
-    const modules = import.meta.glob<{ default: { metadata: PostMetadata } }>(
-        '$lib/content/*.typ',
-        { eager: true }
-    );
+    const modules = import.meta.glob<{ metadata: PostMetadata }>('$lib/content/*.typ', {
+        eager: true
+    });
 
     const posts = Object.entries(modules).map(([path, mod]) => {
         const slug = path.split('/').at(-1)!.replace('.typ', '');
         return {
             slug,
             href: resolve(`/posts/${slug}`),
-            ...mod.default.metadata
+            ...mod.metadata
         };
     });
 

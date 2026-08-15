@@ -1,9 +1,9 @@
-import type { PostMetadata } from '$lib/types';
-import type { TypstDocument } from '$tyquire';
+/// <reference path="../plugins/tyquire/src/client.d.ts" />
 
-declare module '*.typ' {
-    const content: TypstDocument<PostMetadata>;
-    export default content;
+import type { PostMetadata } from '$lib/types';
+
+declare namespace Tyquire {
+    interface Metadata extends PostMetadata {}
 }
 
 // See https://svelte.dev/docs/kit/types#app.d.ts

@@ -51,6 +51,18 @@ export default defineConfig(
         }
     },
     {
+        files: ['**/*.d.ts'],
+        rules: {
+            // Ambient augmentation (SvelteKit's App.*, tyquire's Tyquire.Metadata)
+            // is declared via empty interfaces merged into by consumers, and a
+            // client.d.ts entry point needs a triple-slash reference since it has
+            // no runtime exports for `import type` to hang off.
+            '@typescript-eslint/no-empty-object-type': 'off',
+            '@typescript-eslint/triple-slash-reference': 'off',
+            '@typescript-eslint/no-unused-vars': 'off'
+        }
+    },
+    {
         files: ['plugins/**/*.ts'],
         rules: {
             'no-restricted-imports': [

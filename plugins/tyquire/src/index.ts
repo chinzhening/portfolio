@@ -54,7 +54,10 @@ export default function tyquire(options: TyquireOptions = {}): Plugin {
 
                 for (const t of transforms) await t(document, warn);
 
-                return `export default ${JSON.stringify(document)};`;
+                return (
+                    `export const metadata = ${JSON.stringify(document.metadata)};\n` +
+                    `export default ${JSON.stringify(document.children)};`
+                );
             }
         },
         hotUpdate({ modules }) {
