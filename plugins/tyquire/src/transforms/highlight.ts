@@ -31,7 +31,10 @@ function walk(
                 transformers: [
                     {
                         pre(hast) {
-                            delete hast.properties.tabIndex;
+                            // Shiki sets this as the raw HTML attribute name
+                            // `tabindex`, not hast's usual camelCase `tabIndex` --
+                            // confirmed by inspecting hast.properties directly.
+                            delete hast.properties.tabindex;
                         }
                     }
                 ]
