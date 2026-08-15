@@ -47,7 +47,11 @@
 #let figure-rules(body) = context {
   if is-html() {
     show figure: it => component("figure", {
-      it.body
+      if it.kind == image {
+        html.frame[#it.body]
+      } else {
+        it.body
+      }
       if it.caption != none {
         slot("caption", [#strong[#it.supplement #context it.counter.display(it.numbering).] #it.caption.body])
       }

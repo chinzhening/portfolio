@@ -59,21 +59,19 @@ Keeping the post-processing explicit rather than hiding it behind a general purp
     in Typst too: `html.frame` is what keeps the SVG alive in the HTML export.],
 )[
   #let dist = 1.5
-  #html.frame[
-    #diagram(
-      spacing: 10pt,
-      edge-stroke: 1pt,
-      mark-scale: 70%,
+  #diagram(
+    spacing: 10pt,
+    edge-stroke: 1pt,
+    mark-scale: 70%,
 
-      blob((0, 0), [`*.typ`], tint: muted-colors.yellow),
-      edge("-|>", stroke: muted-colors.dark-gray, edge-label[typst]),
-      blob((0, dist), [HTML\ + metadata], tint: muted-colors.orange),
-      edge("-|>", stroke: muted-colors.dark-gray, edge-label[cheerio]),
-      blob((0, 2 * dist), [`PostBlock[]`], tint: muted-colors.green),
-      edge("-|>", stroke: muted-colors.dark-gray, edge-label[svelte]),
-      blob((0, 3 * dist), [Static site], tint: muted-colors.blue),
-    )
-  ]
+    blob((0, 0), [`*.typ`], tint: muted-colors.yellow),
+    edge("-|>", stroke: muted-colors.dark-gray, edge-label[typst]),
+    blob((0, dist), [HTML\ + metadata], tint: muted-colors.orange),
+    edge("-|>", stroke: muted-colors.dark-gray, edge-label[cheerio]),
+    blob((0, 2 * dist), [`PostBlock[]`], tint: muted-colors.green),
+    edge("-|>", stroke: muted-colors.dark-gray, edge-label[svelte]),
+    blob((0, 3 * dist), [Static site], tint: muted-colors.blue),
+  )
 ] <pipeline>
 
 The diagram in @pipeline is the same `html.frame` hack from the introduction, put to a different use. There it was preserving math; here it preserves the SVG that drawing libraries like `cetz` and `fletcher` produce, which the export would otherwise drop. Wrapping it in a `#figure` also gives it a label, and the HTML export turns that `<label>` into an `id`, so the figure can be cross-referenced like any other.
@@ -213,28 +211,26 @@ Typst exposes a `target()` function that allows the source to branch on the expo
   caption: [What the parser produces today, and what it would need to produce for a
     callout to contain a code block.],
 )[
-  #html.frame[
-    #diagram(
-      spacing: 10pt,
-      edge-stroke: 1pt,
-      mark-scale: 70%,
+  #diagram(
+    spacing: 10pt,
+    edge-stroke: 1pt,
+    mark-scale: 70%,
 
-      fileblob((0, 0), "html", w: 20mm, tint: muted-colors.gray),
-      fileblob((1, 0), "code", w: 20mm, tint: muted-colors.green),
-      fileblob((2, 0), "side-note", w: 20mm, tint: muted-colors.cyan),
-      fileblob((3, 0), "html", w: 20mm, tint: muted-colors.gray),
-      node((1.5, 0.7), edge-label[today: a flat list]),
+    fileblob((0, 0), "html", w: 20mm, tint: muted-colors.gray),
+    fileblob((1, 0), "code", w: 20mm, tint: muted-colors.green),
+    fileblob((2, 0), "side-note", w: 20mm, tint: muted-colors.cyan),
+    fileblob((3, 0), "html", w: 20mm, tint: muted-colors.gray),
+    node((1.5, 0.7), edge-label[today: a flat list]),
 
-      fileblob((1.5, 1.8), "side-note", w: 20mm, tint: muted-colors.cyan, name: <sn>),
-      fileblob((0.5, 3.2), "p", w: 20mm, tint: muted-colors.gray, name: <a>),
-      fileblob((1.5, 3.2), "code", w: 20mm, tint: muted-colors.green, name: <b>),
-      fileblob((2.5, 3.2), "p", w: 20mm, tint: muted-colors.gray, name: <c>),
-      edge(<sn>, <a>, "-|>", stroke: muted-colors.dark-gray),
-      edge(<sn>, <b>, "-|>", stroke: muted-colors.dark-gray),
-      edge(<sn>, <c>, "-|>", stroke: muted-colors.dark-gray),
-      node((1.5, 3.9), edge-label[wanted: a tree]),
-    )
-  ]
+    fileblob((1.5, 1.8), "side-note", w: 20mm, tint: muted-colors.cyan, name: <sn>),
+    fileblob((0.5, 3.2), "p", w: 20mm, tint: muted-colors.gray, name: <a>),
+    fileblob((1.5, 3.2), "code", w: 20mm, tint: muted-colors.green, name: <b>),
+    fileblob((2.5, 3.2), "p", w: 20mm, tint: muted-colors.gray, name: <c>),
+    edge(<sn>, <a>, "-|>", stroke: muted-colors.dark-gray),
+    edge(<sn>, <b>, "-|>", stroke: muted-colors.dark-gray),
+    edge(<sn>, <c>, "-|>", stroke: muted-colors.dark-gray),
+    node((1.5, 3.9), edge-label[wanted: a tree]),
+  )
 ] <nesting>
 
 The fix is to make the parser recursive so that it walks into a block's children, but that is a lot of churn and it needs a properly designed block surface first. It also runs straight into the next problem.
@@ -248,55 +244,53 @@ The fix is to make the parser recursive so that it walks into a block's children
     file is on the right. Note that `lib.typ` has no import edge at all: it is joined
     to the rest by a string and nothing else.],
 )[
-  #html.frame[
-    #diagram(
-      spacing: 12pt,
-      edge-stroke: 1pt,
-      mark-scale: 70%,
+  #diagram(
+    spacing: 12pt,
+    edge-stroke: 1pt,
+    mark-scale: 70%,
 
-      // --- Layer labels, left ---
-      node((-1.2, -1), edge-label[typst]),
-      node((-1.2, 0.75), edge-label[plugin]),
-      node((-1.2, 3), edge-label[app]),
+    // --- Layer labels, left ---
+    node((-1.2, -1), edge-label[typst]),
+    node((-1.2, 0.75), edge-label[plugin]),
+    node((-1.2, 3), edge-label[app]),
 
-      // --- Files, centre ---
-      fileblob((0, -0.75), "lib.typ", tint: muted-colors.orange, name: <lib>),
-      fileblob((0, 1), "constants.ts", tint: muted-colors.red, name: <consts>),
-      fileblob((0, 2), "parse.ts", tint: muted-colors.red, name: <parse>),
-      fileblob((0, 3.25), "types.ts", tint: muted-colors.blue, name: <types>),
-      fileblob((0, 4), "+page.svelte", tint: muted-colors.blue, name: <route>),
-      fileblob((0, 5), "MyBlock.svelte", tint: muted-colors.blue, name: <comp>),
+    // --- Files, centre ---
+    fileblob((0, -0.75), "lib.typ", tint: muted-colors.orange, name: <lib>),
+    fileblob((0, 1), "constants.ts", tint: muted-colors.red, name: <consts>),
+    fileblob((0, 2), "parse.ts", tint: muted-colors.red, name: <parse>),
+    fileblob((0, 3.25), "types.ts", tint: muted-colors.blue, name: <types>),
+    fileblob((0, 4), "+page.svelte", tint: muted-colors.blue, name: <route>),
+    fileblob((0, 5), "MyBlock.svelte", tint: muted-colors.blue, name: <comp>),
 
-      // --- Real imports ---
-      edge(<parse>, <consts>, "-|>", stroke: muted-colors.dark-gray),
-      edge(<parse>, <types>, "-|>", stroke: muted-colors.dark-gray),
-      edge(<route>, <types>, "-|>", stroke: muted-colors.dark-gray),
-      edge(<route>, <comp>, "-|>", stroke: muted-colors.dark-gray),
+    // --- Real imports ---
+    edge(<parse>, <consts>, "-|>", stroke: muted-colors.dark-gray),
+    edge(<parse>, <types>, "-|>", stroke: muted-colors.dark-gray),
+    edge(<route>, <types>, "-|>", stroke: muted-colors.dark-gray),
+    edge(<route>, <comp>, "-|>", stroke: muted-colors.dark-gray),
 
-      // --- What one new block type needs, right ---
-      need((1.9, -0.75), [emit the marker]),
-      need((1.9, 1), [a selector, sometimes]),
-      need((1.9, 2), [a branch and a factory]),
-      need((1.9, 3.25), [an interface, and an arm on the `PostBlock` union]),
-      need((1.9, 4), [a branch]),
-      need((1.9, 5), [a whole new file]),
+    // --- What one new block type needs, right ---
+    need((1.9, -0.75), [emit the marker]),
+    need((1.9, 1), [a selector, sometimes]),
+    need((1.9, 2), [a branch and a factory]),
+    need((1.9, 3.25), [an interface, and an arm on the `PostBlock` union]),
+    need((1.9, 4), [a branch]),
+    need((1.9, 5), [a whole new file]),
 
-      edge((0, -0.75), (1.9, -0.75), "-->", stroke: muted-colors.yellow),
-      edge((0, 1), (1.9, 1), "-->", stroke: muted-colors.yellow),
-      edge((0, 2), (1.9, 2), "-->", stroke: muted-colors.yellow),
-      edge((0, 3.25), (1.9, 3.25), "-->", stroke: muted-colors.yellow),
-      edge((0, 4), (1.9, 4), "-->", stroke: muted-colors.yellow),
-      edge((0, 5), (1.9, 5), "-->", stroke: muted-colors.yellow),
+    edge((0, -0.75), (1.9, -0.75), "-->", stroke: muted-colors.yellow),
+    edge((0, 1), (1.9, 1), "-->", stroke: muted-colors.yellow),
+    edge((0, 2), (1.9, 2), "-->", stroke: muted-colors.yellow),
+    edge((0, 3.25), (1.9, 3.25), "-->", stroke: muted-colors.yellow),
+    edge((0, 4), (1.9, 4), "-->", stroke: muted-colors.yellow),
+    edge((0, 5), (1.9, 5), "-->", stroke: muted-colors.yellow),
 
-      // --- Layer enclosures ---
-      {
-        let tint(c) = (stroke: c, fill: rgb(..c.components().slice(0, 3), 30%), inset: 8pt)
-        node(enclose: ((0, -0.75),), ..tint(muted-colors.dark-gray), corner-radius: 5pt, stroke: none)
-        node(enclose: ((0, 1), (0, 2)), ..tint(muted-colors.dark-gray), corner-radius: 5pt, stroke: none)
-        node(enclose: ((0, 3.25), (0, 5)), ..tint(muted-colors.dark-gray), corner-radius: 5pt, stroke: none)
-      },
-    )
-  ]
+    // --- Layer enclosures ---
+    {
+      let tint(c) = (stroke: c, fill: rgb(..c.components().slice(0, 3), 30%), inset: 8pt)
+      node(enclose: ((0, -0.75),), ..tint(muted-colors.dark-gray), corner-radius: 5pt, stroke: none)
+      node(enclose: ((0, 1), (0, 2)), ..tint(muted-colors.dark-gray), corner-radius: 5pt, stroke: none)
+      node(enclose: ((0, 3.25), (0, 5)), ..tint(muted-colors.dark-gray), corner-radius: 5pt, stroke: none)
+    },
+  )
 ] <vocabulary>
 
 Six touch points for one component is a workable cost for a personal blog with four block types at the moment, but it is a hard lock-in that makes it impossible for other people to work with the system without forking and editing the source.
