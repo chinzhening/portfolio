@@ -290,6 +290,10 @@
 	max-width: 70ch;
 }
 
+.typst .figure-block > figcaption > .caption-label {
+	font-weight: 600;
+}
+
 /* ─── Code blocks ──────────────────────────────────────────────────────────────── */
 
 .typst .code-block-card {

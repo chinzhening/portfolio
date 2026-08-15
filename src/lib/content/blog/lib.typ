@@ -13,11 +13,7 @@
       "data-typst-props": json.encode(props.named(), pretty: false),
       ), body)
   } else {
-    block(
-      inset: (left: 1em),
-      stroke: (left: 1pt),
-      body
-    )
+    body
   }
 }
 
@@ -35,9 +31,6 @@
   if is-html() { html.elem("div", attrs: ("data-typst-slot": name), body) } else { body }
 }
 
-// Render a short side note inside the article body.
-#let side-note(content) = component("side-note", content)
-
 // Insert a simple horizontal rule element.
 #let hrule() = context {
   if is-html() { html.elem("hr") } else { line(length: 100%) }
@@ -53,7 +46,8 @@
         it.body
       }
       if it.caption != none {
-        slot("caption", [#strong[#it.supplement #context it.counter.display(it.numbering).] #it.caption.body])
+        slot("caption-label", [#it.supplement #context it.counter.display(it.numbering).])
+        slot("caption", it.caption.body)
       }
     })
     body

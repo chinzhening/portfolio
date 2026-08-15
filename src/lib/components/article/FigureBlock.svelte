@@ -9,6 +9,9 @@
     </div>
     {#if slots.caption}
         <figcaption>
+            {#if slots['caption-label']}
+                <span class="caption-label">{@render renderNodes(slots['caption-label'])}</span>
+            {/if}
             {@render renderNodes(slots.caption)}
         </figcaption>
     {/if}

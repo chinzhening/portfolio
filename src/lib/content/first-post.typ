@@ -1,8 +1,7 @@
 #import "blog/lib.typ": *
-#import "blog/colors.typ": muted-colors
+#import "blog/theme.typ": *
 
-#let font-mono = "Iosevka"
-
+#show: theme
 #show: article.with(
   title: "First Post",
   desc: [Setting up the blog and writing the first post.],
@@ -52,7 +51,7 @@ Keeping the post-processing explicit rather than hiding it behind a general purp
   ..args,
 )
 
-#let edge-label(body) = text(size: 0.7em, font: font-mono, fill: muted-colors.dark-gray, body)
+#let edge-label(body) = text(size: 0.7em, font: fonts.mono, fill: muted-colors.dark-gray, body)
 
 #figure(
   caption: [The pipeline, from Typst source to static site. This diagram was drawn
@@ -199,7 +198,7 @@ Typst exposes a `target()` function that allows the source to branch on the expo
 
 #let fileblob(pos, label, tint: white, w: 34mm, ..args) = node(
   pos,
-  align(center, text(fill: muted-colors.white, size: 0.75em, font: font-mono, label)),
+  align(center, text(fill: muted-colors.white, size: 0.75em, font: fonts.mono, label)),
   width: w,
   fill: tint.darken(60%),
   stroke: 1pt + tint.darken(20%),
