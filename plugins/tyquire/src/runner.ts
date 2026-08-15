@@ -1,5 +1,9 @@
 import { spawn } from 'child_process';
 import { dirname } from 'path';
+import { tmpdir } from 'os';
+import { join } from 'path';
+import { randomUUID } from 'crypto';
+import { readFile, unlink } from 'fs/promises';
 
 import { readMetadata, type MetadataResult } from './metadata.ts';
 
@@ -19,7 +23,7 @@ function runTypst(args: string[], cwd: string, input?: string): Promise<string> 
             chunks.push(chunk);
         });
         child.stderr?.on('data', (data: Buffer) => {
-            console.error(`[typst-to-svelte] ${data.toString().trim()}`);
+            console.error(`[tyquire] ${data.toString().trim()}`);
         });
 
         child.on('close', (code) => {
@@ -35,8 +39,13 @@ function runTypst(args: string[], cwd: string, input?: string): Promise<string> 
     });
 }
 
-export function compile(source: string, id: string): Promise<string> {
-    return runTypst(
+export async function compile(
+    source: string,
+    id: string
+): Promise<{ html: string; deps: string[] }> {
+    const depsPath = join(tmpdir(), `typst-deps-${randomUUID()}.json`);
+
+    const html = await runTypst(
         [
             'compile',
             '--features',
@@ -44,12 +53,23 @@ export function compile(source: string, id: string): Promise<string> {
             '--format',
             'html',
             ...(fontPath ? ['--font-path', fontPath] : []),
+            '--deps',
+            depsPath,
+            '--deps-format',
+            'json',
             '-',
             '-'
         ],
         dirname(id),
         source
     );
+
+    const raw = await readFile(depsPath, 'utf8');
+    await unlink(depsPath);
+
+    const { inputs } = JSON.parse(raw) as { inputs: string[] };
+
+    return { html, deps: inputs };
 }
 
 export function query<M>(id: string): Promise<MetadataResult<M>> {
