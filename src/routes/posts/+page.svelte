@@ -104,14 +104,13 @@
             </div>
         </header>
         <!-- Post List -->
-        <section class="flex flex-col">
+        <section class="flex flex-col h-full md:border-l border-border/50">
             {#each data.posts as post (post.slug)}
                 <PostCard
                     {post}
-                    class="border-t md:border-t-0 md:not-first:border-t md:border-l border-border/50"
+                    class="border-t md:border-t-0 md:not-first:border-t border-border/50"
                 />
             {/each}
-            <div class="min-h-10 border-l border-border/50"></div>
         </section>
     </div>
 </main>

@@ -15,7 +15,7 @@
 </script>
 
 <!-- Post preview card: date, title, summary, and up to three tags. -->
-<div class={['relative h-full py-4 px-4 md:px-8', className]}>
+<div class={['relative py-4 px-4 md:px-8', className]}>
     <div class="flex h-full flex-col" use:animate={fadeIn('static')}>
         <!-- Card header: publish date and open indicator. -->
         <div class="flex justify-between pt-4">
