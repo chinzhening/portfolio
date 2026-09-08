@@ -63,11 +63,11 @@ Keeping the post-processing explicit rather than hiding it behind a general purp
     edge-stroke: 1pt,
     mark-scale: 70%,
 
-    blob((0, 0), [`*.typ`], tint: muted-colors.yellow),
+    blob((0, 0), text(font: fonts.mono, size: 0.8em)[\*.typ], tint: muted-colors.yellow),
     edge("-|>", stroke: muted-colors.dark-gray, edge-label[typst]),
     blob((0, dist), [HTML\ + metadata], tint: muted-colors.orange),
     edge("-|>", stroke: muted-colors.dark-gray, edge-label[cheerio]),
-    blob((0, 2 * dist), [`PostBlock[]`], tint: muted-colors.green),
+    blob((0, 2 * dist), text(font: fonts.mono, size: 0.8em)[PostBlock[]], tint: muted-colors.green),
     edge("-|>", stroke: muted-colors.dark-gray, edge-label[svelte]),
     blob((0, 3 * dist), [Static site], tint: muted-colors.blue),
   )
@@ -118,55 +118,21 @@ in the browser: the PDE that describes the flow of heat, where $alpha > 0$ is th
 This is the main benefit of using MathML over another SVG or image-based export.
 The markup carries semantics, a screen reader can walk it, and with some CSS it can be styled to match the rest of the page.
 
-The tradeoff is that browser MathML support is uneven, and the usual answer is to ship a rendering library like #link("https://www.mathjax.org/")[MathJax] to duct tape the gaps. I tried that and then removed it because shipping a typesetting engine (roughly a megabyte of JavaScript) to fix a handful of misrendered brackets is a bad trade on a blog that is otherwise entirely static markup. The better fix was to correct the MathML itself, once, at build time.
+The tradeoff is that browser MathML support is uneven. The generic solution is to ship a rendering library such as #link("https://www.mathjax.org/")[MathJax], but that adds roughly a megabyte of JavaScript to fix a handful of presentation issues. For a blog that is otherwise static HTML, that was not a good trade. Instead, I fixed the exported MathML at build time, where the complete tree is already available.
 
 === Stretchy delimiters
-Typst does not set `stretchy="false"` on delimiters#footnote[See #link("https://github.com/typst/typst/issues/8105")[issue] for details.], so the browser decides for
-itself whether a bracket should grow. Chromium tends to grow them even when the
-enclosed content is a single line, which makes ordinary parenthesised expressions
-look subtly wrong beside their neighbours.
 
-Upstream cannot really fix this in the exporter. The answer in that issue is that at the point where the HTML is emitted, Typst does not have enough information to know whether a delimiter will end up stretched relative to what surrounds it, so it cannot decide the value of the attribute. Post-processing does not have that problem. By then the tree is finished, and whatever sits between a pair of delimiters is right there to be inspected.
+Typst does not emit `stretchy="false"` for delimiters#footnote[See #link("https://github.com/typst/typst/issues/8105")[issue] for details.], leaving the browser to decide whether brackets should stretch. Chromium can stretch brackets around single-line expressions, making otherwise ordinary expressions look inconsistent.
 
-So the post-processing step walks each `math` element and pairs opening delimiters with their partners using a depth counter, so nesting is handled correctly. For each pair it checks whether anything genuinely tall is enclosed at any depth: fractions, roots, tables, or over- and under-scripts. If none of them are present, `stretchy="false"` is emitted on the pair and the browser leaves them alone. Attributes that Typst already sets are never overwritten.
+The exporter cannot always make this decision because it does not yet know the final context of a delimiter. The post-processing pass can: it walks each `math` tree, pairs delimiters by depth, and checks whether the enclosed subtree contains anything that requires stretching, such as a fraction, root, table, or over-/under-script. If not, it adds `stretchy="false"`. Existing attributes are left untouched.
 
 === Alignment
-Here is a two-line equation with an alignment point at each `&`:
 
-$
-  u(x, t) &= sum_(n=1)^oo b_n e^(-alpha omega_n^2 t) \
-  omega_n &= (n pi) \/ L
-$
+Aligned equations export to the correct MathML structure: Typst represents them as an `mtable`, with each `&` becoming a column boundary. The problem is presentation: without explicit column alignment, the `mtd` cells are centred independently, so the equals signs do not share an alignment point.
 
-It does survive the export. MathML has no native `align` environment like LaTeX's,
-so Typst simulates one with an `mtable`, splitting each line at the `&` into a cell
-for the left-hand side and a cell for the operator and everything after it. It even
-hands you class names to hook onto:
+That part is CSS: `mtd` behaves as a table cell, so a `text-align` rule on the exported aligned class is sufficient. Summation limits expose a different problem. sum uses `movablelimits`, but without `displaystyle` the limits remain beside the operator. Since `displaystyle` is a MathML attribute rather than CSS, the post-processing pass adds it to the relevant table.
 
-```html
-<math display="block">
-  <mtable class="multiline-equation aligned">
-    <mtr><mtd>u(x, t)</mtd><mtd><mo form="infix">=</mo> ...</mtd></mtr>
-    <mtr><mtd>omega_n</mtd><mtd><mo form="infix">=</mo> ...</mtd></mtr>
-  </mtable>
-</math>
-```
-
-The structure is right, but the typography is not. Nothing sets the column
-alignment, and an `mtable` centres every column by default, so instead of the
-left-hand sides sitting flush against a shared `=`, each cell floats in the middle
-of its column and the equals signs wander. What comes out is a grid, not an
-alignment. There is a second, subtler problem in the same equation: the summation
-renders with its limits beside the operator rather than above and below it, as though
-the whole thing were inline. `sum` carries `movablelimits`, so its limits drop to
-script position whenever `displaystyle` is false, and nothing in the exported markup
-sets `displaystyle` on the table.
-
-Neither is really a Typst bug, and neither needs one to be fixed. Alignment is pure
-presentation, and since `mtd` is a `display: table-cell`, a `text-align` rule against
-the `aligned` class sorts it out. `displaystyle` is not a CSS property, so that one
-has to be written into the markup by the same post-processing pass that already
-handles the delimiters.
+These fixes are deliberately specific. Rather than replacing the browser's MathML renderer, the build step corrects the small amount of presentation information that does not survive export.
 
 #hrule()
 
@@ -303,7 +269,7 @@ integration in the shape of #link("https://mdsvex.pngwn.io")[mdsvex] or
 components and the renderer. That is the subject of the next post.
 
 = Upcoming Posts
-The next post rebuilds the pipeline described above into something that could be
+The #link("tyquire")[next post] rebuilds the pipeline described above into something that could be
 used by a site other than this one, and redesigns the authoring interface along the
 way. After that I have a backlog of ideas and projects to write about, which will be
 backdated:
