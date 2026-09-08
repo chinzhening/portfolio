@@ -21,9 +21,11 @@ export function getPosts(): PostSummary[] {
         };
     });
 
-    posts.sort((a, b) => new Date(b.publish_date).getTime() - new Date(a.publish_date).getTime());
-
     const publishedPosts = posts.filter((post) => post.published);
+
+    publishedPosts.sort(
+        (a, b) => new Date(b.publish_date).getTime() - new Date(a.publish_date).getTime()
+    );
 
     return publishedPosts;
 }
