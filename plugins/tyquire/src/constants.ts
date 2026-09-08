@@ -1,13 +1,23 @@
 export const CODE_FENCE_SELECTOR = 'pre > code';
 
 export const SUPPORTED_LANGS = [
-    'css',
-    'html',
-    'python',
-    'javascript',
-    'rust',
-    'typst',
-    'cpp',
+    'bash',
     'c',
-    'svelte'
+    'cpp',
+    'css',
+    'go',
+    'html',
+    'java',
+    'javascript',
+    'powershell',
+    'python',
+    'r',
+    'rust',
+    'shell',
+    'sql',
+    'svelte',
+    'toml',
+    'typescript',
+    'typst',
+    'yaml'
 ] as const;
