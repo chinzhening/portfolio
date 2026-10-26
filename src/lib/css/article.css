@@ -123,7 +123,7 @@
 	vertical-align: middle;
 	font-size: 13.5px;
 	font-family: var(--font-monospace);
-	background-color: oklch(from var(--accent-cool) calc(l * 1.2) c h / 0.25);
+	background-color: color-mix(in oklab, var(--selection) 50%, transparent);
 	padding: 2px 5px;
 }
 

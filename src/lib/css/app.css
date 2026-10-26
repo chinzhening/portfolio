@@ -80,6 +80,6 @@ li {
 
 /* Selection color */
 ::selection {
-	background-color: var(--warm-2);
+	background-color: var(--selection);
 	color: var(--warm-7);
 }

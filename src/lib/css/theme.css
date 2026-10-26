@@ -9,81 +9,70 @@
  * Tailwind's `@theme`, and an unlayered declaration silently overrides it.
  */
 html {
-	/* Warm palette: amber through burnt sienna */
-	--warm-1: oklch(0.97 0.025 70);
-	--warm-2: oklch(0.93 0.045 65);
-	--warm-3: oklch(0.86 0.085 60);
-	--warm-4: oklch(0.78 0.12 52);
-	--warm-5: oklch(0.7 0.16 45);
-	--warm-6: oklch(0.61 0.168 44.6);
-	--warm-7: oklch(0.52 0.14 40);
-	--warm-8: oklch(0.43 0.105 38);
-	--warm-9: oklch(0.34 0.07 35);
-	--warm-10: oklch(0.25 0.045 32);
+	/* Muted amber ramp for links, rules, selection, and active states. */
+	--warm-1: oklch(0.97 0.025 78);
+	--warm-2: oklch(0.92 0.05 76);
+	--warm-3: oklch(0.84 0.1 70);
+	--warm-4: oklch(0.74 0.14 63);
+	--warm-5: oklch(0.64 0.16 55);
+	--warm-6: oklch(0.54 0.14 48);
+	--warm-7: oklch(0.42 0.1 42);
 
-	/* Cool blue palette */
-	--blue-1: oklch(0.97 0.015 245);
-	--blue-2: oklch(0.92 0.025 245);
-	--blue-3: oklch(0.78 0.1 245);
-	--blue-4: oklch(0.68 0.12 245);
-	--blue-5: oklch(0.56 0.12 245);
-	--blue-6: oklch(0.46 0.1 248);
-	--blue-7: oklch(0.35 0.075 250);
-	--blue-8: oklch(0.25 0.05 252);
-	--blue-9: oklch(0.18 0.035 255);
+	/* Desaturated blue ramp for code and secondary emphasis. */
+	--blue-1: oklch(0.97 0.008 238);
+	--blue-2: oklch(0.93 0.015 238);
+	--blue-3: oklch(0.84 0.035 238);
+	--blue-4: oklch(0.72 0.06 238);
+	--blue-5: oklch(0.6 0.07 240);
+	--blue-6: oklch(0.48 0.065 242);
+	--blue-7: oklch(0.35 0.045 244);
 
-	/* Grayscale — subtle warm tint (h=60), spread wide for contrast */
-	--gray-0: oklch(1 0 60); /* white */
-	--gray-1: oklch(0.97 0.006 60); /* near white */
-	--gray-2: oklch(0.94 0.006 60); /* off white */
-	--gray-3: oklch(0.9 0.008 60); /* light */
-	--gray-4: oklch(0.8 0.01 60); /* mid-light */
-	--gray-5: oklch(0.66 0.01 60); /* mid */
-	--gray-6: oklch(0.58 0.01 60); /* mid, one step down — the ramp's faint tier */
-	--gray-7: oklch(0.52 0.01 60); /* mid-dark */
-	--gray-8: oklch(0.44 0.008 60); /* dark */
-	--gray-9: oklch(0.34 0.007 60); /* darker */
-	--gray-10: oklch(0.24 0.005 60); /* very dark */
-	--gray-11: oklch(0.16 0.008 60); /* near black */
-	--gray-12: oklch(0.09 0.006 60); /* almost black */
-
-	/* Parchment */
-	--parchment: oklch(0.98 0.001 90);
-	--ink: oklch(0.22 0.01 95);
+	/* Low-chroma blue-gray ramp for the editor-like light and dark themes. */
+	--gray-0: oklch(0.99 0.006 245);
+	--gray-1: oklch(0.97 0.008 245);
+	--gray-2: oklch(0.945 0.009 245);
+	--gray-3: oklch(0.91 0.01 245);
+	--gray-4: oklch(0.84 0.012 245);
+	--gray-5: oklch(0.7 0.012 245);
+	--gray-6: oklch(0.58 0.012 245);
+	--gray-7: oklch(0.4 0.012 245);
+	--gray-8: oklch(0.3 0.012 245);
+	--gray-9: oklch(0.22 0.012 245);
+	--gray-10: oklch(0.18 0.012 245);
+	--gray-11: oklch(0.16 0.012 245);
+	--gray-12: oklch(0.105 0.01 245);
 
 	/* Dark mode semantic colors */
 	--accent-warm-dark: var(--warm-3);
-	--accent-cool-dark: var(--blue-2);
-	--text-1-dark: var(--gray-3);
+	--accent-cool-dark: var(--blue-3);
+	--text-1-dark: var(--gray-1);
 	--text-2-dark: var(--gray-4);
 	--text-3-dark: var(--gray-5);
 	--text-4-dark: var(--gray-6);
-	--surface-1-dark: var(--gray-12);
-	--surface-2-dark: var(--gray-10);
-	--surface-3-dark: var(--gray-9);
-	--surface-4-dark: var(--gray-8);
-	--surface-cool-dark: var(--blue-9);
-	--background-dark: oklch(0 0 0);
-	--border-dark: var(--gray-4);
-	--contrast-text-dark: var(--gray-11);
-	--contrast-surface-dark: var(--gray-0);
+	--surface-1-dark: var(--gray-10);
+	--surface-2-dark: var(--gray-9);
+	--surface-3-dark: var(--gray-8);
+	--surface-4-dark: var(--gray-7);
+	--surface-cool-dark: var(--blue-7);
+	--background-dark: var(--gray-11);
+	--border-dark: var(--gray-7);
+	--selection-dark: var(--blue-7);
 
 	/* Light mode semantic colors */
 	--accent-warm-light: var(--warm-6);
 	--accent-cool-light: var(--blue-6);
-	--text-1-light: var(--ink);
-	--text-2-light: var(--gray-9);
-	--text-3-light: var(--gray-8);
-	--text-4-light: var(--gray-7);
-	--surface-1-light: var(--parchment);
-	--surface-2-light: var(--gray-1);
-	--surface-3-light: var(--gray-2);
-	--surface-4-light: var(--gray-3);
+	--text-1-light: var(--gray-9);
+	--text-2-light: var(--gray-8);
+	--text-3-light: var(--gray-7);
+	--text-4-light: var(--gray-6);
+	--surface-1-light: var(--gray-1);
+	--surface-2-light: var(--gray-2);
+	--surface-3-light: var(--gray-3);
+	--surface-4-light: var(--gray-4);
 	--surface-cool-light: var(--blue-2);
-	--background-light: var(--parchment);
-	--border-light: var(--gray-6);
-	--contrast-text-light: var(--gray-1);
-	--contrast-surface-light: var(--gray-11);
+	--background-light: var(--gray-0);
+	--border-light: var(--gray-5);
+	--selection-light: var(--blue-2);
 }
 
 :root {
@@ -102,8 +91,7 @@ html {
 	--surface-cool: var(--surface-cool-dark);
 	--background: var(--background-dark);
 	--border: var(--border-dark);
-	--contrast-text: var(--contrast-text-dark);
-	--contrast-surface: var(--contrast-surface-dark);
+	--selection: var(--selection-dark);
 }
 
 @media (prefers-color-scheme: light) {
@@ -126,8 +114,7 @@ html {
 
 		--background: var(--background-light);
 		--border: var(--border-light);
-		--contrast-text: var(--contrast-text-light);
-		--contrast-surface: var(--contrast-surface-light);
+		--selection: var(--selection-light);
 	}
 }
 
@@ -147,8 +134,7 @@ html {
 	--surface-cool: var(--surface-cool-dark);
 	--background: var(--background-dark);
 	--border: var(--border-dark);
-	--contrast-text: var(--contrast-text-dark);
-	--contrast-surface: var(--contrast-surface-dark);
+	--selection: var(--selection-dark);
 }
 
 [color-scheme='light'] {
@@ -167,6 +153,5 @@ html {
 	--surface-cool: var(--surface-cool-light);
 	--background: var(--background-light);
 	--border: var(--border-light);
-	--contrast-text: var(--contrast-text-light);
-	--contrast-surface: var(--contrast-surface-light);
+	--selection: var(--selection-light);
 }
