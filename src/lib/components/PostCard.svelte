@@ -18,7 +18,7 @@
     <div class="flex h-full flex-col font-monospace">
         <!-- Card header: publish date and open indicator. -->
         <div class="flex">
-            <span class="text-[0.7rem] uppercase tracking-widest text-brand">
+            <span class="text-[0.7rem] uppercase tracking-widest text-accent-warm">
                 {formatDate(post.publish_date)}
             </span>
         </div>

@@ -101,8 +101,8 @@
 
 <style>
     .external-link {
-        color: var(--brand);
-        text-decoration: underline;
-        text-underline-offset: 2px;
+        color: var(--accent-warm);
+        text-decoration: 1px underline;
+        text-underline-offset: 1px;
     }
 </style>

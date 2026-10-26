@@ -1,5 +1,6 @@
 <script lang="ts">
     import { gsap } from 'gsap';
+    import '$lib/css/shiki.css';
 
     import type { TypstComponentProps } from '$tyquire/svelte/types';
 
@@ -51,18 +52,11 @@
     });
 
     async function copyToClipboard() {
-        if (navigator.clipboard?.writeText) {
+        try {
             await navigator.clipboard.writeText(source);
-        } else {
-            const textarea = document.createElement('textarea');
-            textarea.value = source;
-            textarea.setAttribute('readonly', 'true');
-            textarea.style.position = 'fixed';
-            textarea.style.left = '-9999px';
-            document.body.append(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            textarea.remove();
+        } catch (err) {
+            console.error('Failed to copy code to clipboard:', err);
+            return;
         }
 
         copied = true;
@@ -93,15 +87,17 @@
 <div
     role="group"
     aria-label={`${language} code`}
-    class="code-block-card relative"
+    class="code-block relative"
     onmouseenter={showCopyButton}
     onmouseleave={hideCopyButton}
 >
-    <div class="code-block-card__header">
-        <div class="code-title">{language}</div>
+    <div class="px-4 pt-1 flex justify-between">
+        <div class="flex items-center text-xs font-monospace uppercase tracking-widest">
+            {language}
+        </div>
         <button
             bind:this={copyButton}
-            class="code-block-card__button inline-flex items-center justify-center relative isolate select-none transition-colors duration-300 ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 rounded-xl backdrop-blur-md bg-surface-1/90 text-foreground hover:cursor-pointer hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 opacity-0"
+            class="inline-flex items-center justify-center relative isolate select-none transition-colors duration-300 ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 backdrop-blur-md text-foreground hover:cursor-pointer focus-visible:outline-none focus-visible:ring-1"
             type="button"
             aria-label="Copy to clipboard"
             onclick={copyToClipboard}
@@ -148,7 +144,22 @@
     <!-- Scrolls here; the injected <pre> no longer does. Focusable per WCAG 2.1.1.
          Shiki also emits its own tabindex on the <pre> - see plugin #15 -->
     <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-    <div class="code-block-card__body" tabindex="0" role="region" aria-label={`${language} source`}>
+    <div
+        class="pl-4 mb-4 max-h-[800px] overflow-auto focus-visible:outline-[2px_solid_var(--accent-warm)]"
+        tabindex="0"
+        role="region"
+        aria-label={`${language} source`}
+    >
         {@html highlightedHtml}
     </div>
 </div>
+
+<style>
+    /* ─── Code blocks ──────────────────────────────────────────────────────────────── */
+    .code-block {
+        margin-block: 1.5rem;
+        overflow: hidden;
+        background: var(--surface-2);
+        border-left: 3px solid var(--accent-warm);
+    }
+</style>

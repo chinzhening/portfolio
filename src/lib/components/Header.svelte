@@ -67,13 +67,13 @@
     </div>
     <!-- styled divider bottom -->
     <div
-        class="bg-[linear-gradient(90deg,var(--brand)_0_48px,var(--border)_48px)] h-px w-full"
+        class="bg-[linear-gradient(90deg,var(--accent-warm)_0_48px,var(--border)_48px)] h-px w-full"
     ></div>
 </header>
 
 <style>
     .active-link {
-        color: var(--brand);
+        color: var(--accent-warm);
         text-decoration: underline;
         text-underline-offset: 4px;
     }
@@ -82,7 +82,7 @@
     }
     .hover-link:hover,
     .hover-link:focus-visible {
-        color: var(--brand);
+        color: var(--accent-warm);
     }
 
     :global(:root[color-scheme='dark'] .theme-toggle:before) {
@@ -101,8 +101,8 @@
         display: grid;
     }
     .theme-toggle:hover:before {
-        border-color: var(--brand);
-        background-image: linear-gradient(90deg, var(--brand) 50%, transparent 50%);
+        border-color: var(--accent-warm);
+        background-image: linear-gradient(90deg, var(--accent-warm) 50%, transparent 50%);
     }
     .theme-toggle:before {
         content: '';

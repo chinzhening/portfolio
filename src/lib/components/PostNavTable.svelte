@@ -192,6 +192,6 @@
     }
     .interactive:hover,
     .interactive:focus-visible {
-        color: var(--brand);
+        color: var(--accent-warm);
     }
 </style>

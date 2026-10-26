@@ -4,11 +4,13 @@
 @import './math.css';
 
 @theme {
-	--color-brand: var(--brand);
+	--color-accent-warm: var(--accent-warm);
+	--color-accent-cool: var(--accent-cool);
 	--color-surface-1: var(--surface-1);
 	--color-surface-2: var(--surface-2);
 	--color-surface-3: var(--surface-3);
 	--color-surface-4: var(--surface-4);
+	--color-surface-cool: var(--surface-cool);
 	--color-border: var(--border);
 	--color-background: var(--background);
 
@@ -78,6 +80,6 @@ li {
 
 /* Selection color */
 ::selection {
-	background-color: oklch(from var(--brand) l c h / 0.75);
-	color: var(--surface-1);
+	background-color: var(--warm-2);
+	color: var(--warm-7);
 }

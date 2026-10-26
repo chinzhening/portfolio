@@ -101,7 +101,7 @@
 	position: relative;
 	white-space: pre-wrap;
 	border: 0;
-	border-left: 4px solid var(--brand);
+	border-left: 4px solid var(--accent-warm);
 	margin: 1rem 0;
 	padding: 0 0 0 1rem;
 }
@@ -121,9 +121,9 @@
 	white-space: nowrap;
 	border-radius: 0.25rem;
 	vertical-align: middle;
-	font-size: 12.5px;
+	font-size: 13.5px;
 	font-family: var(--font-monospace);
-	background-color: oklch(from var(--brand) calc(l * 1.25) c h / 0.15);
+	background-color: oklch(from var(--accent-cool) calc(l * 1.2) c h / 0.25);
 	padding: 2px 5px;
 }
 
@@ -179,8 +179,7 @@
 
 /* ─── Callouts (side notes, endnotes) ─────────────────────────────────────────── */
 
-.typst .callout,
-.typst section[role='doc-endnotes'] {
+.typst .callout {
 	position: relative;
 	margin: 2.5rem 0;
 	padding: 3rem 1.5rem 1.5rem;
@@ -189,11 +188,9 @@
 }
 
 /*
- * The house label: uppercase monospace, worn by callout labels, the footnotes
- * heading and code block titles. Declared once so the three cannot drift.
+ * The house label: uppercase monospace, worn by callout labels.
  */
 .typst .callout > .label,
-.typst section[role='doc-endnotes']::before,
 .typst .code-title {
 	font-family: var(--font-monospace);
 	font-size: 0.8rem;
@@ -203,8 +200,7 @@
 }
 
 /* Floating variant: sits astride the container's top border. */
-.typst .callout > .label,
-.typst section[role='doc-endnotes']::before {
+.typst .callout > .label {
 	position: absolute;
 	top: 1.5rem;
 	left: 1rem;
@@ -212,10 +208,6 @@
 	transform: translateY(-50%);
 	padding: 0.35rem 0.6rem;
 	color: var(--color-faint-foreground);
-}
-
-.typst section[role='doc-endnotes']::before {
-	content: 'Footnotes';
 }
 
 /* Neutralise the trailing margin of whatever ends the callout. */
@@ -238,16 +230,29 @@
 	}
 }
 
+/* Footnote section */
+.typst section[role='doc-endnotes'] {
+	margin-top: 3rem;
+	padding-top: 1.5rem;
+	padding-left: 2rem;
+	border-top: 1px solid var(--border);
+	display: flex;
+}
+.typst section[role='doc-endnotes']::before {
+	content: 'Footnotes';
+
+	text-transform: uppercase;
+	letter-spacing: 0.07rem;
+	font-family: var(--font-monospace);
+}
 .typst section[role='doc-endnotes'] ol {
 	margin: 0;
 	padding-left: 1.5rem;
 }
-
 .typst section[role='doc-endnotes'] li {
 	margin-bottom: 0;
 	line-height: 1.6;
 }
-
 .typst section[role='doc-endnotes'] li + li {
 	margin-top: 0.75rem;
 }
@@ -294,88 +299,12 @@
 	font-weight: 600;
 }
 
-/* ─── Code blocks ──────────────────────────────────────────────────────────────── */
-
-.typst .code-block-card {
-	margin-block: 1.5rem;
-	overflow: hidden;
-	background: var(--background);
-}
-
-.typst .code-block-card__header {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	padding-inline: 0.75rem;
-	padding-block: 0.2rem;
-}
-
-.typst .code-block-card__button {
-	flex: none;
-}
-
-/* Typography comes from the shared house label above; this is the inline
-   variant, so only the parts that differ are set here. */
-.typst .code-title {
-	display: flex;
-	align-items: center;
-	font-weight: bold;
-	color: var(--text-2);
-}
-
-/* The single scroll container, both axes. The <pre> no longer scrolls. */
-.typst .code-block-card__body {
-	max-height: 800px;
-	overflow: auto;
-}
-
-.typst .code-block-card__body:focus-visible {
-	outline: 2px solid var(--brand);
-	outline-offset: -2px;
-}
-
-.typst .code-block-card__body pre[class*='shiki'] {
-	font-size: 0.875rem;
-	line-height: 1.6;
-	padding: 0.75rem;
-	border-radius: 5px;
-	box-shadow: none;
-	margin: 0;
-	/* Keeps the highlighter background covering the full scroll width. */
-	width: max-content;
-	min-width: 100%;
-}
-
 /* --- links --- */
 .typst a {
 	position: relative;
-	color: var(--brand);
-	text-decoration: none;
-}
-
-.typst a::after {
-	content: '';
-	position: absolute;
-	color: oklch(from var(--brand) calc(l * 0.75) c h / 0.5);
-	left: 0;
-	bottom: -2px;
-
-	width: 100%;
-	height: 0px;
-
-	background-image: repeating-linear-gradient(-75deg, currentColor 0 2px, transparent 3px 6px);
-
-	transition: height 0.3s ease;
-}
-
-.typst a::after {
-	transform-origin: top;
-}
-
-.typst a:hover::after,
-.typst a:focus-visible::after {
-	height: 3px;
-	transform-origin: bottom;
+	color: var(--accent-warm);
+	text-decoration: 1px underline;
+	text-underline-offset: 2px;
 }
 
 /* --- Horizontal Line --- */

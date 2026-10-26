@@ -9,9 +9,28 @@
  * Tailwind's `@theme`, and an unlayered declaration silently overrides it.
  */
 html {
-	/* Brown accent */
-	--brown-3: oklch(61.465% 0.16806 44.594); /* #ff8a50 — vivid coral brown */
-	--brown-10: oklch(60.423% 0.14029 49.911); /* #e6a972 — muted warm amber */
+	/* Warm palette: amber through burnt sienna */
+	--warm-1: oklch(0.97 0.025 70);
+	--warm-2: oklch(0.93 0.045 65);
+	--warm-3: oklch(0.86 0.085 60);
+	--warm-4: oklch(0.78 0.12 52);
+	--warm-5: oklch(0.7 0.16 45);
+	--warm-6: oklch(0.61 0.168 44.6);
+	--warm-7: oklch(0.52 0.14 40);
+	--warm-8: oklch(0.43 0.105 38);
+	--warm-9: oklch(0.34 0.07 35);
+	--warm-10: oklch(0.25 0.045 32);
+
+	/* Cool blue palette */
+	--blue-1: oklch(0.97 0.015 245);
+	--blue-2: oklch(0.92 0.025 245);
+	--blue-3: oklch(0.78 0.1 245);
+	--blue-4: oklch(0.68 0.12 245);
+	--blue-5: oklch(0.56 0.12 245);
+	--blue-6: oklch(0.46 0.1 248);
+	--blue-7: oklch(0.35 0.075 250);
+	--blue-8: oklch(0.25 0.05 252);
+	--blue-9: oklch(0.18 0.035 255);
 
 	/* Grayscale — subtle warm tint (h=60), spread wide for contrast */
 	--gray-0: oklch(1 0 60); /* white */
@@ -33,22 +52,25 @@ html {
 	--ink: oklch(0.22 0.01 95);
 
 	/* Dark mode semantic colors */
-	--brand-dark: oklch(0.78 0.1 50.674);
+	--accent-warm-dark: var(--warm-3);
+	--accent-cool-dark: var(--blue-2);
 	--text-1-dark: var(--gray-3);
 	--text-2-dark: var(--gray-4);
 	--text-3-dark: var(--gray-5);
 	--text-4-dark: var(--gray-6);
 	--surface-1-dark: var(--gray-12);
-	--surface-2-dark: var(--gray-11);
-	--surface-3-dark: var(--gray-10);
-	--surface-4-dark: var(--gray-9);
+	--surface-2-dark: var(--gray-10);
+	--surface-3-dark: var(--gray-9);
+	--surface-4-dark: var(--gray-8);
+	--surface-cool-dark: var(--blue-9);
 	--background-dark: oklch(0 0 0);
 	--border-dark: var(--gray-4);
 	--contrast-text-dark: var(--gray-11);
 	--contrast-surface-dark: var(--gray-0);
 
 	/* Light mode semantic colors */
-	--brand-light: var(--brown-3);
+	--accent-warm-light: var(--warm-6);
+	--accent-cool-light: var(--blue-6);
 	--text-1-light: var(--ink);
 	--text-2-light: var(--gray-9);
 	--text-3-light: var(--gray-8);
@@ -57,6 +79,7 @@ html {
 	--surface-2-light: var(--gray-1);
 	--surface-3-light: var(--gray-2);
 	--surface-4-light: var(--gray-3);
+	--surface-cool-light: var(--blue-2);
 	--background-light: var(--parchment);
 	--border-light: var(--gray-6);
 	--contrast-text-light: var(--gray-1);
@@ -66,7 +89,8 @@ html {
 :root {
 	color-scheme: dark;
 
-	--brand: var(--brand-dark);
+	--accent-warm: var(--accent-warm-dark);
+	--accent-cool: var(--accent-cool-dark);
 	--text-1: var(--text-1-dark);
 	--text-2: var(--text-2-dark);
 	--text-3: var(--text-3-dark);
@@ -75,6 +99,7 @@ html {
 	--surface-2: var(--surface-2-dark);
 	--surface-3: var(--surface-3-dark);
 	--surface-4: var(--surface-4-dark);
+	--surface-cool: var(--surface-cool-dark);
 	--background: var(--background-dark);
 	--border: var(--border-dark);
 	--contrast-text: var(--contrast-text-dark);
@@ -85,15 +110,20 @@ html {
 	:root {
 		color-scheme: light;
 
-		--brand: var(--brand-light);
+		--accent-warm: var(--accent-warm-light);
+		--accent-cool: var(--accent-cool-light);
+
 		--text-1: var(--text-1-light);
 		--text-2: var(--text-2-light);
 		--text-3: var(--text-3-light);
 		--text-4: var(--text-4-light);
+
 		--surface-1: var(--surface-1-light);
 		--surface-2: var(--surface-2-light);
 		--surface-3: var(--surface-3-light);
 		--surface-4: var(--surface-4-light);
+		--surface-cool: var(--surface-cool-light);
+
 		--background: var(--background-light);
 		--border: var(--border-light);
 		--contrast-text: var(--contrast-text-light);
@@ -104,7 +134,8 @@ html {
 [color-scheme='dark'] {
 	color-scheme: dark;
 
-	--brand: var(--brand-dark);
+	--accent-warm: var(--accent-warm-dark);
+	--accent-cool: var(--accent-cool-dark);
 	--text-1: var(--text-1-dark);
 	--text-2: var(--text-2-dark);
 	--text-3: var(--text-3-dark);
@@ -113,6 +144,7 @@ html {
 	--surface-2: var(--surface-2-dark);
 	--surface-3: var(--surface-3-dark);
 	--surface-4: var(--surface-4-dark);
+	--surface-cool: var(--surface-cool-dark);
 	--background: var(--background-dark);
 	--border: var(--border-dark);
 	--contrast-text: var(--contrast-text-dark);
@@ -122,7 +154,8 @@ html {
 [color-scheme='light'] {
 	color-scheme: light;
 
-	--brand: var(--brand-light);
+	--accent-warm: var(--accent-warm-light);
+	--accent-cool: var(--accent-cool-light);
 	--text-1: var(--text-1-light);
 	--text-2: var(--text-2-light);
 	--text-3: var(--text-3-light);
@@ -131,6 +164,7 @@ html {
 	--surface-2: var(--surface-2-light);
 	--surface-3: var(--surface-3-light);
 	--surface-4: var(--surface-4-light);
+	--surface-cool: var(--surface-cool-light);
 	--background: var(--background-light);
 	--border: var(--border-light);
 	--contrast-text: var(--contrast-text-light);

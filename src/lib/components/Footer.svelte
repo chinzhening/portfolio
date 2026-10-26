@@ -19,7 +19,7 @@
             class="
             flex gap-3
             uppercase
-            text-brand
+            text-accent-warm
             tracking-widest
             text-xs"
         >
@@ -53,7 +53,7 @@
     }
     .hover-link:hover,
     .hover-link:focus-visible {
-        color: var(--brand);
+        color: var(--accent-warm);
         text-underline-offset: 4px;
     }
 </style>

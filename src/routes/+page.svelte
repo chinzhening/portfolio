@@ -30,7 +30,7 @@
 
             <p class="mt-4">
                 Check out my <a
-                    class="text-brand underline underline-offset-2"
+                    class="text-accent-warm underline underline-offset-2"
                     href={resolve('/resume.pdf')}>resume</a
                 >
                 and <a class="external-link" href="https://github.com/chinzhening">github</a>.
@@ -41,7 +41,7 @@
         <!-- TODO: Add projects -->
         <!-- <section class="mt-8 md:mt-12 font-monospace">
             <div class="flex justify-between gap-4">
-                <h2 class="flex items-center gap-4 text-sm text-brand tracking-wider font-semibold uppercase">
+                <h2 class="flex items-center gap-4 text-sm text-accent-warm tracking-wider font-semibold uppercase">
                     = projects
                 </h2>
 
@@ -64,7 +64,7 @@
         <section class="mt-8 md:mt-12 font-monospace">
             <div class="flex justify-between gap-4">
                 <h2
-                    class="flex items-center gap-4 text-sm text-brand tracking-wider font-semibold uppercase"
+                    class="flex items-center gap-4 text-sm text-accent-warm tracking-wider font-semibold uppercase"
                 >
                     = recent posts
                 </h2>
@@ -105,7 +105,7 @@
         <!-- Friend section -->
         <section class="mt-8 md:mt-12 font-monospace">
             <h2
-                class="flex items-center gap-4 text-sm text-brand tracking-wider font-semibold uppercase"
+                class="flex items-center gap-4 text-sm text-accent-warm tracking-wider font-semibold uppercase"
             >
                 = friends
             </h2>
@@ -122,7 +122,7 @@
 
 <style>
     .external-link {
-        color: var(--brand);
+        color: var(--accent-warm);
         text-decoration: underline;
         text-underline-offset: 2px;
     }

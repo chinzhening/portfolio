@@ -1,6 +1,5 @@
 <script lang="ts">
     import '$lib/css/article.css';
-    import '$lib/css/shiki.css';
 
     import { title } from '$lib/config';
     import { resolve } from '$app/paths';
@@ -42,7 +41,7 @@
                         <div class="mt-2 relative z-10 flex text-xs font-monospace">
                             <ul aria-label="Post tags" class="flex gap-3">
                                 {#each metadata.tags as tag (tag)}
-                                    <div class="border bg-brand/20">
+                                    <div class="border bg-accent-cool/25">
                                         <!-- <a class="flex px-2 py-0.5" href={resolve(`/tags/${toKebabCase(tag)}`)}> -->
                                         <a class="flex px-2 py-0.5" href={resolve(`/`)}>
                                             {toKebabCase(tag)}

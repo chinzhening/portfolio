@@ -3,7 +3,6 @@
 	:root:not([color-scheme]) .shiki,
 	:root:not([color-scheme]) .shiki span {
 		color: var(--shiki-dark) !important;
-		background-color: var(--shiki-dark-bg) !important;
 	}
 }
 
@@ -11,5 +10,9 @@
 :root[color-scheme='dark'] .shiki,
 :root[color-scheme='dark'] .shiki span {
 	color: var(--shiki-dark) !important;
-	background-color: var(--shiki-dark-bg) !important;
+}
+
+/* Set background color to transparent for code blocks */
+.shiki {
+	background-color: transparent !important;
 }
