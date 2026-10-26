@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { resolve } from '$app/paths';
-    import { animate, fadeIn, fadeUp } from '$lib/animations';
     import { title } from '$lib/config';
 </script>
 
@@ -9,48 +7,72 @@
 </svelte:head>
 
 <main id="main" class="bg-background">
-    <div class="mx-auto px-6 md:px-12 lg:px-20 max-w-3xl">
-        <header class="py-16" use:animate={fadeUp}>
-            <a class="group mb-4 flex flex-col text-left" href={resolve('/')}>
-                <span
-                    class="
-                    font-monospace
-                    text-muted-foreground
-                    uppercase
-                    tracking-[0.24em]
-                    transition-transform duration-200
-                    group-hover:translate-x-[-1em]
-                    group-focus-visible:translate-x-[-1em]
-                "
-                >
-                    &laquo; home
-                </span>
-            </a>
-
-            <h1
-                class="
-                text-5xl md:text-6xl lg:text-7xl
-                tracking-tight text-balance
-                font-display text-foreground"
-            >
-                projects
-            </h1>
-
-            <p class="mt-4 text-pretty text-muted-foreground">
-                Things I have built, and the tools I reached for to build them.
+    <div class="mx-auto px-6 max-w-3xl mb-20 font-monospace">
+        <header class="py-8">
+            <p class="mt-4">```</p>
+            <p class="text-muted-foreground">
+                A curation of personal projects and documented open-source contributions.
             </p>
+            <p class="mt-4 text-muted-foreground">
+                Warning: this is still a massive work-in-progress.
+            </p>
+            <p class="mt-4 text-muted-foreground">Typst</p>
+            <p class="text-muted-foreground">
+                - <a
+                    class="external-link"
+                    href="https://github.com/typst/typst/pull/9016"
+                    target="_blank"
+                    rel="noopener noreferrer">PR #9016 (10-26-2026)</a
+                >
+                : Fix invalid SVG output with text content in tiling
+            </p>
+            <p class="text-muted-foreground">
+                - <a
+                    class="external-link"
+                    href="https://github.com/typst/typst/pull/8992"
+                    target="_blank"
+                    rel="noopener noreferrer">PR #8992 (10-23-2026)</a
+                >
+                : Fix spread argument override in typed HTML constructor
+            </p>
+            <p class="text-muted-foreground">
+                - <a
+                    class="external-link"
+                    href="https://github.com/typst/typst/pull/8963"
+                    target="_blank"
+                    rel="noopener noreferrer">PR #8963 (10-16-2026)</a
+                >
+                : Remove tracking from the last glyph in a line
+            </p>
+            <p class="mt-2">```</p>
         </header>
 
         <!-- Project gallery. One card per project, stacked; dividers are on the
              list items so the rule spans the full column width. -->
         <ul class="flex flex-col pb-16">
-            <li class="border-t border-border/50 py-8" use:animate={fadeIn('static')}>
-                <h2 class="font-display text-xl md:text-2xl leading-tight text-foreground">
-                    Squaredle Solver
-                </h2>
+            <li class="py-8">
+                <h2 class="text-xl md:text-2xl leading-tight text-foreground">Squaredle Solver</h2>
                 <p class="mt-2 text-pretty text-dim-foreground">
-                    A script that plays the daily Squaredle puzzle on its own and files every run
-                    into a database — half word-search solver, half plumbing.
+                    A program that plays the popular daily <a
+                        class="external-link"
+                        href="https://squaredle.app"
+                        target="_blank"
+                        rel="noopener noreferrer">Squaredle</a
+                    > puzzle on its own and files every run into a database. The Python script shells
+                    out to a solver written in C++ that uses a trie-routed backtracking algorithm to find
+                    every word that satisfies the constraints. This was a fun exercise that challegend
+                    me to learn benchmarking practices, optimization techniques, and data plumbing. From
+                    the first pointer-based trie implementation, I improved the solver to use a serializable,
+                    compact, sparse flat trie that reduced the runtime from ~150ms to ~4ms per puzzle
+                    on my machine.
+                </p>
+                <p class="mt-4 text-pretty text-dim-foreground">
+                    I tested several approaches to squeeze the most performance out of my solver,
+                    before settling on the sparse flat trie, with an implementation (serialization
+                    format) that uses bitset operations to check for child nodes. Writing a blog
+                    post for this has been on the backburner for a while, but I plan to write one
+                    soon to share my learnings. These are the kinds of things you don't normally
+                    learn in a typical DSA course.
                 </p>
                 <ul class="mt-4 flex flex-wrap gap-4 font-monospace text-xs text-faint-foreground">
                     <li>automation</li>
@@ -59,28 +81,13 @@
                 </ul>
             </li>
 
-            <li class="border-t border-border/50 py-8" use:animate={fadeIn('static')}>
-                <h2 class="font-display text-xl md:text-2xl leading-tight text-foreground">
-                    Block Blast Agent
+            <li class="border-t border-border/50 py-8">
+                <h2 class="text-xl md:text-2xl leading-tight text-foreground">
+                    Typst Blog Template + Vite Plugin
                 </h2>
                 <p class="mt-2 text-pretty text-dim-foreground">
-                    A reinforcement learning agent trained to play Block Blast, a puzzle game by
-                    Hungry Studio.
-                </p>
-                <ul class="mt-4 flex flex-wrap gap-4 font-monospace text-xs text-faint-foreground">
-                    <li>ai/ml</li>
-                    <li>reinforcement learning</li>
-                    <li>python</li>
-                </ul>
-            </li>
-
-            <li class="border-t border-border/50 py-8" use:animate={fadeIn('static')}>
-                <h2 class="font-display text-xl md:text-2xl leading-tight text-foreground">
-                    Typst Blog Pipeline
-                </h2>
-                <p class="mt-2 text-pretty text-dim-foreground">
-                    The compiler behind this site. Posts are authored in Typst and compiled at build
-                    time into typed blocks that render as Svelte components.
+                    The template and plugin that I built to create this blog. This is a
+                    work-in-progress, so I'll just have a changelog here for now.
                 </p>
                 <ul class="mt-4 flex flex-wrap gap-4 font-monospace text-xs text-faint-foreground">
                     <li>svelte</li>
@@ -88,23 +95,14 @@
                     <li>typst</li>
                 </ul>
             </li>
-
-            <li class="border-t border-border/50 py-8" use:animate={fadeIn('static')}>
-                <h2 class="font-display text-xl md:text-2xl leading-tight text-foreground">
-                    GitHub Metrics
-                </h2>
-                <p class="mt-2 text-pretty text-dim-foreground">
-                    Pulling repository, commit, and contributor metrics out of the GitHub API and
-                    visualising them.
-                </p>
-                <ul class="mt-4 flex flex-wrap gap-4 font-monospace text-xs text-faint-foreground">
-                    <li>api</li>
-                    <li>typescript</li>
-                    <li>data-viz</li>
-                </ul>
-            </li>
-
-            <li class="border-t border-border/50" aria-hidden="true"></li>
         </ul>
     </div>
 </main>
+
+<style>
+    .external-link {
+        color: var(--brand);
+        text-decoration: underline;
+        text-underline-offset: 2px;
+    }
+</style>

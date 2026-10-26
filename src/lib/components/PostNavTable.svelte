@@ -59,7 +59,7 @@
                 </span>
                 <span
                     class="
-                        font-display
+                        font-monospace
                         text-[clamp(1.15rem,2.3vw,1.55rem)]
                         leading-[1.15]
                         text-balance
@@ -164,7 +164,7 @@
                 </span>
                 <span
                     class="
-                        font-display
+                        font-monospace
                         text-[clamp(1.15rem,2.3vw,1.55rem)]
                         leading-[1.15]
                         text-balance

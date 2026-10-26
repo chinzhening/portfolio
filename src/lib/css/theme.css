@@ -10,7 +10,7 @@
  */
 html {
 	/* Brown accent */
-	--brown-3: oklch(63.646% 0.18901 42.277); /* #ff8a50 — vivid coral brown */
+	--brown-3: oklch(61.465% 0.16806 44.594); /* #ff8a50 — vivid coral brown */
 	--brown-10: oklch(60.423% 0.14029 49.911); /* #e6a972 — muted warm amber */
 
 	/* Grayscale — subtle warm tint (h=60), spread wide for contrast */
@@ -29,8 +29,8 @@ html {
 	--gray-12: oklch(0.09 0.006 60); /* almost black */
 
 	/* Parchment */
-	--parchment: oklch(0.98 0.001 70);
-	--ink: oklch(0.22 0.01 85);
+	--parchment: oklch(0.98 0.001 90);
+	--ink: oklch(0.22 0.01 95);
 
 	/* Dark mode semantic colors */
 	--brand-dark: oklch(0.78 0.1 50.674);
@@ -43,7 +43,7 @@ html {
 	--surface-3-dark: var(--gray-10);
 	--surface-4-dark: var(--gray-9);
 	--background-dark: oklch(0 0 0);
-	--border-dark: var(--gray-5);
+	--border-dark: var(--gray-4);
 	--contrast-text-dark: var(--gray-11);
 	--contrast-surface-dark: var(--gray-0);
 
@@ -58,7 +58,7 @@ html {
 	--surface-3-light: var(--gray-2);
 	--surface-4-light: var(--gray-3);
 	--background-light: var(--parchment);
-	--border-light: var(--gray-4);
+	--border-light: var(--gray-6);
 	--contrast-text-light: var(--gray-1);
 	--contrast-surface-light: var(--gray-11);
 }

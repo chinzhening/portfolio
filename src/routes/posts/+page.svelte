@@ -1,7 +1,7 @@
 <script lang="ts">
     import PostCard from '$lib/components/PostCard.svelte';
 
-    import { resolve } from '$app/paths';
+    import { padZero } from '$lib/utils';
     import { title } from '$lib/config';
     import type { PageProps } from './$types';
 
@@ -19,98 +19,90 @@
 </script>
 
 <svelte:head>
-    <title>All Posts | {title}</title>
+    <title>Posts | {title}</title>
 </svelte:head>
 
-<main id="main" class="bg-background mb-10">
-    <div
+<main id="main" class="bg-background w-full mx-auto max-w-3xl px-6">
+    <header
         class="
-        grid grid-rows-[auto_1fr] md:grid-cols-[minmax(0,0.4fr)_minmax(0,.62fr)]
-        md:items-start
-        mx-auto px-6 md:px-12 lg:px-20
-        max-w-6xl
+        mt-8 md:mt-12
+        font-monospace
     "
     >
-        <header
-            class="
-        py-16 md:py-32 md:pr-16
-        md:mr-px
-        md:sticky md:top-11
-        w-full md:w-auto
-        z-5 bg-background
-    "
-        >
-            <a href={resolve('/')} class="group flex flex-col text-left mb-4">
-                <span
-                    class="font-monospace
-                        text-muted-foreground
-                        uppercase
-                        tracking-[0.24em]
-                        translate-x-0 translate-y-0
-                        transition-transform duration-200
-                        group-hover:translate-x-[-1em]
-                        group-focus-visible:translate-x-[-1em]
-                    "
-                >
-                    &laquo; home
-                </span>
-            </a>
-            <!-- Main title with decorative elements -->
-            <div class="relative">
-                <h1
-                    class="
-                    text-muted-foreground
-                    text-5xl md:text-6xl lg:text-8xl
-                    tracking-tight text-balance
-                    font-display"
-                >
-                    writing
-                </h1>
+        <div class="relative font-monospace">
+            <p class="mt-4 text-faint-foreground">```</p>
+            <p>Essays, project write-ups, and technical notes.</p>
+            <p class="mt-2 text-faint-foreground">```</p>
+        </div>
+    </header>
 
-                <div class="mt-4">
-                    <p class="text-muted-foreground tracking-[0.15em] text-pretty uppercase">
-                        Thoughts, abstraction & meaning.
-                    </p>
-                </div>
-                <p class="font-serif text-dim-foreground mt-3">
-                    Essays, project write-ups, and high quality technical notes.
-                </p>
-
-                <!-- Metrics. Each pair is reversed so the value reads first while the
-                 markup keeps the required <dt> before <dd> order. -->
-                <dl class="mt-8 grid grid-cols-2 border-t border-border/50">
-                    <div class="pt-6 px-6 flex flex-col-reverse border-r border-border/50">
+    <section class="mt-2 pb-20 relative">
+        <!-- Metrics. Each pair is reversed so the value reads first while the
+        markup keeps the required <dt> before <dd> order. -->
+        <aside class="w-[160px] xl:metrics font-monospace">
+            <div class="pl-3 py-6 xl:py-0 xl:metrics-inner">
+                <dl class="grid grid-cols-[60px_1fr] gap-4 pb-2">
+                    <div class="flex flex-col-reverse">
                         <dt
-                            class="mt-1 font-monospace text-xs uppercase tracking-widest text-faint-foreground"
+                            class="pb-2 mt-1 text-xs uppercase tracking-widest text-faint-foreground"
                         >
                             entries
                         </dt>
-                        <dd class="font-display text-3xl text-foreground">
+                        <dd class="text-xl text-foreground">
                             {data.posts.length}
                         </dd>
                     </div>
 
-                    <div class="pt-6 px-6 flex flex-col-reverse">
+                    <div class="flex flex-col-reverse">
                         <dt
-                            class="mt-1 font-monospace text-xs uppercase tracking-widest text-faint-foreground"
+                            class="pb-2 mt-1 text-xs uppercase tracking-widest text-faint-foreground"
                         >
                             latest month
                         </dt>
-                        <dd class="font-display text-3xl text-foreground">
+                        <dd class="text-xl text-foreground">
                             {latestMonth}
                         </dd>
                     </div>
                 </dl>
             </div>
-        </header>
-        <!-- Post List -->
-        <section class="flex flex-col h-full md:border-l border-border/50">
+        </aside>
+
+        <!-- Post list -->
+        <ul class="flex flex-col">
             {#each data.posts as post (post.slug)}
-                <PostCard
-                    {post}
-                    class="border-t md:border-t-0 md:not-first:border-t border-border/50"
-                />
+                <li
+                    class="
+                    grid py-4 pl-2
+                    grid-cols-[32px_1fr] md:grid-cols-[44px_1fr]
+                    gap-2 md:gap-3
+                    not-first:border-t border-border/50
+                "
+                >
+                    <div class="pt-1 text-sm text-faint-foreground font-monospace">
+                        {padZero(data.posts.indexOf(post) + 1)}.
+                    </div>
+                    <PostCard class="" {post} />
+                </li>
             {/each}
-        </section>
-    </div>
+        </ul>
+    </section>
 </main>
+
+<style>
+    @import 'tailwindcss';
+    @utility metrics {
+        border: 0;
+        margin: 0;
+        padding: 0;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: calc(100% + 48px);
+    }
+    @utility metrics-inner {
+        max-height: calc(100vh - 64px);
+        position: sticky;
+        top: 32px;
+        overflow-y: auto;
+    }
+</style>

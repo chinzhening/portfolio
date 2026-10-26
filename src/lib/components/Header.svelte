@@ -6,20 +6,15 @@
 
 <header
     class="
-    sticky z-20 top-0
-    bg-surface-1/80 backdrop-blur-[4px]
-    border-b border-border/50
-    shadow-md
+    container mx-auto
+    max-w-3xl
+    px-6
+    bg-surface-1/80
     "
 >
-    <div
-        class="
-        container mx-auto
-        px-6 md:px-6 lg:px-20
-        flex gap-4 justify-between
-    "
-    >
-        <a class="text-lg py-2" href={resolve('/')} aria-label="Home"><span lang="zh">哲宁</span></a
+    <div class="flex gap-4 justify-between">
+        <a class="font-monospace text-md pt-2 pb-1" href={resolve('/')} aria-label="Home"
+            ><span>zhening:blog</span></a
         >
         <nav class="items-center flex font-monospace lowercase text-dim-foreground">
             <!-- Block form, not disable-next-line: the href sits mid-tag and the
@@ -28,11 +23,10 @@
             {#each pages as navPage (navPage.name)}
                 <a
                     class="
-                        hover-link
-                        py-3 px-4
+                        {page.url.pathname === navPage.href ? 'active-link' : 'hover-link'}
+                        py-1 px-2
                         justify-self-center
-                        border-l border-border/50
-                        text-sm
+                        text-xs
                         uppercase tracking-widest
                         "
                     href={navPage.href}
@@ -43,15 +37,23 @@
             <!-- eslint-enable svelte/no-navigation-without-resolve -->
         </nav>
     </div>
+    <!-- styled divider bottom -->
+    <div
+        class="bg-[linear-gradient(90deg,var(--brand)_0_48px,var(--border)_48px)] h-px w-full"
+    ></div>
 </header>
 
 <style>
+    .active-link {
+        color: var(--brand);
+        text-decoration: underline;
+        text-underline-offset: 4px;
+    }
     .hover-link {
-        transition: color 0.2s ease;
+        transition: color 0.1s ease;
     }
     .hover-link:hover,
     .hover-link:focus-visible {
         color: var(--brand);
-        text-underline-offset: 4px;
     }
 </style>

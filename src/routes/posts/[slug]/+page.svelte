@@ -2,8 +2,8 @@
     import '$lib/css/article.css';
     import '$lib/css/shiki.css';
 
-    import { resolve } from '$app/paths';
     import { title } from '$lib/config';
+    import { resolve } from '$app/paths';
 
     import PostNavTable from '$lib/components/PostNavTable.svelte';
     import { components } from '$lib/components/article/components';
@@ -21,51 +21,47 @@
 </svelte:head>
 
 <div class="relative text-foreground min-h-screen">
-    <main id="main" class="pt-16 pb-12 md:pt-40">
-        <article class="container mx-auto max-w-3xl px-5 lg:px-20">
-            <div class="mx-auto mb-8 pb-8 border-b border-border/50">
+    <main id="main" class="pt-8 pb-12 md:pt-16">
+        <article class="container mx-auto max-w-4xl px-5 lg:px-20">
+            <div class="mx-auto mb-4 border-b border-border pl-2">
                 <header class="relative">
-                    <a
-                        href={resolve('/posts')}
-                        class="
-                            group
-                            hover:cursor-pointer
-                            flex flex-col
-                            text-left
-                            mb-4
-                        "
-                    >
-                        <span
-                            class="font-monospace
-                                text-muted-foreground
-                                uppercase
-                                tracking-[0.24em]
-                                translate-x-0 translate-y-0
-                                transition-transform duration-200
-                                group-hover:translate-x-[-1em]
-                                group-focus-visible:translate-x-[-1em]
-                            "
-                        >
-                            &laquo; Posts
-                        </span>
-                    </a>
-
                     <!-- Post Title -->
                     <h1
-                        class="relative mb-2 font-display text-3xl font-medium tracking-tight text-balance md:text-5xl lg:text-6xl"
+                        class="relative font-monospace text-3xl font-medium tracking-tighter text-balance md:text-5xl"
                     >
                         {metadata.title}
                     </h1>
+
+                    <!-- Description -->
+                    {#if metadata.desc}
+                        <p class="mt-2 font-monospace">{metadata.desc}</p>
+                    {/if}
+
+                    <!-- Tags -->
+                    {#if metadata.tags.length}
+                        <div class="mt-2 relative z-10 flex text-xs font-monospace">
+                            <ul aria-label="Post tags" class="flex gap-3">
+                                {#each metadata.tags as tag (tag)}
+                                    <div class="border bg-brand/20">
+                                        <!-- <a class="flex px-2 py-0.5" href={resolve(`/tags/${toKebabCase(tag)}`)}> -->
+                                        <a class="flex px-2 py-0.5" href={resolve(`/`)}>
+                                            {toKebabCase(tag)}
+                                        </a>
+                                    </div>
+                                {/each}
+                            </ul>
+                        </div>
+                    {/if}
 
                     <dl
                         class="relative z-10 mb-2 flex flex-col gap-2 py-4 text-sm font-monospace uppercase tracking-wider"
                     >
                         <div
                             class="
-                            grid grid-cols-[5.75rem_minmax(0,1fr)]
+                            grid grid-cols-[3.75rem_minmax(0,1fr)]
                             items-center gap-2"
                         >
-                            <dt>published</dt>
+                            <dt>date:</dt>
                             <dd>
                                 <time datetime={metadata.publish_date}
                                     >{formatDate(metadata.publish_date)}</time
@@ -75,10 +71,10 @@
                         {#if metadata.edited_date}
                             <div
                                 class="
-                            grid grid-cols-[5.75rem_minmax(0,1fr)]
+                            grid grid-cols-[3.75rem_minmax(0,1fr)]
                             items-center gap-2"
                             >
-                                <dt>edited</dt>
+                                <dt>edited:</dt>
                                 <dd>
                                     <time datetime={metadata.edited_date}
                                         >{formatDate(metadata.edited_date)}</time
@@ -87,20 +83,6 @@
                             </div>
                         {/if}
                     </dl>
-
-                    {#if metadata.tags.length}
-                        <div
-                            class="relative z-10 flex gap-px text-md font-monospace text-faint-foreground"
-                        >
-                            <ul aria-label="Post tags" class="flex gap-4">
-                                {#each metadata.tags as tag (tag)}
-                                    <li class="flex gap-px">
-                                        <span>{toKebabCase(tag)}</span>
-                                    </li>
-                                {/each}
-                            </ul>
-                        </div>
-                    {/if}
                 </header>
             </div>
 
@@ -120,7 +102,7 @@
             </div>
         </article>
     </main>
-    <div class="container mx-auto px-6 md:px-12 lg:px-20 max-w-6xl">
+    <div class="container mx-auto px-6 max-w-3xl">
         <PostNavTable {prevPost} {nextPost} />
     </div>
 </div>

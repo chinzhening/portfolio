@@ -6,43 +6,45 @@
 <footer
     class="
     container mx-auto
-    px-6 pb-8 pt-6 md:px-6 lg:px-20
+    px-6 pb-8 pt-6
+    max-w-3xl
     border-t border-border/50
     "
 >
-    <div class="flex flex-col gap-2">
-        <p class="text-3xl text-muted-foreground" lang="zh">陈哲宁</p>
-        <p class="font-monospace text-dim-foreground">portfolio@a57sdf ~/socials $ ls</p>
+    <div class="flex-col md:flex justify-between font-monospace">
+        <span class="text-xs text-faint-foreground uppercase tracking-widest"
+            >{config.name} &copy; {config.year}</span
+        >
         <nav
             class="
-            flex flex-col gap-1
-            font-monospace
-            text-dim-foreground
-            lowercase tracking-widest
+            flex gap-3
+            uppercase
+            text-brand
+            tracking-widest
             text-xs"
         >
             {#each config.socials as social (social.name)}
                 <a class="hover-link" rel="external" href={social.href}>{social.name}</a>
             {/each}
+
+            <span class="text-faint-foreground">---+></span>
+
+            <p
+                class="
+                relative
+                font-monospace
+                text-faint-foreground
+                uppercase tracking-widest
+                text-xs md:text-[0.72rem]"
+            >
+                <span class="block md:inline">
+                    <a class="hover-link" href="https://svelte.dev">Svelte</a>
+                    <span>\</span>
+                    <a class="hover-link" href="https://typst.app">Typst</a>
+                </span>
+            </p>
         </nav>
     </div>
-    <p
-        class="
-        relative z-10
-        mt-4
-        font-monospace
-        text-faint-foreground
-        uppercase tracking-widest
-        text-xs md:text-[0.72rem]"
-    >
-        <span class="block md:inline">Copyright &copy; {config.year}</span>
-        <span class="hidden md:inline">·</span>
-        <span class="block md:inline">
-            Built with <a class="hover-link" href="https://svelte.dev">Svelte</a>
-            <span>&</span>
-            <a class="hover-link" href="https://typst.app">Typst</a>
-        </span>
-    </p>
 </footer>
 
 <style>
