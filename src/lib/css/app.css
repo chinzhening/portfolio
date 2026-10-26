@@ -36,10 +36,7 @@
 	--font-sans: var(--font-bricolage-grotesque), ui-sans-serif, system-ui, sans-serif;
 	--font-system-ui: var(--font-bricolage-grotesque), ui-sans-serif, system-ui, sans-serif;
 	--font-sans-serif: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-	--font-serif: var(--font-merriweather), ui-serif, Georgia, Cambria, serif;
 	--font-monospace: var(--font-iosevka), ui-monospace, system-ui, monospace;
-	--font-display:
-		var(--font-playfair-display), var(--font-merriweather), ui-serif, Georgia, Cambria, serif;
 }
 
 @custom-variant dark (&:is([color-scheme='dark'] *));
@@ -82,4 +79,22 @@ li {
 ::selection {
 	background-color: var(--selection);
 	color: var(--warm-7);
+}
+
+.section-heading {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	color: var(--accent-warm);
+	font-family: var(--font-monospace);
+	font-size: 0.875rem;
+	font-weight: 600;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+}
+
+.external-link {
+	color: var(--accent-warm);
+	text-decoration: underline;
+	text-underline-offset: 2px;
 }

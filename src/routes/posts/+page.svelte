@@ -70,7 +70,7 @@
 
         <!-- Post list -->
         <ul class="flex flex-col">
-            {#each data.posts as post (post.slug)}
+            {#each data.posts as post, index (post.slug)}
                 <li
                     class="
                     grid py-4 pl-2
@@ -80,9 +80,9 @@
                 "
                 >
                     <div class="pt-1 text-sm text-faint-foreground font-monospace">
-                        {padZero(data.posts.indexOf(post) + 1)}.
+                        {padZero(index + 1)}.
                     </div>
-                    <PostCard class="" {post} />
+                    <PostCard {post} />
                 </li>
             {/each}
         </ul>

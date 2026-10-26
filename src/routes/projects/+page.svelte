@@ -51,7 +51,7 @@
              list items so the rule spans the full column width. -->
         <ul class="flex flex-col pb-16">
             <li class="py-8">
-                <h2 class="text-xl md:text-2xl leading-tight text-foreground">Squaredle Solver</h2>
+                <h2 class="section-heading">= Squaredle Solver</h2>
                 <p class="mt-2 text-pretty text-dim-foreground">
                     A program that plays the popular daily <a
                         class="external-link"
@@ -82,9 +82,7 @@
             </li>
 
             <li class="border-t border-border/50 py-8">
-                <h2 class="text-xl md:text-2xl leading-tight text-foreground">
-                    Typst Blog Template + Vite Plugin
-                </h2>
+                <h2 class="section-heading">= Typst Blog Template + Vite Plugin</h2>
                 <p class="mt-2 text-pretty text-dim-foreground">
                     The template and plugin that I built to create this blog. This is a
                     work-in-progress, so I'll just have a changelog here for now.
@@ -98,11 +96,3 @@
         </ul>
     </div>
 </main>
-
-<style>
-    .external-link {
-        color: var(--accent-warm);
-        text-decoration: 1px underline;
-        text-underline-offset: 1px;
-    }
-</style>

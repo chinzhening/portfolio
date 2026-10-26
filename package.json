@@ -43,8 +43,6 @@
         "@fontsource-variable/bricolage-grotesque": "^5.2.10",
         "@fontsource/inter": "^5.2.8",
         "@fontsource/iosevka": "^5.2.5",
-        "@fontsource/merriweather": "^5.2.11",
-        "@fontsource/playfair-display": "^5.2.8",
         "@tailwindcss/vite": "^4.3.0",
         "cheerio": "^1.2.0",
         "gsap": "^3.15.0",

@@ -9,15 +9,14 @@
     } = $props();
 </script>
 
-<aside class="xl:outer">
-    <div class={['xl:inner', className]}>
+<aside class="outer">
+    <div class={['inner', className]}>
         {@render children?.()}
     </div>
 </aside>
 
 <style>
-    @import 'tailwindcss';
-    @utility outer {
+    .outer {
         border: 0;
         margin: 0;
         padding: 0;
@@ -26,10 +25,22 @@
         bottom: 0;
         left: calc(100% + 48px);
     }
-    @utility inner {
+    .inner {
         max-height: calc(100vh - 64px);
         position: sticky;
         top: 32px;
         overflow-y: auto;
+    }
+
+    @media (width < 80rem) {
+        .outer {
+            position: static;
+        }
+
+        .inner {
+            max-height: none;
+            position: static;
+            overflow: visible;
+        }
     }
 </style>

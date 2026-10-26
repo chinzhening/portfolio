@@ -41,7 +41,7 @@
                         <div class="mt-2 relative z-10 flex text-xs font-monospace">
                             <ul aria-label="Post tags" class="flex gap-3">
                                 {#each metadata.tags as tag (tag)}
-                                    <div
+                                    <li
                                         class="
                                         border
                                         border-accent-cool hover:border-accent-warm
@@ -52,7 +52,7 @@
                                         <a class="flex px-2 py-0.5" href={resolve(`/`)}>
                                             {toKebabCase(tag)}
                                         </a>
-                                    </div>
+                                    </li>
                                 {/each}
                             </ul>
                         </div>

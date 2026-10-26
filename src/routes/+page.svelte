@@ -63,11 +63,7 @@
         <!-- Recent posts -->
         <section class="mt-8 md:mt-12 font-monospace">
             <div class="flex justify-between gap-4">
-                <h2
-                    class="flex items-center gap-4 text-sm text-accent-warm tracking-wider font-semibold uppercase"
-                >
-                    = recent posts
-                </h2>
+                <h2 class="section-heading">= recent posts</h2>
 
                 <a
                     class="
@@ -84,7 +80,7 @@
             </div>
 
             <ul class="flex flex-col">
-                {#each data.posts.slice(0, 3) as post (post.slug)}
+                {#each data.posts.slice(0, 3) as post, index (post.slug)}
                     <li
                         class="
                         grid py-4 pl-2
@@ -94,7 +90,7 @@
                     "
                     >
                         <div class="pt-1 text-sm text-faint-foreground">
-                            {padZero(data.posts.indexOf(post) + 1)}.
+                            {padZero(index + 1)}.
                         </div>
                         <PostCard {post} />
                     </li>
@@ -104,11 +100,7 @@
 
         <!-- Friend section -->
         <section class="mt-8 md:mt-12 font-monospace">
-            <h2
-                class="flex items-center gap-4 text-sm text-accent-warm tracking-wider font-semibold uppercase"
-            >
-                = friends
-            </h2>
+            <h2 class="section-heading">= friends</h2>
             <p class="mt-2">
                 Check out these cool and smart people:
                 <a class="external-link" href="https://wyan.win/">Way Yan</a>,
@@ -119,11 +111,3 @@
         </section>
     </div>
 </main>
-
-<style>
-    .external-link {
-        color: var(--accent-warm);
-        text-decoration: underline;
-        text-underline-offset: 2px;
-    }
-</style>
