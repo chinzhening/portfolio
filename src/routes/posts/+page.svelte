@@ -1,5 +1,6 @@
 <script lang="ts">
     import PostCard from '$lib/components/PostCard.svelte';
+    import SideFloat from '$lib/components/SideFloat.svelte';
 
     import { padZero } from '$lib/utils';
     import { title } from '$lib/config';
@@ -37,10 +38,10 @@
     </header>
 
     <section class="mt-2 pb-20 relative">
-        <!-- Metrics. Each pair is reversed so the value reads first while the
-        markup keeps the required <dt> before <dd> order. -->
-        <aside class="w-[160px] xl:metrics font-monospace">
-            <div class="pl-3 py-6 xl:py-0 xl:metrics-inner">
+        <SideFloat class="font-monospace">
+            <!-- Metrics. Each pair is reversed so the value reads first while the
+            markup keeps the required <dt> before <dd> order. -->
+            <div class="pl-3 py-6 xl:py-0">
                 <dl class="grid grid-cols-[60px_1fr] gap-4 pb-2">
                     <div class="flex flex-col-reverse">
                         <dt
@@ -65,7 +66,7 @@
                     </div>
                 </dl>
             </div>
-        </aside>
+        </SideFloat>
 
         <!-- Post list -->
         <ul class="flex flex-col">
@@ -87,22 +88,3 @@
         </ul>
     </section>
 </main>
-
-<style>
-    @import 'tailwindcss';
-    @utility metrics {
-        border: 0;
-        margin: 0;
-        padding: 0;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: calc(100% + 48px);
-    }
-    @utility metrics-inner {
-        max-height: calc(100vh - 64px);
-        position: sticky;
-        top: 32px;
-        overflow-y: auto;
-    }
-</style>

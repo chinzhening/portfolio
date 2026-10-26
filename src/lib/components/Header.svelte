@@ -29,7 +29,6 @@
     container mx-auto
     max-w-3xl
     px-6
-    bg-surface-1/80
     "
 >
     <div class="flex gap-4 justify-between">

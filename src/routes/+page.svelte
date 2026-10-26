@@ -41,7 +41,7 @@
         <!-- TODO: Add projects -->
         <!-- <section class="mt-8 md:mt-12 font-monospace">
             <div class="flex justify-between gap-4">
-                <h2 class="flex items-center gap-4 text-sm text-accent-warm tracking-wider font-semibold uppercase">
+                <h2 class="flex items-center gap-4 text-sm text-accent tracking-wider font-semibold uppercase">
                     = projects
                 </h2>
 
@@ -96,7 +96,7 @@
                         <div class="pt-1 text-sm text-faint-foreground">
                             {padZero(data.posts.indexOf(post) + 1)}.
                         </div>
-                        <PostCard class="" {post} />
+                        <PostCard {post} />
                     </li>
                 {/each}
             </ul>

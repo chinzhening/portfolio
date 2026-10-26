@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { resolve } from '$app/paths';
     import { formatDate, toKebabCase } from '$lib/utils';
 
     import type { PostSummary } from '$lib/posts';
@@ -28,7 +29,10 @@
              the whole card, so the accessible name stays just the title. -->
         <h2 class="mt-1 text-balance leading-tight font-medium tracking-tight text-xl md:text-2xl">
             <!-- eslint-disable-next-line svelte/no-navigation-without-resolve -- already resolved, in posts.ts:20 -->
-            <a class="after:absolute after:inset-0 after:content-['']" href={post.href}>
+            <a
+                class="after:absolute after:inset-0 after:inset-be-8 after:content-['']"
+                href={post.href}
+            >
                 {post.title}
             </a>
         </h2>
@@ -37,13 +41,20 @@
             {post.desc}
         </p>
 
-        <!-- Tag list: up to three preview tags. -->
         <div class="mt-2">
-            <div class="flex flex-wrap gap-4 text-xs text-faint-foreground">
-                {#each post.tags.slice(0, 3) as tag (tag)}
-                    <span>
-                        {toKebabCase(tag)}
-                    </span>
+            <div class="flex flex-wrap gap-4 text-xs">
+                {#each post.tags as tag (tag)}
+                    <div
+                        class="
+                    border
+                        border-accent-cool hover:border-accent-warm
+                        hover:text-accent-warm text-accent-cool
+                    "
+                    >
+                        <a class="flex px-2 py-0.5" href={resolve(`/tags/${toKebabCase(tag)}`)}>
+                            {toKebabCase(tag)}
+                        </a>
+                    </div>
                 {/each}
             </div>
         </div>
