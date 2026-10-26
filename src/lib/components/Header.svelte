@@ -29,6 +29,7 @@
     container mx-auto
     max-w-3xl
     px-6
+    mt-4
     "
 >
     <div class="flex gap-4 justify-between">
