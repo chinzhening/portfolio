@@ -22,14 +22,3 @@
         </header>
     </div>
 </main>
-
-<style>
-    .hover-link {
-        transition: color 0.2s ease;
-    }
-    .hover-link:hover,
-    .hover-link:focus-visible {
-        color: var(--brand);
-        text-underline-offset: 4px;
-    }
-</style>

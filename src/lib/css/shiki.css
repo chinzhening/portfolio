@@ -1,7 +1,15 @@
+/* Follow the system preference when no manual theme is selected */
 @media (prefers-color-scheme: dark) {
-	.shiki,
-	.shiki span {
+	:root:not([color-scheme]) .shiki,
+	:root:not([color-scheme]) .shiki span {
 		color: var(--shiki-dark) !important;
 		background-color: var(--shiki-dark-bg) !important;
 	}
+}
+
+/* Follow the manual theme toggle */
+:root[color-scheme='dark'] .shiki,
+:root[color-scheme='dark'] .shiki span {
+	color: var(--shiki-dark) !important;
+	background-color: var(--shiki-dark-bg) !important;
 }
