@@ -51,7 +51,7 @@
                         hover:text-accent-warm text-accent-cool
                     "
                     >
-                        <a class="flex px-2 py-0.5" href={resolve(`/tags/${toKebabCase(tag)}`)}>
+                        <a class="flex px-2 py-0.5" href={resolve('/')}>
                             {toKebabCase(tag)}
                         </a>
                     </div>
