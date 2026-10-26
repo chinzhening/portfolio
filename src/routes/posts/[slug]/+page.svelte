@@ -4,7 +4,7 @@
     import { title } from '$lib/config';
     import { resolve } from '$app/paths';
 
-    import PostNavTable from '$lib/components/PostNavTable.svelte';
+    import PostNavigation from '$lib/components/PostNavigation.svelte';
     import { components } from '$lib/components/article/components';
     import { formatDate, toKebabCase } from '$lib/utils';
     import TypstRenderer from '$tyquire/svelte/TypstRenderer.svelte';
@@ -108,6 +108,6 @@
         </article>
     </main>
     <div class="container mx-auto px-6 max-w-3xl">
-        <PostNavTable {prevPost} {nextPost} />
+        <PostNavigation {prevPost} {nextPost} />
     </div>
 </div>
