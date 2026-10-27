@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { resolve } from '$app/paths';
     import { formatDate, toKebabCase } from '$lib/utils';
 
+    import { getTagHref } from '$lib/posts';
     import type { PostSummary } from '$lib/posts';
 
     let {
@@ -28,13 +28,14 @@
         <!-- Only the title is the link; ::after stretches its hit area over
              the whole card, so the accessible name stays just the title. -->
         <h2 class="mt-1 text-balance leading-tight font-medium tracking-tight text-xl md:text-2xl">
-            <!-- eslint-disable-next-line svelte/no-navigation-without-resolve -- already resolved, in posts.ts:20 -->
+            <!-- eslint-disable svelte/no-navigation-without-resolve -- post.href is resolved in posts.ts -->
             <a
                 class="after:absolute after:inset-0 after:inset-be-8 after:content-['']"
                 href={post.href}
             >
                 {post.title}
             </a>
+            <!-- eslint-enable svelte/no-navigation-without-resolve -->
         </h2>
 
         <p class="mt-2 line-clamp-3 text-pretty text-dim-foreground">
@@ -51,7 +52,8 @@
                         hover:text-accent-warm text-accent-cool
                     "
                     >
-                        <a class="flex px-2 py-0.5" href={resolve('/')}>
+                        <!-- eslint-disable-next-line svelte/no-navigation-without-resolve -- getTagHref returns a resolved URL -->
+                        <a class="flex px-2 py-0.5" href={getTagHref(tag)}>
                             {toKebabCase(tag)}
                         </a>
                     </div>

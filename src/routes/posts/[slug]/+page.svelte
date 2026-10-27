@@ -2,10 +2,9 @@
     import '$lib/css/article.css';
 
     import { title } from '$lib/config';
-    import { resolve } from '$app/paths';
-
     import PostNavigation from '$lib/components/PostNavigation.svelte';
     import { components } from '$lib/components/article/components';
+    import { getTagHref } from '$lib/posts';
     import { formatDate, toKebabCase } from '$lib/utils';
     import TypstRenderer from '$tyquire/svelte/TypstRenderer.svelte';
 
@@ -48,8 +47,8 @@
                                         hover:text-accent-warm text-accent-cool
                                     "
                                     >
-                                        <!-- <a class="flex px-2 py-0.5" href={resolve(`/tags/${toKebabCase(tag)}`)}> -->
-                                        <a class="flex px-2 py-0.5" href={resolve(`/`)}>
+                                        <!-- eslint-disable-next-line svelte/no-navigation-without-resolve -- getTagHref returns a resolved URL -->
+                                        <a class="flex px-2 py-0.5" href={getTagHref(tag)}>
                                             {toKebabCase(tag)}
                                         </a>
                                     </li>

@@ -52,7 +52,6 @@ then refuses to install it.
 
 ## Unsupported features
 
-- tagging and categorization of posts
 - interop demonstration
 - tyquire README.md
 - forkable blog template
