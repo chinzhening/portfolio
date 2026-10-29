@@ -1,11 +1,22 @@
 #import "blog/lib.typ": *
 #import "blog/theme.typ": *
 
+#import "@preview/lilaq:0.6.0" as lq
+
+// Lilaq Theme
+#show lq.selector(lq.diagram): set text(font: fonts.mono, size: 0.85em)
+#show: lq.set-spine(stroke: muted-colors.dark-gray)
+#show: lq.set-grid(stroke: muted-colors.gray.transparentize(50%))
+#show lq.selector(lq.tick-label): set text(fill: muted-colors.dark-gray)
+#show lq.selector(lq.label): set text(fill: muted-colors.dark-gray)
+#show lq.selector(lq.legend): set text(fill: muted-colors.dark-gray)
+#show: lq.set-legend(fill: muted-colors.gray.transparentize(25%))
+
 #show: theme
 #show: article.with(
-  title: "Modern Monte Carlo",
-  desc: [A deep dive into Monte Carlo methods, modern ideas, and some applications in financial modeling.],
-  published: false,
+  title: "Monte Carlo Notes",
+  desc: [A deep dive into Monte Carlo methods.],
+  published: true,
   publish_date: datetime.today(),
   tags: (
     "finance",
@@ -15,6 +26,8 @@
 
 This is a spin-off of my capstone project for undergrad at NUS, supervised by Prof. Ren Weiqing.
 It explores Monte Carlo methods and their applications in computational finance; the full report is on my #link("https://www.github.com/chinzhening/capstone-project")[GitHub].
+
+#outline()
 
 /// Introduction about what the post will explore, can write last.
 = Introduction
@@ -68,8 +81,6 @@ a known closed form expectation. If $rho -> 0$, then the variance reduction is n
 #figure(
   caption: [Variance comparison (naive MC vs. control variate vs. importance sampling) on the same toy integral, log-scale y-axis, showing convergence of the running estimate over $n$.]
 )[
-  #import "@preview/lilaq:0.6.0" as lq
-
   #show: lq.set-diagram(width: 8cm, height: 5cm)
 
   #let x = (1e2, 1e3, 1e4, 1e5)
@@ -83,7 +94,7 @@ a known closed form expectation. If $rho -> 0$, then the variance reduction is n
     ylim: (3.1e-5, 1e-1),
     xaxis: (label: $n$, scale: "log"),
     yaxis: (label: "Error", scale: "log"),  
-    lq.plot(x, naive, label: "Naive", yerr: naive.map(x => x * 0.3), stroke: (dash: "dashed"), color: muted-colors.dark-blue),
+    lq.plot(x, naive, label: "Naive", yerr: naive.map(x => x * 0.3), stroke: (dash: "dashed"), color: muted-colors.dark-gray),
     lq.plot(x, cv, label: "CV", yerr: cv.map(x => x * 0.3), stroke: (dash: "dashed"), color: muted-colors.dark-orange),
     lq.plot(x, is-mc, label: "IS", yerr: is-mc.map(x => x * 0.3), stroke: (dash: "dashed"), color: muted-colors.dark-green),
   )
@@ -148,7 +159,9 @@ and the estimate is worse off.
   #let l = lq.linspace(-4, -2)
   #let r = lq.linspace(2, 4)
 
-  #table(columns: 2,
+  #table(
+    columns: 2,
+    stroke: none,
     /// Well-chosen q
     lq.diagram(
       xaxis: (label: $x$),
@@ -224,7 +237,7 @@ which grows fast with dimension unless $q$ tracks $p$'s geometry closely. A
 proposal that looks fine in two dimensions can give infinite variance in
 twenty.
 
-#side-note[
+#callout[
   The variance-optimal proposal is $q^* prop |f(x)| p(x)$; fitting a parametric
   family $q_theta$ to approximate it by minimizing
   $"KL"(q_theta || q^*)$ over $theta$ is known as the *cross-entropy method*,
@@ -237,8 +250,6 @@ twenty.
   caption: [Minimizing $"KL"(q_theta || q^*)$ over a one-dimensional $theta$
   showing the objective function and the optimal $theta^*$ where the minimum occurs.]
 )[
-  #import "@preview/lilaq:0.6.0" as lq
-
   #show: lq.set-diagram(width: 8cm, height: 5cm)
 
   #let objective-function(theta) = 1.25 - calc.exp(-calc.pow(theta - 1, 2) / 2) - calc.exp(-calc.pow(theta - 4, 2) / 2) / 1.5
@@ -308,7 +319,7 @@ the domain's boundary), integration by parts gives
 $ E_p [nabla log p(X) dot h(X) + nabla dot h(X)] = 0 $
 
 The term $nabla log p(x)$ is the *score function* of $p$: a quantity that
-depends only on $p$, not on any particular integrand $f$. What Stein's
+depends only on $p$ and not on the integrand $f$. What Stein's
 identity buys us is a mechanical way to generate an entire function class,
 every member of which has known expectation zero, from a single ingredient (the
 score) computed once. Contrast this with the earlier setting, where each new
@@ -316,7 +327,7 @@ basis function $phi_i$ needed its own hand-derived $mu_i$: here, apply the
 Stein operator $cal(T)_p h := nabla log p dot h + nabla dot h$ to *any*
 smooth $h$, and the result integrates to zero under $p$ automatically.
 
-#side-note[
+#callout[
   This is the crucial shift in the level of automation. We have not automated
   away the need to know $p$ analytically well enough to compute $nabla log p$;
   we have automated away the need to hand-verify $E_p [h] = mu$ for every
@@ -326,11 +337,11 @@ smooth $h$, and the result integrates to zero under $p$ automatically.
 
 The remaining task is to choose $h$ richly enough to correlate well with $f$.
 Take a reproducing kernel Hilbert space (RKHS) $cal(H)_k$ with a base kernel
-$k(x, x')$, e.g. the RBF kernel $k(x,x') = exp(-norm(x-x')^2 / (2ell^2))$, and
+$k(x, x')$, e.g. the RBF kernel $k(x,x') = exp(-norm(x-x')^2 \/ 2ell^2)$, and
 apply the Stein operator to its feature map. This produces the _Stein kernel_
 
 $ k_p (x, x') = nabla_x log p(x) dot nabla_(x') log p(x') dot k(x,x')
-  + nabla_x log p(x) dot nabla_(x') k(x,x')
+  + nabla_x log p(x) dot nabla_(x') k(x,x') \
   + nabla_(x') log p(x') dot nabla_x k(x,x')
   + "tr"(nabla_x nabla_(x') k(x,x')) $
 
@@ -341,19 +352,94 @@ supplies flexibility (universal approximation as $ell$ varies and $m$ grows),
 and the Stein operator supplies the zero-mean guarantee for free.
 
 #figure(
-  caption:[Diagram: base RBF kernel $k(x,x')$ on the left, Stein operator $cal(T)_p$
-  applied via $nabla log p$ in the middle, Stein kernel $k_p (x,x')$ on the
-  right. Annotate the operator arrow with "requires $nabla log p$ in closed
-  form."
-])[
-  placeholder
+  caption: [Representatives $phi$ in $H$ (left) and the corresponding $psi$ in $H_0$ (right).]
+)[
+  // ---- kernels (1-D, scalar inputs, so p = 1) --------------------------
+  #let modified-rbf-kernel(x, y, length-scale: 1.0, decay-scale: 1.0) = {
+    let sqdist = calc.max(calc.pow(x, 2) + calc.pow(y, 2) - 2.0 * x * y, 0.0)
+    let rbf = calc.exp(-0.5 * sqdist / calc.pow(length-scale, 2))
+    let decay = 1.0 / (1.0 + decay-scale * calc.pow(x, 2) + decay-scale * calc.pow(y, 2))
+    rbf * decay
+  }
+
+  #let modified-stein-rbf-kernel(x, y, length-scale: 1.0, decay-scale: 1e-3) = {
+    let p = 1
+    let product = x * y
+    let sqdist = calc.pow(x, 2) + calc.pow(y, 2) - 2.0 * product // not clamped, as in the Python
+    let s2 = calc.pow(length-scale, 2)
+
+    let rbf = calc.exp(-0.5 * sqdist / s2)
+    let decay = 1.0 / (1.0 + decay-scale * calc.pow(x, 2) + decay-scale * calc.pow(y, 2))
+
+    let factor = (
+      p / s2
+        - sqdist / (s2 * s2)
+        - sqdist / s2 * (1.0 + 2.0 * decay-scale * decay)
+        + 4.0 * decay-scale * decay * product
+        + product
+    )
+
+    rbf * decay * factor
+  }
+
+  // ---- f(x) = sum_i scale_i * k(x, loc_i) ------------------------------
+  #let f-in-rkhs(kernel-fn, loc, scale, length-scale: 1.0, decay-scale: 5e-3) = {
+    x => loc.zip(scale).map(((l, s)) =>
+      s * kernel-fn(x, l, length-scale: length-scale, decay-scale: decay-scale)
+    ).sum()
+  }
+
+  // ---- representatives -------------------------------------------------
+  #let loc1 = (-3.0, 1.2, 2.5)
+  #let scale1 = (1.5, -0.5, 1.25)
+  #let loc2 = (-2.0, 2.0)
+  #let scale2 = (-0.7, 0.75)
+  #let loc3 = (0.4,)
+  #let scale3 = (0.5,)
+
+  #let f1-rbf = f-in-rkhs(modified-rbf-kernel, loc1, scale1)
+  #let f2-rbf = f-in-rkhs(modified-rbf-kernel, loc2, scale2)
+  #let f3-rbf = f-in-rkhs(modified-rbf-kernel, loc3, scale3)
+
+  #let f1-stein = f-in-rkhs(modified-stein-rbf-kernel, loc1, scale1)
+  #let f2-stein = f-in-rkhs(modified-stein-rbf-kernel, loc2, scale2)
+  #let f3-stein = f-in-rkhs(modified-stein-rbf-kernel, loc3, scale3)
+
+  #let xs = lq.linspace(-5, 5, num: 100)
+
+  #grid(
+    columns: 2,
+    column-gutter: 1.5em,
+    lq.diagram(
+      width: 5.5cm, height: 5cm,
+      title: [Representatives $phi$ in $H$],
+      legend: (position: top + right),
+      xlim: (-5, 5),
+      xaxis: (label: $x$),
+      yaxis: (label: $phi(x)$),
+      lq.plot(xs, xs.map(f1-rbf), label: $f_1$, color: muted-colors.dark-red, mark: none),
+      lq.plot(xs, xs.map(f2-rbf), label: $f_2$, color: muted-colors.dark-red, mark: none, stroke: (dash: "dashed")),
+      lq.plot(xs, xs.map(f3-rbf), label: $f_3$, color: muted-colors.dark-red, mark: none, stroke: (dash: "dotted")),
+    ),
+    lq.diagram(
+      width: 5.5cm, height: 5cm,
+      title: [Corresponding $psi$ in $H_0$],
+      legend: (position: top + right),
+      xlim: (-5, 5),
+      xaxis: (label: $x$),
+      yaxis: (label: $psi(x)$),
+      lq.plot(xs, xs.map(f1-stein), label: $f_(1,"stein")$, color: muted-colors.dark-blue, mark: none),
+      lq.plot(xs, xs.map(f2-stein), label: $f_(2,"stein")$, color: muted-colors.dark-blue, mark: none, stroke: (dash: "dashed")),
+      lq.plot(xs, xs.map(f3-stein), label: $f_(3,"stein")$, color: muted-colors.dark-blue, mark: none, stroke: (dash: "dotted")),
+    )
+  )
 ]
 
 == Fitting the Control Functional
 
 With the Stein kernel in hand, we posit $h(x) = sum_(j=1)^n beta_j k_p (x,
 x_j)$ over the same sample used for estimation (or a held-out design set), and
-solve for $beta$ by ridge-regularized least squares:
+solve for $beta$ by #link("https://en.wikipedia.org/wiki/Ridge_regression")[ridge regression]:
 
 $ hat(beta) = (K_p + lambda I)^(-1) f $
 
@@ -372,141 +458,180 @@ functions under mild conditions on $k$) that fitting $beta$ by regression can
 approximate the ideal control variate $h^* approx f - E_p [f]$ arbitrarily well,
 as $n$ grows and $ell$, $lambda$ are tuned appropriately.
 
-#figure(
-  caption:[Plot: toy 1-D integrand $f(x)$ overlaid with fitted control functional
-  $hat(h)(x)$ on the same axes; residual $f(x) - hat(h)(x)$ shown below,
-  visibly flatter and smaller in magnitude than $f$ itself.
-])[
-  placeholder
-]
-
-#side-note[
+#callout[
   In practice $lambda$ and $ell$ are chosen by cross-validation on the same
   sample, minimizing the estimated variance of $hat(I)$ directly rather than a
   generic predictive loss, since the quantity we actually care about is the
   variance of the residual under $p$, not pointwise regression accuracy.
 ]
 
-== What Has and Hasn't Been Automated
-
-It is worth being precise about what this machinery buys, because it is easy
-to overstate. Control functionals automate the search over *function shape*
-within a rich class, replacing hand-picked basis functions with a
-data-driven fit over an RKHS. What they do not automate is the analytic
-prerequisite the whole construction rests on: $nabla log p(x)$ must be
-available in closed form to build $k_p$ at all. If $p$ is known only up to
-simulation (no tractable density), or its log-density is not differentiable in
-closed form, the Stein kernel cannot be constructed, and this method offers no
-recourse.
-
-So the ledger so far: the coefficients of $h$ are fit automatically; the shape
-of $h$ is now flexible enough that a good approximation to $h^*$ typically
-exists in reach of the fit; but the object the entire construction is built
-from, the score $nabla log p$, is still handed to the method, not discovered
-by it. Whatever comes next has to either relax this requirement or accept it
-and push the automation further within it.
-
-Cost of the fit is $O(n^3)$ for the matrix inversion, which is a practical limit on
-the sample size $n$ for which this method is feasible. There are
-approximate methods to reduce this cost, e.g. low-rank approximations to the
-Gram matrix, but they incur bias.
-
 = Neural Networks
 
-An RKHS is still a *linear* space. The natural next step drops linearity
-entirely: parameterize $h_theta$ as a neural network and fit $theta$ by
-gradient descent directly on the estimator's variance @wan2019neural @si2021gradient,
+An RKHS is still a *linear* space. Dropping linearity, we parameterize
+$h_theta$ as a neural network and fit $theta$ by gradient descent directly on
+the estimator's variance @wan2019neural @si2021gradient,
 
 $ cal(L)(theta) = "Var"_p [f(X) - cal(T)_p h_theta (X)]
   approx 1/n sum_j (f(x_j) - cal(T)_p h_theta (x_j) - macron(r))^2 $
 
-Because $cal(T)_p h_theta$ has zero expectation under $p$ for *any* $theta$
-(Stein's identity again), gradient descent can chase variance alone without
-ever risking correctness — structural unbiasedness, optimized quality. This
-separation is what makes the whole ladder work.
+Since $cal(T)_p h_theta$ has zero mean under $p$ for *any* $theta$ (Stein's
+identity again), minimizing variance never introduces bias.
 
 #figure(
-  caption: [Estimated variance of $hat(I)$ (log scale) vs. gradient step: monotonic-ish
-  decrease, plateau at network capacity.
-])[
+  caption: [Same integrand as above with RKHS-fitted and neural-fitted
+  $cal(T)_p h_theta$ overlaid, plus residuals.]
+)[
   placeholder
 ]
 
-#side-note[
-  The network is typically trained on a design sample separate from the one
-  used to report $hat(I)$, to avoid overfitting $h_theta$ to the specific
-  noise realization of the evaluation sample.
-]
+Compared to the RKHS, $h$ now lives in a far larger nonlinear space and is
+fit end to end rather than by a closed-form solve. But $p$ must still be
+known well enough to sample from and differentiate, and $h$ is still a
+correction layered on direct sampling from $p$. Nothing here touches the
+*sampling* side, which brings us back to importance sampling.
 
-What changed: $h$ is fit end-to-end over a much larger, nonlinear parameter
-space instead of built from a fixed kernel and a closed-form solve. What
-hasn't: $p$ is still assumed known well enough to sample from and compute
-$nabla log p$, and $h$ is still a correction sitting on top of direct sampling
-from $p$. This is the last rung of the variance-reduction ladder proper —
-nothing here touches the *sampling* side. That question is the return to
-importance sampling.
+= Normalizing Flows
 
-#figure(
-  caption: [Same toy integrand as above, RKHS-fitted and neural-fitted $cal(T)_p
-  h_theta(x)$ overlaid, shared residual panel comparing both traces.
-])[
-  placeholder
-]
+The cross-entropy method fits a proposal $q_theta$ to
+$q^* prop |f(x)| p(x)$ by minimizing $"KL"(q^* || q_theta)$ @rubinstein1997,
+but the fit is only as good as the family. A Gaussian or small mixture
+struggles when $q^*$ is multimodal, skewed, or heavy-tailed.
 
-= Parametric Families and Normalizing Flows
-
-The cross-entropy method fits $q_theta$ to $q^* prop |f(x)| p(x)$ by
-minimizing $"KL"(q_theta || q^*)$ @rubinstein1997, but the fit is only as good
-as the family's capacity: a Gaussian or small mixture is a poor match whenever
-$q^*$ is multimodal, skewed, or heavy-tailed in ways the family can't express.
-Normalizing flows @rezende2015 @papamakarios2021 replace the restrictive
-family with a composition of invertible, differentiable transforms
-$T_theta: RR^d -> RR^d$ pushing forward a simple base $q_0$:
+Normalizing flows @rezende2015 @papamakarios2021 remove this limit by pushing a
+simple base $q_0$ through a composition of invertible transforms
+$T_theta: RR^d -> RR^d$:
 
 $ q_theta (x) = q_0 (T_theta^(-1)(x)) dot abs(det J_(T_theta^(-1))(x)) $
 
-Layers are chosen so both $T_theta$ and its Jacobian determinant are cheap,
-giving *both* a tractable density (for importance weights $p(x)\/q_theta (x)$)
-and cheap exact sampling — the combination generic flexible density
-estimators rarely offer.
+Layers are designed so that $T_theta$ and its Jacobian determinant are cheap.
+This gives both exact sampling and a tractable density for the importance
+weights $p(x)\/q_theta (x)$, a combination few flexible density estimators
+offer.
+
+== The estimator
+
+For any fixed $theta$, the flow plays the role of the proposal in ordinary
+importance sampling. For $j = 1, dots, n$:
+
++ Draw a base sample $z_j tilde q_0$ and push it through the flow,
+  $x_j = T_theta (z_j)$. Then $x_j tilde q_theta$ exactly.
++ Evaluate the proposal density at $x_j$. Since $z_j$ is already known, no
+  inversion is needed: $q_theta (x_j) = q_0 (z_j) \/ abs(det J_(T_theta)(z_j))$.
++ Weight the integrand by $p(x_j) \/ q_theta (x_j)$.
+
+Averaging gives the estimator
+
+$ hat(I) = 1/n sum_(j=1)^n f(x_j) p(x_j) / q_theta (x_j), quad x_j = T_theta (z_j),
+  quad z_j tilde q_0. $
+
+It is unbiased for any $theta$, because the weights correct for the proposal.
+The fit affects only the variance: it is smallest when $q_theta$ matches
+$q^* prop |f| p$. If $p$ is known only up to a constant, replace the weights
+with their self-normalized version,
+$w_j = tilde(p)(x_j) \/ q_theta (x_j)$ and
+$hat(I) = sum_j w_j f(x_j) \/ sum_j w_j$, which trades a small bias for not
+needing the constant.
+
+== Fitting the flow
+
+Since only the variance depends on $theta$, we choose $theta$ by the same
+cross-entropy objective as before,
+$cal(L)(theta) = -EE_(q^*)[log q_theta(X)]$, now minimized by backpropagating
+through a closed-form $q_theta$.
+
+#callout[
+  Minimizing the reverse KL, $"KL"(q_theta || p)$ @rezende2015, needs $p$ only
+  up to a constant but is mode-seeking: $q_theta$ can ignore minor modes
+  of $q^*$ entirely.
+]
+
+== Two levers on the same variance
+
+Fitting a flow changes *where the samples come from*. Every method before it
+changed *what is averaged*. These are two separate levers, side by side:
+
+#table(
+  columns: (auto, 1fr, 1fr),
+  align: (left, left, left),
+  stroke: (x, y) => if y == 0 { (bottom: 0.7pt) },
+  [], [*Integrand side*], [*Sampler side*],
+  [Methods], [Control variates, RKHS, neural $h_theta$],
+  [Cross-entropy, normalizing flows],
+  [Variance goes to zero when], [$f - cal(T)_p h$ is constant],
+  [$q_theta = q^*$],
+  [Requires], [$nabla log p$, so the Stein operator is available],
+  [$q_theta$ with exact sampling and an evaluable density],
+  [Limited by], [Expressiveness of $h$], [Expressiveness of $q_theta$],
+)
+
+Neither lever depends on the other, so they stack. Sample from a fitted flow
+$q_theta$ and apply a Stein control variate built from $q_theta$ itself:
+
+$ hat(I) = 1/n sum_j [ f(x_j) p(x_j) / q_theta (x_j) - cal(T)_(q_theta) h(x_j) ],
+  quad x_j tilde q_theta $
+
+The correction has zero mean under $q_theta$ for any $h$, so the estimator
+stays unbiased. The flow supplies the sampler and $nabla log q_theta$ by
+automatic differentiation, which is exactly what the Stein operator needs. The
+flow shrinks the variance that comes from a mismatched proposal, and $h$ then
+removes part of what remains.
+
+#callout[
+  Both levers cost training effort. As before, fit $q_theta$ and $h$ on a
+  design sample, then report $hat(I)$ from a fresh batch drawn from the fitted
+  $q_theta$.
+]
+
+#import "@preview/fletcher:0.5.8" as fletcher: diagram, node, edge
+
+// ... everything above unchanged, up to the final callout ...
+
+Every method in this post is a way to lower the variance of the same Monte
+Carlo estimate. They split into two lanes, one that changes *what is averaged*
+and one that changes *where the samples come from*, and the lanes combine.
 
 #figure(
-  caption: [ Base $q_0$ $arrow.r$ composed invertible layers $T_theta$ $arrow.r$
-  transformed $q_theta$; arrows for both sampling (forward) and density
-  evaluation (inverse) directions.
-])[
-  placeholder
+  caption: [From plain Monte Carlo to the combined estimator. The top lane
+  changes the integrand, the bottom lane changes the sampler.],
+)[
+  #diagram(
+    spacing: (0.5cm, 1cm),
+    node-stroke: 0.6pt,
+    node-corner-radius: 3pt,
+    node-inset: 8pt,
+    edge-stroke: 0.7pt,
+
+    // root
+    node((0, -5), [Monte Carlo], name: <mc>),
+
+    // integrand lane (top)
+    node((1, -4), [Control\ variates], name: <cv>),
+    node((1, -3), [Regression and\ kernel methods], name: <rk>),
+    node((1, -2), [Neural\ networks], name: <nn>),
+
+    // sampler lane (bottom)
+    node((-1, -4), [Importance\ sampling], name: <is>),
+    node((-1, -2), [Normalizing\ flows], name: <nf>),
+
+    // payoff
+    node((0, -1), [Flow proposal\ + Stein control\ variate], name: <both>),
+
+    // lane labels
+    node((1, -5), text(size: 0.8em, style: "italic")[changes what is averaged], stroke: none),
+    node((-1,-5), text(size: 0.8em, style: "italic")[changes where samples come from], stroke: none),
+
+    edge(<mc>, <cv>, "-|>"),
+    edge(<mc>, <is>, "-|>"),
+
+    edge(<cv>, <rk>, "-|>", label: text(size: 0.8em)[learn $h$], label-side: left),
+    edge(<rk>, <nn>, "-|>", label: text(size: 0.8em)[drop linearity], label-side: left),
+
+    edge(<is>, <nf>, "-|>", label: text(size: 0.8em)[flexible $q_theta$], label-side: right),
+
+    edge(<nn>, <both>, "-|>"),
+    edge(<nf>, <both>, "-|>"),
+  )
 ]
-
-Fitting proceeds as cross-entropy prescribes, but now the family can matter:
-minimize $"KL"(q_theta || q^*)$, i.e. the cross-entropy
-$cal(L)(theta) = -EE_(q^*)[log q_theta(X)]$, estimated via self-normalized
-importance sampling or an adaptive sample/update scheme, with gradients
-backpropagated directly since $q_theta(x)$ is closed-form.
-
-#side-note[
-  Minimizing the reverse KL, $"KL"(q_theta || p)$ @rezende2015, needs only
-  $p$ up to a normalizing constant and samples from $q_theta$ itself, but is
-  mode-seeking: the fitted $q_theta$ can ignore minor modes of $q^*$ entirely.
-]
-
-#figure(
-  caption: [Toy multimodal $q^*(x)$ overlaid with (a) fitted single-Gaussian
-  cross-entropy proposal, (b) fitted flow proposal tracking the extra mode.
-])[
-  placeholder
-]
-
-The ledger, once more: the proposal's shape is no longer a hand-picked family
-with a handful of parameters, and fitting is a standard gradient-descent
-problem. But we still need $p(x)$ evaluable up to a normalizing constant to
-form weights or compute $q^*$, and $f$, $p$ remain given, fixed, and
-evaluable, the same assumption every method here has made from the first
-control variate.
-= Similarities in Other Fields
-
-= Application:
-
 
 #bibliography(
   "references.bib",
