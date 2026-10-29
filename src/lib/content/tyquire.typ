@@ -4,9 +4,10 @@
 #show: theme
 #show: article.with(
   title: "tyquire",
-  desc: [Decisions, tradeoffs, and lessons from redesigning the content pipeline for this blog.],
+  desc: [Lessons from redesigning the blog content pipeline.],
   published: true,
   publish_date: datetime(year: 2026, month: 9, day: 8),
+  edited_date: datetime(year: 2026, month: 10, day: 29),
   tags: (
     "dev-log",
     "typst",
@@ -16,7 +17,7 @@
 )
 
 
-The #link("first-post")[first post] about the blog outlined three issues with the
+The #link("yet-another-typst-blog")[first post] about the blog outlined three issues with the
 content pipeline:
 #enum(
   numbering: "1.",
@@ -25,8 +26,7 @@ content pipeline:
     representation to the desired HTML output.
   ],
   [
-    Parser correctness demands a tree model rather than a serial model, because
-    the structure of the content is inherently hierarchical.
+    Parser correctness: use a tree model rather than a serial model.
   ],
   [
     Extending the output vocabulary propagates changes through every stage of
@@ -34,11 +34,10 @@ content pipeline:
   ]
 )
 
-Since then, the pipeline has been redesigned and repackaged as `tyquire`#footnote[`tyquire` is short for Typst and 'quire', which
+Since then, the pipeline has been repackaged as `tyquire`#footnote[`tyquire` is short for Typst and 'quire', which
 is a word for assembling sheets of paper into a book.], a Vite plugin that
-annotates the Typst HTML export as an AST that a renderer walks. The rewrite was
-mostly completed with the help of AI as I had a clear idea of the scope of the
-redesign early on.
+annotates the Typst HTML export as a typed component tree that is rendered with Svelte snippets. The rewrite was
+mostly completed with the help of AI as I had a clear idea of the scope early on.
 
 ```
 .
@@ -67,17 +66,17 @@ Typst exposes `target()`, a _contextual_ function that returns `"html"` under th
 
 ```typst
 // lib.typ
-#let is-html() = context target() == "html"
+#let is-html() = target() == "html"
 ```
 
 The #link("https://typst.app/docs/reference/foundations/target/")[target function]
-must be wrapped in `context` because the target output may vary within a single
-document. Using this helper, a component like `side-note` can define the target
+must be evaluated within a `context` because the target output may vary within a single
+document. Using this helper, a component like `callout` can define the target
 specific render:
 
 ```typst
-// theme.typ
-#let side-note(content) = context {
+// something like this
+#let callout(content) = context {
   if is-html() {
     component("side-note", content)
   } else {
@@ -148,9 +147,7 @@ pipeline can evolve independently_.
 The old parser only walks the direct children of `<body>`, representing each as
 a leaf carrying an HTML string. This serial model was convenient but lazy, 
 discarding the hierarchical structure present in the HTML export and treating
-each subtree as an opaque blob. The first post's diagram shows the structure we 
-actually want: a `side-note` containing a paragraph, a code block, and another 
-paragraph. This is not expressible in the old model.
+each subtree as an opaque blob. This is not expressible in the old model.
 
 #figure(
   caption: [
@@ -162,7 +159,7 @@ paragraph. This is not expressible in the old model.
     edge-stroke: 1pt,
     mark-scale: 70%,
 
-    fileblob((1.5, 0), "side-note", w: 22mm, tint: muted-colors.cyan, name: <sn>),
+    fileblob((1.5, 0), "callout", w: 22mm, tint: muted-colors.cyan, name: <sn>),
     fileblob((0.1, 1.4), "html", w: 18mm, tint: muted-colors.gray, name: <a>),
     fileblob((1.5, 1.4), "code", w: 18mm, tint: muted-colors.green, name: <b>),
     fileblob((2.9, 1.4), "html", w: 18mm, tint: muted-colors.gray, name: <c>),
@@ -177,10 +174,9 @@ paragraph. This is not expressible in the old model.
   )
 ] <nesting-after>
 
-The new parser recursively builds a tree model. This not only matches the structure of HTML export, but gives the pipeline something it can actually operate on: components can be resolved in the context of their parents and children, and components can themselves contain further components.
+The new parser recursively builds a tree model. This not only matches the structure of HTML export, but also allows the pipeline to operate on components at every level. Components can be resolved in the context of their parents and children, and components can themselves contain further components.
 
-The question then becomes how the parser knows which parts of the exported HTML
-contain components. Components are marked in Typst with metadata identifying them
+To do this, components are marked in Typst with metadata identifying them
 as pipeline components. This metadata survives HTML export, providing the parser
 with the information it needs to decide where the opaque HTML ends and the
 structured IR begins. A subtree is therefore only traversed if a `component()` or
@@ -189,9 +185,8 @@ entire subtree is retained as an opaque HTML string.
 
 = Open vocabulary
 
-The pipeline vocabulary is now open: adding a new block type does not require
-modifying the pipeline itself. The parser recognises components by their shape,
-not by their names, and passes the name and props through to the renderer.
+To open up the vocabulary, the parser recognises components by their shape and
+not by their names. Then the name and props are then passed to the renderer.
 
 #figure(
   caption: [Before: six touch points across three layers. After: two touch points, both leave the plugin untouched.],
@@ -240,22 +235,29 @@ not by their names, and passes the name and props through to the renderer.
 
 
 `component()` and `inline-component()` form the protocol. They wrap a construct
-in an element carrying data-typst-node and a JSON representation of its named
+in an element carrying `data-typst-node` and a JSON representation of its named
 arguments. The parser understands this protocol without knowing the component
 vocabulary; the application resolves the resulting name against its component 
 registry.
 
 ```typst
 // theme.typ
-#let callout(kind, body) = component("callout", body, kind: kind)
+#let callout(kind, body) = component(
+  "callout",
+  body,
+  paged: content => { // fallback for PDF/SVG export
+    // some styling
+    block(content)
+  },
+  kind: kind
+)
 ```
 
 ```typescript
 // components.ts
 export const components: Record<string, Component<TypstComponentProps>> = {
     code: CodeBlock,
-    figure: FigureBlock,
-    'side-note': SideNote
+    callout: Callout
     // one more line here, plus the component, is the entire cost of `callout`
 };
 ```
@@ -292,5 +294,5 @@ The result is a pipeline that is easier to extend without making each new
 component a change to the pipeline itself.
 
 I am quite pleased with the current state of `tyquire`. If you are interested in
-trying it in your own project, there is a starter template available on my
+trying it in your own project, a starter template is prepared for you on my
 #link("https://github.com/chinzhening/tyquire-template")[GitHub].

@@ -3,8 +3,8 @@
 
 #show: theme
 #show: article.with(
-  title: "First Post",
-  desc: [Setting up the blog and writing the first post.],
+  title: "Yet another Typst blog",
+  desc: [Making a blog with Typst and Svelte],
   published: true,
   publish_date: datetime(year: 2026, month: 8, day: 14),
   edited_date: datetime(year: 2026, month: 10, day: 29),
@@ -15,21 +15,27 @@
   ),
 )
 
-Hello, I will be using this blog to share my thoughts, experiments, and projects. Let's start with a simple introduction to the blog itself.
+Hello, welcome to my blog.
 
-This blog is built on SvelteKit, a framework for web-apps. I use `static-adapter` to generate a static site hosted on GitHub pages. There is no reason for choosing #link("https://svelte.dev")[Svelte] over other frameworks, but the static adapter is easy to set up, and I have experience with Svelte that made it convenient for this project.
-Like most static sites, the content is authored in a structured text format such as Markdown and then transformed into HTML for the browser. I chose #link("https://typst.app")[Typst] instead because I like writing in it, it has crisp syntax for mathematics, real scripting, and native support for drawing diagrams.
+I built it with #link("https://typst.app")[Typst] and #link("https://svelte.dev")[Svelte].
 
-Currently, Typst still exposes HTML export as an experimental feature, but as of #link("https://www.typst.app/docs/changelog/0.15.0/")[v0.15.0], this feature includes MathML export out-of-the-box, which is supported by most modern browsers. Previously, the _primary_ way to preserve math in the HTML export was to wrap it in a `html.frame` which outputs an SVG#footnote[This is a well-known hack in the Typst community documented in #link("https://github.com/typst/typst/issues/721#issuecomment-2817103073")[this issue comment].]. Given that this is a technical blog, authoring math that is readable in the source and accessible in the browser is high priority.
+Like most static sites, the content is authored in a structured text format such as Markdown and then transformed into HTML. I chose Typst instead because it
+is more enjoyable to write in and more expressive than Markdown.  I use it for all my technical writing and wanted to see if it can be used for a blog too.
 
-I am definitely not the first person to write a blog using Typst, or even Typst with Svelte. So here are the acknowledgements to the resources and inspiration that inspired this project:
+The goal of the project was two-fold:
+1. Author content in Typst and have it render in the browser as HTML.
+2. Keep the authoring experience as close to Typst as possible. 
+
+Currently, Typst still exposes HTML export as an experimental feature, but as of #link("https://www.typst.app/docs/changelog/0.15.0/")[v0.15.0], this feature includes MathML export out-of-the-box, which is supported by most modern browsers. Previously, the _primary_ way to preserve math in the HTML export was to wrap it in a `html.frame` which outputs an SVG#footnote[This is a well-known hack in the Typst community documented in #link("https://github.com/typst/typst/issues/721#issuecomment-2817103073")[this issue comment].]. Given that this is a technical blog, displaying math that is readable in the source and aesthetic in the browser is high priority.
+
+I am definitely not the first person to write a blog using Typst. So here are the resources and people that inspired this project:
 - Myriad Dreamin's template (#link("https://github.com/Myriad-Dreamin/tylant")[tylant]) for static blogs with Astro and Typst which provided useful ideas and examples.
 - The #link("https://github.com/OverflowCat/astro-typst")[astro-typst] integration.
 - The Typst community that has been producing excellent tooling and discussion that has made this feasible.
 
 = Workflow
 Authoring and publishing a post follows the following steps.
-1. Write the post in Typst #sym.dash.em A `.typ` file is made a source module in the SvelteKit project.
+1. Write the post in Typst. A `.typ` file is made a source module in the SvelteKit project.
 2. When Vite resolves an import of one, the plugin intercepts it and shells out to the `typst` cli, twice in parallel. One invocation compiles the body to HTML over stdin; the other queries the front-matter `<metadata>` label for the post header.
 3. Postprocessing is completed on the HTML via Cheerio, which normalises the MathML delimiters, matches and collects raw-source sidecars into a label map then walks node by node into a typed `PostBlock[]`. Shiki highlights code blocks on this walk.
 4. Finally, the plugin returns a JavaScript module exporting `{metadata, blocks}` which the post route imports like any other module.
@@ -37,7 +43,7 @@ Authoring and publishing a post follows the following steps.
 
 #hrule()
 
-Keeping the post-processing explicit rather than hiding it behind a general purpose renderer makes it cheap to add features later, such as image optimization or search indexing, without touching the writing workflow. It has costs too, which the last two sections are about.
+Keeping the post-processing explicit rather than hiding it behind a general purpose renderer makes it cheap to add features later, such as image optimization or search indexing, without touching the writing workflow.
 
 // Diagram: content pipeline
 #import "@preview/fletcher:0.5.8" as fletcher: diagram, edge, node
@@ -74,22 +80,16 @@ Keeping the post-processing explicit rather than hiding it behind a general purp
   )
 ] <pipeline>
 
-The diagram in @pipeline is the same `html.frame` hack from the introduction, put to a different use. There it was preserving math; here it preserves the SVG that drawing libraries like `cetz` and `fletcher` produce, which the export would otherwise drop. Wrapping it in a `#figure` also gives it a label, and the HTML export turns that `<label>` into an `id`, so the figure can be cross-referenced like any other.
+The diagram in @pipeline is the same `html.frame` hack from the introduction, put to a different use. There it was preserving math; here it preserves the SVG that drawing libraries like `cetz` and `fletcher` produce, which the export would otherwise drop. Wrapping it in a `#figure` also gives it a label, and the HTML export turns that `<label>` into an `id`, so the figure can be cross-referenced.
 
 Wide diagrams need to scroll rather than break the layout, and that does not happen in the Typst layer. The plugin lifts each top-level `figure` out of the HTML into a `figure` block, and `FigureBlock.svelte` renders it inside a frame that carries `overflow-x: auto`. The rule lives in `src/lib/css/article.css`, which is imported by the post route alone and scoped under a single class, so it cannot leak across the site.
 
-#hrule()
-
 == Highlighting
-Code blocks need more care than headings or paragraphs, because the source has to survive the export before anything can highlight it. This used to need a sidecar: the pipeline replaced each rendered fence with an empty `pre`, emitted the raw text separately into a hidden `script` tagged with a matching label, and the parser paired the two back up.
+Code blocks need more care than headings or paragraphs, because the source has to survive the export before anything can highlight it. Previously, I stored this in a sidecar: the pipeline replaced each rendered fence with an empty `pre`, emitted the raw text separately into a hidden `script` tagged with a matching label, and the parser paired the two back up.
 
-That is no longer necessary. Typst's HTML export preserves the source of a block fence, indentation and all, and tags the element with `data-lang` unprompted. The parser now reads the text straight off the `code` element and hands it to Shiki with the language beside it. Tabs are the only casualty, since the export expands them to spaces according to `raw`'s tab size.
+Now Typst's HTML export preserves the source of a block fence, indentation and all, and tags the element with `data-lang` unprompted. The parser now reads the text straight off the `code` element and hands it to Shiki with the language beside it. Tabs are the only casualty, since the export expands them to spaces according to `raw`'s tab size.
 
-Removing the sidecar took a numbering scheme with it. Labels were generated twice, once by a show rule as each fence rendered and once by a query over the finished document, and a block only found its source if the two agreed. They did agree, but nothing made them.
-
-Highlighting runs on the server at build time, so the browser gets finished markup and no highlighting library. In the UI the code sits in a bordered card with the language label and a copy button that appears on hover; clicking it briefly swaps the icon to a tick before fading away again. The markup stays deterministic and themeable, and the interaction costs nothing on the client.
-
-#hrule()
+The highlighting is executed at build time so the browser gets finished markup. In the UI the code sits in a bordered card with the language label and a copy button that appears on hover; clicking it briefly swaps the icon to a tick before fading away again. The markup stays deterministic and themeable, and the interaction does not incur a runtime penalty.
 
 == MathML
 Typst v0.15.0 exports math as MathML, supported by most browsers with built in semantics and accessibility features. Writing
@@ -119,26 +119,14 @@ in the browser: the PDE that describes the flow of heat, where $alpha > 0$ is th
 This is the main benefit of using MathML over another SVG or image-based export.
 The markup carries semantics, a screen reader can walk it, and with some CSS it can be styled to match the rest of the page.
 
-The tradeoff is that browser MathML support is uneven. The generic solution is to ship a rendering library such as #link("https://www.mathjax.org/")[MathJax], but that adds roughly a megabyte of JavaScript to fix a handful of presentation issues. For a blog that is otherwise static HTML, that was not a good trade. Instead, I fixed the exported MathML at build time, where the complete tree is already available.
-
-=== Stretchy delimiters
-
-Typst does not emit `stretchy="false"` for delimiters#footnote[See #link("https://github.com/typst/typst/issues/8105")[issue] for details.], leaving the browser to decide whether brackets should stretch. Chromium can stretch brackets around single-line expressions, making otherwise ordinary expressions look inconsistent.
-
-The exporter cannot always make this decision because it does not yet know the final context of a delimiter. The post-processing pass can: it walks each `math` tree, pairs delimiters by depth, and checks whether the enclosed subtree contains anything that requires stretching, such as a fraction, root, table, or over-/under-script. If not, it adds `stretchy="false"`. Existing attributes are left untouched.
+The tradeoff is that MathML support is uneven across browsers. Chromium has a long-standing issue with MathML rendering of inline stretchy delimiters#footnote[See the Chromium #link("https://issues.chromium.org/issues/40256468")[issue].]. You can ship a rendering library such as #link("https://www.mathjax.org/")[MathJax] and it will handle the rendering for you. 
 
 === Alignment
 
-Aligned equations export to the correct MathML structure: Typst represents them as an `mtable`, with each `&` becoming a column boundary. The problem is presentation: without explicit column alignment, the `mtd` cells are centred independently, so the equals signs do not share an alignment point.
-
-That part is CSS: `mtd` behaves as a table cell, so a `text-align` rule on the exported aligned class is sufficient. Summation limits expose a different problem. sum uses `movablelimits`, but without `displaystyle` the limits remain beside the operator. Since `displaystyle` is a MathML attribute rather than CSS, the post-processing pass adds it to the relevant table.
-
-These fixes are deliberately specific. Rather than replacing the browser's MathML renderer, the build step corrects the small amount of presentation information that does not survive export.
-
-#hrule()
+Aligned equations are not supported yet due to an upstream bug in the HTML export.
 
 = How the layers are coupled
-The design rests on one thing: Typst emits a marker, the parser matches that marker
+Typst emits a marker, the parser matches that marker
 as a string, and Svelte maps the resulting block type to a component.
 
 ```typst
@@ -149,19 +137,17 @@ as a string, and Svelte maps the resulting block type to a component.
 ```
 
 The parser looks for exactly `side-note` on a top-level node, tags the block
-`type: "side-note"`, and the route renders `<SideNote>`. Three layers, coupled by a
-string literal, with nothing checking that they agree. Rename the class in one place
-and the block silently falls through to generic HTML. It works, and it is legible,
-but it is the weak point of the whole arrangement.
+`type: "side-note"`, and the route renders `<SideNote>`. This means that the Typst markup, the HTML parser, and the associated Svelte component are all coupled together.
 
 = Limitations
-Three problems are worth noting because they are what the next post is about.
 
-*The same source cannot target both PDF and HTML.* Typst's primary use case is still PDF authoring, and writing for the web currently requires reaching for `#html.frame` and `#figure` to keep an SVG alive. That is a hack sitting in the content layer, where it does not belong. Authoring in the source should be compatible with both PDF and HTML export.
+== The same source cannot target both PDF and HTML.
+Typst's primary use case is still PDF authoring, and writing for the web currently requires reaching for `#html.frame` and `#figure` to keep an SVG alive. That is a hack sitting in the content layer, where it does not belong. Authoring in the source should be compatible with both PDF and HTML export.
 
-Typst exposes a `target()` function that allows the source to branch on the export target: `"html"` under `--features html`. The helper layer should branch on that, so the author never has to.
+- Typst exposes a `target()` function that allows the source to branch on the export target: `"html"` under `--features html`. The helper layer should branch on that, so the author never has to.
 
-*The block model cannot nest.* This project started out as an MVP that worked for the simplest case: a flat list of blocks. The parser walks only the direct children of the `<body>`, and every block carries a string of HTML rather than child blocks.
+== The block model does not nest
+This project started out as an MVP that worked for the simplest case: a flat list of blocks. The parser walks only the direct children of the `<body>`, and every block carries a string of HTML rather than child blocks.
 
 #let fileblob(pos, label, tint: white, w: 34mm, ..args) = node(
   pos,
@@ -199,9 +185,10 @@ Typst exposes a `target()` function that allows the source to branch on the expo
   )
 ] <nesting>
 
-The fix is to make the parser recursive so that it walks into a block's children, but that is a lot of churn and it needs a properly designed block surface first. It also runs straight into the next problem.
+The parser should be recursive so that it walks into a block's children, but that is a lot of churn and is blocked by a properly designed component surface first.
 
-*Closed vocabulary.* Adding one new block type is not one edit, it is six. The marker has to be emitted from `lib.typ`; sometimes registered as a selector in `constants.ts`; given a branch and a factory in `parse.ts`; declared as an interface and added to the `PostBlock` union in `types.ts`; given a branch in the route; and finally written as a component of its own.
+== Closed Vocabulary
+Adding one new block type is not one edit, it is six. The marker has to be emitted from `lib.typ`; sometimes registered as a selector in `constants.ts`; given a branch and a factory in `parse.ts`; declared as an interface and added to the `PostBlock` union in `types.ts`; given a branch in the route; and finally written as a component of its own.
 
 #let need(pos, label) = node(pos, box(width: 40mm, align(left, edge-label(label))))
 
@@ -259,15 +246,13 @@ The fix is to make the parser recursive so that it walks into a block's children
   )
 ] <vocabulary>
 
-Six touch points for one component is a workable cost for a personal blog with four block types at the moment, but it is a hard lock-in that makes it impossible for other people to work with the system without forking and editing the source.
-
-#hrule()
+Six touch points for one component is a workable cost for a personal blog with four block types at the moment, but it is a hard lock-in that makes it impossible for others to work with the system without changing the plugin internals.
 
 Underneath all three is the same issue: this is a pipeline written for one site,
 with the host application's types reaching into it. What I want instead is an
 integration in the shape of #link("https://mdsvex.pngwn.io")[mdsvex] or
 `astro-typst`: Typst HTML in, a typed tree out, with the host app supplying the
-components and the renderer. That is the subject of the next post.
+components and the renderer.
 
 = Upcoming Posts
 The #link("tyquire")[next post] rebuilds the pipeline described above into something that could be
@@ -277,3 +262,4 @@ backdated:
 
 - Modern Monte Carlo
 - Squaredle Solver
+- Typst: compiler internals
