@@ -61,7 +61,11 @@ math[display='block'] {
  * dead scrollable space inside the frame instead of gaps around it.
  */
 .math-frame {
-	margin: 1em 0;
+	margin: 1rem 1rem;
+	min-width: 0;
+	max-width: 100%;
 	overflow-x: auto;
 	overflow-y: hidden;
+	scrollbar-width: thin;
+	scrollbar-color: var(--border) transparent;
 }
