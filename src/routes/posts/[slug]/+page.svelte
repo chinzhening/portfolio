@@ -2,9 +2,9 @@
     import '$lib/css/article.css';
 
     import Seo from '$lib/components/Seo.svelte';
+    import Tag from '$lib/components/Tag.svelte';
     import PostNavigation from '$lib/components/PostNavigation.svelte';
     import { components } from '$lib/components/article/components';
-    import { getTagHref } from '$lib/posts';
     import { formatDate, toKebabCase } from '$lib/utils';
     import TypstRenderer from '$tyquire/svelte/TypstRenderer.svelte';
 
@@ -24,12 +24,12 @@
 
 <div class="relative text-foreground min-h-screen">
     <main id="main" class="pt-8 pb-12 md:pt-16">
-        <article class="container mx-auto max-w-4xl px-5 lg:px-20">
-            <div class="mx-auto mb-4 border-b border-border pl-2">
-                <header class="relative">
+        <article class="mx-auto max-w-[80ch] px-6">
+            <div class="mb-4 border-b border-border pl-2">
+                <header>
                     <!-- Post Title -->
                     <h1
-                        class="relative font-monospace text-3xl font-medium tracking-tighter text-balance md:text-5xl"
+                        class="font-monospace text-2xl font-medium tracking-tighter text-balance md:text-3xl"
                     >
                         {metadata.title}
                     </h1>
@@ -41,20 +41,11 @@
 
                     <!-- Tags -->
                     {#if metadata.tags.length}
-                        <div class="mt-2 relative z-10 flex text-xs font-monospace">
+                        <div class="mt-2 px-2 relative z-10 flex text-xs font-monospace">
                             <ul aria-label="Post tags" class="flex gap-3">
                                 {#each metadata.tags as tag (tag)}
-                                    <li
-                                        class="
-                                        border
-                                        border-accent-cool hover:border-accent-warm
-                                        hover:text-accent-warm text-accent-cool
-                                    "
-                                    >
-                                        <!-- eslint-disable-next-line svelte/no-navigation-without-resolve -- getTagHref returns a resolved URL -->
-                                        <a class="flex px-2 py-0.5" href={getTagHref(tag)}>
-                                            {toKebabCase(tag)}
-                                        </a>
+                                    <li>
+                                        <Tag tag={{ slug: tag, label: toKebabCase(tag) }} />
                                     </li>
                                 {/each}
                             </ul>
@@ -62,7 +53,7 @@
                     {/if}
 
                     <dl
-                        class="relative z-10 mb-2 flex flex-col gap-2 py-4 text-sm font-monospace uppercase tracking-wider"
+                        class="relative z-10 mb-2 px-2 flex flex-col gap-2 py-4 text-sm font-monospace uppercase tracking-wider"
                     >
                         <div
                             class="
@@ -110,7 +101,7 @@
             </div>
         </article>
     </main>
-    <div class="container mx-auto px-6 max-w-3xl">
+    <div class="container mx-auto px-6 max-w-[80ch]">
         <PostNavigation {prevPost} {nextPost} />
     </div>
 </div>

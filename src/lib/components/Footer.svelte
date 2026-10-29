@@ -6,54 +6,29 @@
 <footer
     class="
     container mx-auto
-    px-6 pb-8 pt-6
-    max-w-3xl
-    border-t border-border/50
+    px-6 py-20
+    max-w-[80ch]
+    border-t border-border
     "
 >
-    <div class="flex-col md:flex justify-between font-monospace">
-        <span class="text-xs text-faint-foreground uppercase tracking-widest"
-            >{config.name} &copy; {config.year}</span
-        >
+    <div class="flex flex-col items-center gap-2 text-center font-monospace">
+        <span class="text-xs text-faint-foreground uppercase tracking-widest">
+            {config.name} &copy; {config.year} --+>
+            <a href="https://github.com/chinzhening/tyquire-template">Tyquire</a>
+        </span>
         <nav
             class="
             flex gap-3
+            justify-center
+            flex-wrap
             uppercase
-            text-accent-warm
+            text-foreground
             tracking-widest
             text-xs"
         >
             {#each config.socials as social (social.name)}
                 <a class="hover-link" rel="external" href={social.href}>{social.name}</a>
             {/each}
-
-            <span class="text-faint-foreground">---+></span>
-
-            <p
-                class="
-                relative
-                font-monospace
-                text-faint-foreground
-                uppercase tracking-widest
-                text-xs md:text-[0.72rem]"
-            >
-                <span class="block md:inline">
-                    <a class="hover-link" href="https://svelte.dev">Svelte</a>
-                    <span>\</span>
-                    <a class="hover-link" href="https://typst.app">Typst</a>
-                </span>
-            </p>
         </nav>
     </div>
 </footer>
-
-<style>
-    .hover-link {
-        transition: color 0.2s ease;
-    }
-    .hover-link:hover,
-    .hover-link:focus-visible {
-        color: var(--accent-warm);
-        text-underline-offset: 4px;
-    }
-</style>

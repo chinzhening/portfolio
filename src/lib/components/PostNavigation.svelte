@@ -58,7 +58,7 @@
     .post-navigation {
         margin-top: 3rem;
         overflow: hidden;
-        border-top: 1px solid color-mix(in oklab, var(--border) 30%, transparent);
+        border-top: 1px solid var(--border);
     }
 
     .navigation-grid {
@@ -77,6 +77,7 @@
         gap: 0.45rem;
         padding: 0.85rem 1rem;
         color: var(--text-1);
+        border: none;
         transition:
             color 0.2s ease,
             translate 0.2s ease;
@@ -96,6 +97,7 @@
         font-size: 0.68rem;
         letter-spacing: 0.18em;
         text-transform: uppercase;
+        border: none;
     }
 
     .nav-label {
@@ -105,7 +107,7 @@
 
     .nav-title {
         font-family: var(--font-monospace);
-        font-size: clamp(1.05rem, 2vw, 1.35rem);
+        font-size: clamp(0.875rem, 1.5vw, 1rem);
         line-height: 1.2;
         text-wrap: balance;
     }
@@ -117,32 +119,33 @@
         align-items: stretch;
         justify-content: center;
         gap: 1rem;
-        border-top: 1px solid color-mix(in oklab, var(--border) 30%, transparent);
-        border-bottom: 1px solid color-mix(in oklab, var(--border) 30%, transparent);
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
     }
 
     .utility-link {
         display: inline-flex;
         flex: 1 1 0;
-        width: 7rem;
+        width: 3rem;
         min-height: 3.75rem;
         align-items: center;
         justify-content: center;
         color: var(--text-2);
         cursor: pointer;
+        text-decoration: none;
         transition: color 0.2s ease;
     }
 
     .utility-link + .utility-link {
         padding-left: 1rem;
-        border-left: 1px solid color-mix(in oklab, var(--border) 30%, transparent);
+        border-left: 1px solid var(--border);
     }
 
     .nav-link:hover,
     .nav-link:focus-visible,
     .utility-link:hover,
     .utility-link:focus-visible {
-        color: var(--accent-warm);
+        color: var(--text-1);
     }
 
     .nav-link.previous:hover .nav-label,
@@ -157,7 +160,7 @@
 
     .nav-link:focus-visible,
     .utility-link:focus-visible {
-        outline: 1px solid var(--accent-warm);
+        outline: 1px solid var(--text-1);
         outline-offset: -2px;
     }
 
@@ -170,8 +173,8 @@
             min-height: 0;
             align-items: stretch;
             border: 0;
-            border-right: 1px solid color-mix(in oklab, var(--border) 30%, transparent);
-            border-left: 1px solid color-mix(in oklab, var(--border) 30%, transparent);
+            border-right: 1px solid var(--border);
+            border-left: 1px solid var(--border);
             padding-inline: 1rem;
         }
     }

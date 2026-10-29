@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { gsap } from 'gsap';
     import '$lib/css/shiki.css';
 
     import type { TypstComponentProps } from '$tyquire/svelte/types';
@@ -13,41 +12,11 @@
     let highlightedHtml = $derived(props.highlighted as string);
 
     let copied = $state(false);
-    let isHovered = $state(false);
     let resetTimer: number | undefined;
-    let copyButton = $state<HTMLButtonElement>();
-
-    function animateCopyButton(opacity: number) {
-        if (!copyButton) return;
-
-        gsap.to(copyButton, {
-            opacity,
-            duration: 0.2,
-            ease: 'power2.out',
-            overwrite: true
-        });
-    }
-
-    function showCopyButton() {
-        isHovered = true;
-        animateCopyButton(1);
-    }
-
-    function hideCopyButton() {
-        isHovered = false;
-
-        if (!copied) {
-            animateCopyButton(0);
-        }
-    }
 
     $effect(() => {
-        const button = copyButton;
-        if (!button) return;
-        gsap.set(button, { opacity: 0 });
         return () => {
             if (resetTimer) window.clearTimeout(resetTimer);
-            gsap.killTweensOf(button);
         };
     });
 
@@ -60,49 +29,30 @@
         }
 
         copied = true;
-        animateCopyButton(1);
 
         if (resetTimer) {
             window.clearTimeout(resetTimer);
         }
 
         resetTimer = window.setTimeout(() => {
-            if (isHovered) {
-                copied = false;
-                resetTimer = undefined;
-                return;
-            }
-
-            animateCopyButton(0);
-
-            resetTimer = window.setTimeout(() => {
-                copied = false;
-                resetTimer = undefined;
-            }, 200);
+            copied = false;
+            resetTimer = undefined;
         }, 2400);
     }
 </script>
 
-<!-- Styled from article.css under `.typst`, like SideNote and FigureBlock. -->
-<div
-    role="group"
-    aria-label={`${language} code`}
-    class="code-block relative"
-    onmouseenter={showCopyButton}
-    onmouseleave={hideCopyButton}
->
+<!-- Styled from article.css under `.typst`, like Callout and FigureBlock. -->
+<div role="group" aria-label={`${language} code`} class="code-block relative">
     <div class="px-4 pt-1 flex justify-between">
         <div class="flex items-center text-xs font-monospace uppercase tracking-widest">
             {language}
         </div>
         <button
-            bind:this={copyButton}
-            class="inline-flex items-center justify-center relative isolate select-none transition-colors duration-300 ease-[cubic-bezier(0.165,0.85,0.45,1)] h-8 w-8 backdrop-blur-md text-foreground hover:cursor-pointer focus-visible:outline-none focus-visible:ring-1"
+            class="copy-button"
+            class:copied
             type="button"
             aria-label="Copy to clipboard"
             onclick={copyToClipboard}
-            onfocus={showCopyButton}
-            onblur={hideCopyButton}
         >
             <div class="relative">
                 <div class="flex h-5 w-5 items-center justify-center">
@@ -144,21 +94,53 @@
     <!-- Scrolls here; the injected <pre> no longer does. Focusable per WCAG 2.1.1.
          Shiki also emits its own tabindex on the <pre> - see plugin #15 -->
     <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-    <div
-        class="pl-4 mb-4 max-h-[800px] overflow-auto focus-visible:outline-[2px_solid_var(--accent-warm)]"
-        tabindex="0"
-        role="region"
-        aria-label={`${language} source`}
-    >
+    <div class="code-scroll pl-4 mb-4" tabindex="0" role="region" aria-label={`${language} source`}>
         {@html highlightedHtml}
     </div>
 </div>
 
 <style>
+    /* ─── Code blocks ──────────────────────────────────────────────────────────────── */
     .code-block {
         margin-block: 1.5rem;
         overflow: hidden;
         background: var(--surface-2);
-        border-left: 3px solid var(--accent-warm);
+        border: 1px solid var(--border);
+        border-radius: 0.75rem;
+    }
+
+    .copy-button {
+        display: inline-flex;
+        position: relative;
+        isolation: isolate;
+        align-items: center;
+        justify-content: center;
+        width: 2rem;
+        height: 2rem;
+        cursor: pointer;
+        color: var(--text-1);
+        opacity: 0;
+        transition: opacity 0.2s ease;
+    }
+
+    .code-block:hover .copy-button,
+    .copy-button:focus-visible,
+    .copy-button.copied {
+        opacity: 1;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .copy-button {
+            transition: none;
+        }
+    }
+
+    .code-scroll {
+        min-width: 0;
+        max-width: 100%;
+        overflow-x: auto;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: var(--border) transparent;
     }
 </style>

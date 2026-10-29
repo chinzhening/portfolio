@@ -1,6 +1,6 @@
 import { error } from '@sveltejs/kit';
 
-import { getPrevAndNextPostLinks } from '$lib/posts';
+import { getPrevAndNextPostLinks, validatePostMetadata } from '$lib/posts';
 import type { PostMetadata } from '$lib/types';
 import type { TypstNode } from '$tyquire';
 
@@ -27,5 +27,8 @@ interface PostDocument {
 
 async function importPostDocument(slug: string): Promise<PostDocument> {
     const module = await import(`../../../lib/content/${slug}.typ`);
-    return { metadata: module.metadata as PostMetadata, children: module.default as TypstNode[] };
+    return {
+        metadata: validatePostMetadata(module.metadata, `src/lib/content/${slug}.typ`),
+        children: module.default as TypstNode[]
+    };
 }

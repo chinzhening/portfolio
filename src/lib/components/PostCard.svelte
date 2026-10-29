@@ -1,7 +1,7 @@
 <script lang="ts">
     import { formatDate, toKebabCase } from '$lib/utils';
 
-    import { getTagHref } from '$lib/posts';
+    import Tag from '$lib/components/Tag.svelte';
     import type { PostSummary } from '$lib/posts';
 
     let {
@@ -17,17 +17,14 @@
 <!-- Post preview card: date, title, summary, and up to three tags. -->
 <div class={['relative', className]}>
     <div class="flex h-full flex-col font-monospace">
-        <!-- Card header: publish date and open indicator. -->
-        <div class="flex">
-            <span class="text-[0.7rem] uppercase tracking-widest text-accent-warm">
-                {formatDate(post.publish_date)}
-            </span>
-        </div>
+        <span class="text-[0.7rem] uppercase tracking-widest">
+            {formatDate(post.publish_date)}
+        </span>
 
         <!-- Card body: title and summary. -->
         <!-- Only the title is the link; ::after stretches its hit area over
              the whole card, so the accessible name stays just the title. -->
-        <h2 class="mt-1 text-balance leading-tight font-medium tracking-tight text-xl md:text-2xl">
+        <h2 class="text-balance leading-tight font-medium tracking-tight text-xl md:text-2xl">
             <!-- eslint-disable svelte/no-navigation-without-resolve -- post.href is resolved in posts.ts -->
             <a
                 class="after:absolute after:inset-0 after:inset-be-8 after:content-['']"
@@ -45,20 +42,18 @@
         <div class="mt-2">
             <div class="flex flex-wrap gap-4 text-xs">
                 {#each post.tags as tag (tag)}
-                    <div
-                        class="
-                    border
-                        border-accent-cool hover:border-accent-warm
-                        hover:text-accent-warm text-accent-cool
-                    "
-                    >
-                        <!-- eslint-disable-next-line svelte/no-navigation-without-resolve -- getTagHref returns a resolved URL -->
-                        <a class="flex px-2 py-0.5" href={getTagHref(tag)}>
-                            {toKebabCase(tag)}
-                        </a>
-                    </div>
+                    <Tag tag={{ slug: tag, label: toKebabCase(tag) }} />
                 {/each}
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    h2 {
+        margin-top: 0.5rem;
+    }
+    a {
+        border: 0;
+    }
+</style>

@@ -11,102 +11,88 @@
 
 <Seo title={config.title} path="/" />
 
-<main id="main" class="min-h-screen bg-background">
-    <div class="mx-auto pb-20 px-6 max-w-3xl">
+<main id="main" class="page-prose">
+    <div class="page-content">
         <!-- Main section / introduction -->
-        <section class="mt-8 md:mt-12 text-md font-monospace">
-            <!-- greet -->
-            <p class="mt-4 text-faint-foreground">```</p>
-            <p>
-                Hello there! I studied mathematics and statistics at NUS, and now I'm currently {config.status}
-            </p>
-            <p class="mt-4">
-                I enjoy open source development and reading AI/ML research. Currently, I am working
-                on the <a class="external-link" href="https://github.com/typst/typst"
-                    >Typst project</a
-                >, a modern typesetting system that I use to typeset technical documents.
-            </p>
+        <h1>1. Introduction</h1>
+        <!-- greet -->
+        <p>
+            Hello there! I studied mathematics and statistics at NUS, and now I'm currently {config.status}
+        </p>
+        <p>
+            I enjoy open source development and reading AI/ML research. Currently, I am working on
+            the <a href="https://github.com/typst/typst">Typst project</a>, a modern typesetting
+            system that I use to typeset technical documents.
+        </p>
 
-            <p class="mt-4">
-                Check out my <a
-                    class="text-accent-warm underline underline-offset-2"
-                    href={resolve('/resume.pdf')}>resume</a
-                >
-                and <a class="external-link" href="https://github.com/chinzhening">github</a>.
-            </p>
-            <p class="mt-2 text-faint-foreground">```</p>
-        </section>
+        <p>
+            Check out my <a href={resolve('/resume.pdf')}>resume</a>
+            and <a href="https://github.com/chinzhening">github</a>.
+        </p>
 
         <!-- TODO: Add projects -->
         <!-- <section class="mt-8 md:mt-12 font-monospace">
-            <div class="flex justify-between gap-4">
-                <h2 class="flex items-center gap-4 text-sm text-accent tracking-wider font-semibold uppercase">
-                    = projects
-                </h2>
+        <div class="flex justify-between gap-4">
+            <h2 class="flex items-center gap-4 text-sm tracking-wider font-semibold uppercase">
+                = projects
+            </h2>
 
-                <a
-                    class="
-                        text-nowrap
-                        text-border
-                        translate-x-0 translate-y-0
-                        transition-transform duration-200
-                        hover:translate-x-[1em]
-                        focus-visible:translate-x-[1em]"
-                    href={resolve('/projects')}
-                >
-                    all projects &raquo;
-                </a>
-            </div>
-        </section> -->
+            <a
+                class="
+                    text-nowrap
+                    text-border
+                    translate-x-0 translate-y-0
+                    transition-transform duration-200
+                    hover:translate-x-[1em]
+                    focus-visible:translate-x-[1em]"
+                href={resolve('/projects')}
+            >
+                all projects &raquo;
+            </a>
+        </div>
+    </section> -->
 
         <!-- Recent posts -->
-        <section class="mt-8 md:mt-12 font-monospace">
-            <div class="flex justify-between gap-4">
-                <h2 class="section-heading">= recent posts</h2>
-
-                <a
+        <div class="flex justify-between items-center" style="margin-top: 2rem;">
+            <h1 style="margin-top: 0rem;">2. posts</h1>
+            <a
+                class="
+                text-nowrap
+                text-border
+                translate-x-0 translate-y-0
+                transition-transform duration-200
+                hover:translate-x-[1em]
+                focus-visible:translate-x-[1em]"
+                style="border: none;"
+                href={resolve('/posts')}
+            >
+                all &raquo;
+            </a>
+        </div>
+        <ul class="flex flex-col">
+            {#each data.posts.slice(0, 3) as post, index (post.slug)}
+                <li
                     class="
-                        text-nowrap
-                        text-border
-                        translate-x-0 translate-y-0
-                        transition-transform duration-200
-                        hover:translate-x-[1em]
-                        focus-visible:translate-x-[1em]"
-                    href={resolve('/posts')}
+                grid py-4
+                grid-cols-[16px_1fr] md:grid-cols-[24px_1fr]
+                gap-3 md:gap-4
+                not-first:border-t border-border
+            "
                 >
-                    all posts &raquo;
-                </a>
-            </div>
-
-            <ul class="flex flex-col">
-                {#each data.posts.slice(0, 3) as post, index (post.slug)}
-                    <li
-                        class="
-                        grid py-4 pl-2
-                        grid-cols-[32px_1fr] md:grid-cols-[44px_1fr]
-                        gap-2 md:gap-3
-                        not-first:border-t border-border/50
-                    "
-                    >
-                        <div class="pt-1 text-sm text-faint-foreground">
-                            {padZero(index + 1)}.
-                        </div>
-                        <PostCard {post} />
-                    </li>
-                {/each}
-            </ul>
-        </section>
+                    <div class="text-sm text-faint-foreground">
+                        {padZero(index + 1)}.
+                    </div>
+                    <PostCard {post} />
+                </li>
+            {/each}
+        </ul>
 
         <!-- Friend section -->
-        <section class="mt-8 md:mt-12 font-monospace">
-            <h2 class="section-heading">= friends</h2>
-            <p class="mt-2">
-                Check out these cool and smart people:
-                <a class="external-link" href="https://wyan.win/">Way Yan</a>,
-                <a class="external-link" href="https://saddle196883.github.io/personalpage/aboutme/"
-                    >Timo</a
-                >
-            </p>
-        </section>
+        <h1 class="section-heading">3. friends</h1>
+        <p class="mt-2">
+            Check out these cool and smart people:
+            <a href="https://wyan.win/">Way Yan</a>,
+            <a href="https://saddle196883.github.io/personalpage/aboutme/">Timo</a>
+        </p>
     </div>
 </main>

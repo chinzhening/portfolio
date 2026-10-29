@@ -16,3 +16,15 @@
 .shiki {
 	background-color: transparent !important;
 }
+
+.code-block pre {
+	overflow: visible !important;
+	max-width: none;
+	width: max-content;
+	min-width: 100%;
+	margin: 0;
+}
+
+.code-block code {
+	white-space: inherit;
+}

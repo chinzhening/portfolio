@@ -1,40 +1,44 @@
 <script lang="ts">
+    import { onMount } from 'svelte';
     import { page } from '$app/state';
+    import * as config from '$lib/config';
     import { pages } from '$lib/config';
     import { resolve } from '$app/paths';
 
-    type Theme = 'system' | 'light' | 'dark';
-    let theme = $state<Theme>(
-        typeof localStorage !== 'undefined'
-            ? (localStorage.getItem('theme') as Theme) || 'system'
-            : 'system'
-    );
+    type Theme = 'light' | 'dark';
+    let theme = $state<Theme>('light');
+
+    onMount(() => {
+        const savedTheme = localStorage.getItem('theme');
+        theme =
+            savedTheme === 'light' || savedTheme === 'dark'
+                ? savedTheme
+                : window.matchMedia('(prefers-color-scheme: dark)').matches
+                  ? 'dark'
+                  : 'light';
+
+        document.documentElement.setAttribute('color-scheme', theme);
+    });
 
     function toggleTheme() {
-        const themes: Theme[] = ['system', 'light', 'dark'];
-        theme = themes[(themes.indexOf(theme) + 1) % themes.length];
-
-        if (theme === 'system') {
-            document.documentElement.removeAttribute('color-scheme');
-            localStorage.removeItem('theme');
-        } else {
-            document.documentElement.setAttribute('color-scheme', theme);
-            localStorage.setItem('theme', theme);
-        }
+        theme = theme === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('color-scheme', theme);
+        localStorage.setItem('theme', theme);
     }
 </script>
 
 <header
     class="
     container mx-auto
-    max-w-3xl
+    max-w-[80ch]
     px-6
-    mt-4
+    mt-6
+    pt-6
     "
 >
     <div class="flex gap-4 justify-between">
-        <a class="font-monospace text-md pt-2 pb-1" href={resolve('/')} aria-label="Home"
-            ><span>zhening:blog</span></a
+        <a class="font-monospace text-md pt-2 px-4 pb-1" href={resolve('/')} aria-label="Home"
+            ><span>{config.name}:blog</span></a
         >
         <nav class="items-center flex font-monospace lowercase text-dim-foreground">
             <!-- Block form, not disable-next-line: the href sits mid-tag and the
@@ -43,8 +47,7 @@
             {#each pages as navPage (navPage.name)}
                 <a
                     class="
-                        {page.url.pathname === navPage.href ? 'active-link' : 'hover-link'}
-                        py-1 px-2
+                        px-2
                         justify-self-center
                         text-xs
                         uppercase tracking-widest
@@ -60,29 +63,18 @@
             <button
                 class="theme-toggle"
                 onclick={toggleTheme}
-                aria-label="Dark mode toggle"
+                aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
                 aria-pressed={theme === 'dark'}
             ></button>
         </nav>
     </div>
     <!-- styled divider bottom -->
-    <div
-        class="bg-[linear-gradient(90deg,var(--accent-warm)_0_48px,var(--border)_48px)] h-px w-full"
-    ></div>
+    <div class="h-px w-full bg-border"></div>
 </header>
 
 <style>
-    .active-link {
-        color: var(--accent-warm);
-        text-decoration: underline;
-        text-underline-offset: 4px;
-    }
-    .hover-link {
-        transition: color 0.1s ease;
-    }
-    .hover-link:hover,
-    .hover-link:focus-visible {
-        color: var(--accent-warm);
+    a {
+        border-bottom: none;
     }
 
     :global(:root[color-scheme='dark'] .theme-toggle:before) {
@@ -101,13 +93,13 @@
         display: grid;
     }
     .theme-toggle:hover:before {
-        border-color: var(--accent-warm);
-        background-image: linear-gradient(90deg, var(--accent-warm) 50%, transparent 50%);
+        border-color: var(--text-1);
+        background: var(--text-1);
     }
     .theme-toggle:before {
         content: '';
         border: 1.5px solid var(--text-4);
-        background: linear-gradient(90deg, var(--text-4) 50%, transparent 50%);
+        background: transparent;
         border-radius: 50%;
         width: 12px;
         height: 12px;

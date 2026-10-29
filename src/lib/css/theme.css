@@ -1,157 +1,88 @@
-@import './fonts.css';
-
 /*
- * Primitive palette + the light/dark semantic mapping.
+ * Shibui-inspired theme for the Tyquire template.
  *
- * Font stacks live in app.css `@theme` so that Tailwind owns every
- * `--font-*` name; defining them here as well would shadow that block.
- * Never declare a `--color-*` name here — that namespace is reserved by
- * Tailwind's `@theme`, and an unlayered declaration silently overrides it.
+ * Adapted from Shibui by ntk148v:
+ * https://github.com/ntk148v/shibui
+ * Shibui is distributed under the MIT license.
  */
+
 html {
-	/* Muted amber ramp for links, rules, selection, and active states. */
-	--warm-1: oklch(0.97 0.025 78);
-	--warm-2: oklch(0.92 0.05 76);
-	--warm-3: oklch(0.84 0.1 70);
-	--warm-4: oklch(0.74 0.14 63);
-	--warm-5: oklch(0.64 0.16 55);
-	--warm-6: oklch(0.54 0.14 48);
-	--warm-7: oklch(0.42 0.1 42);
+	--shibui-light-background: hsl(0 0% 99%);
+	--shibui-light-surface: hsl(0 0% 97%);
+	--shibui-light-border: hsl(0 0% 93%);
+	--shibui-light-selection: hsl(0 0% 86%);
+	--shibui-light-primary: hsl(0 0% 8%);
+	--shibui-light-muted: hsl(0 0% 30%);
 
-	/* Desaturated blue ramp for code and secondary emphasis. */
-	--blue-1: oklch(0.97 0.008 238);
-	--blue-2: oklch(0.93 0.015 238);
-	--blue-3: oklch(0.84 0.035 238);
-	--blue-4: oklch(0.72 0.06 238);
-	--blue-5: oklch(0.6 0.07 240);
-	--blue-6: oklch(0.48 0.065 242);
-	--blue-7: oklch(0.35 0.045 244);
-
-	/* Low-chroma blue-gray ramp for the editor-like light and dark themes. */
-	--gray-0: oklch(0.99 0.006 245);
-	--gray-1: oklch(0.97 0.008 245);
-	--gray-2: oklch(0.945 0.009 245);
-	--gray-3: oklch(0.91 0.01 245);
-	--gray-4: oklch(0.84 0.012 245);
-	--gray-5: oklch(0.7 0.012 245);
-	--gray-6: oklch(0.58 0.012 245);
-	--gray-7: oklch(0.4 0.012 245);
-	--gray-8: oklch(0.3 0.012 245);
-	--gray-9: oklch(0.22 0.012 245);
-	--gray-10: oklch(0.18 0.012 245);
-	--gray-11: oklch(0.16 0.012 245);
-	--gray-12: oklch(0.105 0.01 245);
-
-	/* Dark mode semantic colors */
-	--accent-warm-dark: var(--warm-3);
-	--accent-cool-dark: var(--blue-3);
-	--text-1-dark: var(--gray-1);
-	--text-2-dark: var(--gray-4);
-	--text-3-dark: var(--gray-5);
-	--text-4-dark: var(--gray-6);
-	--surface-1-dark: var(--gray-10);
-	--surface-2-dark: var(--gray-9);
-	--surface-3-dark: var(--gray-8);
-	--surface-4-dark: var(--gray-7);
-	--surface-cool-dark: var(--blue-7);
-	--background-dark: var(--gray-11);
-	--border-dark: var(--gray-7);
-	--selection-dark: var(--blue-7);
-
-	/* Light mode semantic colors */
-	--accent-warm-light: var(--warm-6);
-	--accent-cool-light: var(--blue-6);
-	--text-1-light: var(--gray-9);
-	--text-2-light: var(--gray-8);
-	--text-3-light: var(--gray-7);
-	--text-4-light: var(--gray-6);
-	--surface-1-light: var(--gray-1);
-	--surface-2-light: var(--gray-2);
-	--surface-3-light: var(--gray-3);
-	--surface-4-light: var(--gray-4);
-	--surface-cool-light: var(--blue-2);
-	--background-light: var(--gray-0);
-	--border-light: var(--gray-5);
-	--selection-light: var(--blue-2);
+	--shibui-dark-background: hsl(0 0% 8%);
+	--shibui-dark-surface: hsl(0 0% 11%);
+	--shibui-dark-border: hsl(0 0% 20%);
+	--shibui-dark-selection: hsl(0 0% 27%);
+	--shibui-dark-primary: hsl(0 0% 92%);
+	--shibui-dark-muted: hsl(0 0% 70%);
 }
 
 :root {
-	color-scheme: dark;
-
-	--accent-warm: var(--accent-warm-dark);
-	--accent-cool: var(--accent-cool-dark);
-	--text-1: var(--text-1-dark);
-	--text-2: var(--text-2-dark);
-	--text-3: var(--text-3-dark);
-	--text-4: var(--text-4-dark);
-	--surface-1: var(--surface-1-dark);
-	--surface-2: var(--surface-2-dark);
-	--surface-3: var(--surface-3-dark);
-	--surface-4: var(--surface-4-dark);
-	--surface-cool: var(--surface-cool-dark);
-	--background: var(--background-dark);
-	--border: var(--border-dark);
-	--selection: var(--selection-dark);
+	--text-1: var(--shibui-dark-primary);
+	--text-2: var(--shibui-dark-muted);
+	--text-3: var(--shibui-dark-muted);
+	--text-4: hsl(0 0% 50%);
+	--surface-1: var(--shibui-dark-surface);
+	--surface-2: var(--shibui-dark-surface);
+	--background: var(--shibui-dark-background);
+	--border: var(--shibui-dark-border);
+	--selection: var(--shibui-dark-selection);
 }
 
 @media (prefers-color-scheme: light) {
 	:root {
-		color-scheme: light;
-
-		--accent-warm: var(--accent-warm-light);
-		--accent-cool: var(--accent-cool-light);
-
-		--text-1: var(--text-1-light);
-		--text-2: var(--text-2-light);
-		--text-3: var(--text-3-light);
-		--text-4: var(--text-4-light);
-
-		--surface-1: var(--surface-1-light);
-		--surface-2: var(--surface-2-light);
-		--surface-3: var(--surface-3-light);
-		--surface-4: var(--surface-4-light);
-		--surface-cool: var(--surface-cool-light);
-
-		--background: var(--background-light);
-		--border: var(--border-light);
-		--selection: var(--selection-light);
+		--text-1: var(--shibui-light-primary);
+		--text-2: var(--shibui-light-muted);
+		--text-3: var(--shibui-light-muted);
+		--text-4: hsl(0 0% 48%);
+		--surface-1: var(--shibui-light-surface);
+		--surface-2: var(--shibui-light-surface);
+		--background: var(--shibui-light-background);
+		--border: var(--shibui-light-border);
+		--selection: var(--shibui-light-selection);
 	}
 }
 
-[color-scheme='dark'] {
-	color-scheme: dark;
-
-	--accent-warm: var(--accent-warm-dark);
-	--accent-cool: var(--accent-cool-dark);
-	--text-1: var(--text-1-dark);
-	--text-2: var(--text-2-dark);
-	--text-3: var(--text-3-dark);
-	--text-4: var(--text-4-dark);
-	--surface-1: var(--surface-1-dark);
-	--surface-2: var(--surface-2-dark);
-	--surface-3: var(--surface-3-dark);
-	--surface-4: var(--surface-4-dark);
-	--surface-cool: var(--surface-cool-dark);
-	--background: var(--background-dark);
-	--border: var(--border-dark);
-	--selection: var(--selection-dark);
+:root[color-scheme='light'] {
+	--text-1: var(--shibui-light-primary);
+	--text-2: var(--shibui-light-muted);
+	--text-3: var(--shibui-light-muted);
+	--text-4: hsl(0 0% 48%);
+	--surface-1: var(--shibui-light-surface);
+	--surface-2: var(--shibui-light-surface);
+	--background: var(--shibui-light-background);
+	--border: var(--shibui-light-border);
+	--selection: var(--shibui-light-selection);
 }
 
-[color-scheme='light'] {
-	color-scheme: light;
+:root[color-scheme='dark'] {
+	--text-1: var(--shibui-dark-primary);
+	--text-2: var(--shibui-dark-muted);
+	--text-3: var(--shibui-dark-muted);
+	--text-4: hsl(0 0% 50%);
+	--surface-1: var(--shibui-dark-surface);
+	--surface-2: var(--shibui-dark-surface);
+	--background: var(--shibui-dark-background);
+	--border: var(--shibui-dark-border);
+	--selection: var(--shibui-dark-selection);
+}
 
-	--accent-warm: var(--accent-warm-light);
-	--accent-cool: var(--accent-cool-light);
-	--text-1: var(--text-1-light);
-	--text-2: var(--text-2-light);
-	--text-3: var(--text-3-light);
-	--text-4: var(--text-4-light);
-	--surface-1: var(--surface-1-light);
-	--surface-2: var(--surface-2-light);
-	--surface-3: var(--surface-3-light);
-	--surface-4: var(--surface-4-light);
-	--surface-cool: var(--surface-cool-light);
-	--background: var(--background-light);
-	--border: var(--border-light);
-	--selection: var(--selection-light);
+body {
+	font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+	font-size: 0.85rem;
+	line-height: 1.5;
+}
+
+a {
+	color: var(--text-1);
+	border-bottom: 1px dotted currentColor;
+}
+
+a:hover {
+	color: var(--text-2);
 }
