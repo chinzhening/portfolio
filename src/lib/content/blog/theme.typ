@@ -2,7 +2,7 @@
 #import "lib.typ": component, is-html
 
 #let fonts = (
-  mono: "JetBrainsMono NF",
+  mono: "DejaVu Sans Mono",
 )
 
 // Horizontal rule element.
