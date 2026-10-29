@@ -155,7 +155,6 @@
 </div>
 
 <style>
-    /* ─── Code blocks ──────────────────────────────────────────────────────────────── */
     .code-block {
         margin-block: 1.5rem;
         overflow: hidden;

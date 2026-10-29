@@ -4,7 +4,7 @@ import type { TypstComponentProps } from '$tyquire/svelte/types';
 
 import CodeBlock from './CodeBlock.svelte';
 import FigureBlock from './FigureBlock.svelte';
-import SideNote from './SideNote.svelte';
+import Callout from './Callout.svelte';
 
 /**
  * Names emitted by `component()` in the Typst prelude, mapped to the components
@@ -14,5 +14,5 @@ import SideNote from './SideNote.svelte';
 export const components: Record<string, Component<TypstComponentProps>> = {
     code: CodeBlock,
     figure: FigureBlock,
-    'side-note': SideNote
+    callout: Callout
 };

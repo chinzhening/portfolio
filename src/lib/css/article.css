@@ -177,59 +177,6 @@
 	margin-bottom: 0;
 }
 
-/* ─── Callouts (side notes, endnotes) ─────────────────────────────────────────── */
-
-.typst .callout {
-	position: relative;
-	margin: 2.5rem 0;
-	padding: 3rem 1.5rem 1.5rem;
-	border: 1px solid var(--border);
-	background: var(--surface-2);
-}
-
-/*
- * The house label: uppercase monospace, worn by callout labels.
- */
-.typst .callout > .label,
-.typst .code-title {
-	font-family: var(--font-monospace);
-	font-size: 0.8rem;
-	line-height: 1;
-	letter-spacing: 0.05rem;
-	text-transform: uppercase;
-}
-
-/* Floating variant: sits astride the container's top border. */
-.typst .callout > .label {
-	position: absolute;
-	top: 1.5rem;
-	left: 1rem;
-	z-index: 1;
-	transform: translateY(-50%);
-	padding: 0.35rem 0.6rem;
-	color: var(--color-faint-foreground);
-}
-
-/* Neutralise the trailing margin of whatever ends the callout. */
-.typst .callout > :last-child {
-	margin-bottom: 0;
-}
-
-/* Edge-to-edge on narrow viewports. */
-@media (width < 40rem) {
-	.typst .callout {
-		margin-inline: -1.5rem;
-		width: calc(100% + 3rem);
-		border-inline: 0;
-	}
-}
-
-@media (width >= 64rem) {
-	.typst .callout {
-		padding: 3rem 1.75rem 1.75rem;
-	}
-}
-
 /* Footnote section */
 .typst section[role='doc-endnotes'] {
 	margin-top: 3rem;

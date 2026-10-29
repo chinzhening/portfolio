@@ -1,6 +1,7 @@
 <script lang="ts">
     import { resolve } from '$app/paths';
     import * as config from '$lib/config';
+    import Seo from '$lib/components/Seo.svelte';
     import PostCard from '$lib/components/PostCard.svelte';
 
     import { padZero } from '$lib/utils';
@@ -8,9 +9,7 @@
     let { data } = $props();
 </script>
 
-<svelte:head>
-    <title>{config.title}</title>
-</svelte:head>
+<Seo title={config.title} path="/" />
 
 <main id="main" class="min-h-screen bg-background">
     <div class="mx-auto pb-20 px-6 max-w-3xl">

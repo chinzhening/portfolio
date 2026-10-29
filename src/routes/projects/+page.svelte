@@ -1,10 +1,8 @@
 <script lang="ts">
-    import { title } from '$lib/config';
+    import Seo from '$lib/components/Seo.svelte';
 </script>
 
-<svelte:head>
-    <title>Projects | {title}</title>
-</svelte:head>
+<Seo title="Projects" path="/projects" />
 
 <main id="main" class="bg-background">
     <div class="mx-auto px-6 max-w-3xl mb-20 font-monospace">

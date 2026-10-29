@@ -6,7 +6,8 @@
   title: "First Post",
   desc: [Setting up the blog and writing the first post.],
   published: true,
-  publish_date: datetime(year: 2026, month: 8, day: 14), 
+  publish_date: datetime(year: 2026, month: 8, day: 14),
+  edited_date: datetime(year: 2026, month: 10, day: 29),
   tags: (
     "dev-log",
     "typst",
@@ -102,7 +103,7 @@ $
 $
 in the browser: the PDE that describes the flow of heat, where $alpha > 0$ is the thermal diffusivity constant, and $u(x, t)$ is the temperature distribution over space and time.
 
-#side-note[
+#callout()[
   For an infinite rod with initial condition $u(x, 0) = f(x)$, the solution is $f$
   convolved with the *heat kernel*:
 

@@ -1,19 +1,21 @@
 #let muted-colors = (
-  yellow: rgb("#e7ddc4"),      // pale sand / warm beige
-  dark-yellow: rgb("#c9b27c"), // mustard / ochre
-  orange: rgb("#d9883b"),      // terracotta
-  dark-orange: rgb("#b86b2a"), // burnt orange
-  red: rgb("#b85c49"),         // rust
-  dark-red: rgb("#8b3a2b"),    // deep brick
-  green: rgb("#8aa174"),       // sage
-  dark-green: rgb("#6b8a5a"),  // olive
-  blue: rgb("#9aa7b2"),        // slate
-  dark-blue: rgb("#6f8790"),   // slate deep
-  purple: rgb("#a77b9a"),      // muted plum
-  dark-purple: rgb("#7e556b"), // deep plum
-  cyan: rgb("#7ab8c9"),        // muted cyan
-  dark-cyan: rgb("#568a9b"),   // deep cyan
-  gray: rgb("#cfc6bd"),        // warm gray
-  dark-gray: rgb("#8d847a"),   // charcoal brownish
-  white: rgb("#fdfcf9"),       // off-white
+  // Shibui's neutral palette. The descriptive names remain stable so
+  // diagrams can choose distinct tones without introducing accents.
+  white: rgb("#fdfdfd"),
+  yellow: rgb("#f1f1f1"),
+  gray: rgb("#d9d9d9"),
+  blue: rgb("#c2c2c2"),
+  green: rgb("#ababab"),
+  cyan: rgb("#949494"),
+  purple: rgb("#7d7d7d"),
+  orange: rgb("#666666"),
+  red: rgb("#4f4f4f"),
+  dark-yellow: rgb("#3d3d3d"),
+  dark-blue: rgb("#3d3d3d"),
+  dark-green: rgb("#3d3d3d"),
+  dark-cyan: rgb("#3d3d3d"),
+  dark-purple: rgb("#3d3d3d"),
+  dark-orange: rgb("#3d3d3d"),
+  dark-red: rgb("#3d3d3d"),
+  dark-gray: rgb("#3d3d3d"),
 )

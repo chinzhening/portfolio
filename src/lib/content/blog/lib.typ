@@ -3,58 +3,85 @@
   It can be queried by the backend to generate the list of posts and their metadata.
 */
 
+// Shared primitives for HTML components.
 #let is-html() = target() == "html"
 
-// Helper function that generates component metadata. Expand on this
-#let component(name, body, ..props) = context {
+#let component-labels = (label("typst-component"), label("typst-inline-component"))
+
+#let is-component(node) = {
+  type(node) == content and node.has("label") and node.label in component-labels
+}
+
+// Emit a block component marker for HTML, with an optional paged fallback.
+#let component(name, body, paged: none, ..props) = {
+  let node =context {
   if is-html() {
     html.elem("div", attrs: (
       "data-typst-node": name,
       "data-typst-props": json.encode(props.named(), pretty: false),
       ), body)
+    } else if paged != none {
+      paged(body)
+    } else {
+      body
+    }
+  }
+  [#node#label("typst-component")]
+}
+
+// Emit an inline component marker for HTML, with an optional paged fallback.
+#let inline-component(name, body, paged: none, ..props) = {
+  let node = context {
+    if is-html() {
+      html.elem("span", attrs: (
+        "data-typst-node": name,
+        "data-typst-props": json.encode(props.named(), pretty: false),
+      ), body)
+    } else if paged != none {
+      paged(body)
+    } else {
+      body
+    }
+  }
+  [#node#label("typst-inline-component")]
+}
+
+// Preserve named child content for components that expose slots.
+#let slot(name, body) = context {
+  if is-html() {
+    html.elem("div", attrs: ("data-typst-slot": name), body)
   } else {
     body
   }
 }
 
-// Another helper function
-#let inline-component(name, body, ..props) = context {
-  if is-html() {
-    html.elem("span", attrs: (
-      "data-typst-node": name,
-      "data-typst-props": json.encode(props.named(), pretty: false),
-    ), body)
-  } else { body }
-}
-
-#let slot(name, body) = context {
-  if is-html() { html.elem("div", attrs: ("data-typst-slot": name), body) } else { body }
-}
-
-// Insert a simple horizontal rule element.
-#let hrule() = context {
-  if is-html() { html.elem("hr") } else { line(length: 100%) }
-}
-
-// Format figure captions with the blog's consistent typography.
-#let figure-rules(body) = context {
-  if is-html() {
-    show figure: it => component("figure", {
-      if it.kind == image {
-        html.frame[#it.body]
+// Register the figure component and keep captions as named slots.
+#let figure-rules(body) = {
+  show figure: it => if is-html() {
+    component("figure", {
+      let e = it.body
+      if is-component(e) or (type(e) == content and e.func() == html.elem) {
+        e
+      } else if it.kind == image {
+        html.frame(e)
       } else {
-        it.body
+        e
       }
       if it.caption != none {
-        slot("caption-label", [#it.supplement #context it.counter.display(it.numbering).])
+        slot("caption-label", [#it.supplement #context numbering(
+          it.numbering,
+          ..counter(figure.where(kind: it.kind)).get(),
+        ).])
         slot("caption", it.caption.body)
       }
     })
-    body
-  } else { body }
+  } else {
+    it
+  }
+  body
 }
 
-// Build the post metadata block used by the content pipeline.
+// Build the metadata block consumed by the content pipeline.
 #let generate-metadata(
   title,
   desc,
@@ -108,7 +135,6 @@
     tags,
   )
 
-  show: figure-rules
-
-  content
+    show: figure-rules
+    content
 }

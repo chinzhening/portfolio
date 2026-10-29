@@ -1,9 +1,9 @@
 <script lang="ts">
     import PostCard from '$lib/components/PostCard.svelte';
     import SideFloat from '$lib/components/SideFloat.svelte';
+    import Seo from '$lib/components/Seo.svelte';
 
     import { padZero } from '$lib/utils';
-    import { title } from '$lib/config';
     import type { PageProps } from './$types';
 
     let { data }: PageProps = $props();
@@ -19,9 +19,7 @@
     );
 </script>
 
-<svelte:head>
-    <title>Posts | {title}</title>
-</svelte:head>
+<Seo title="Posts" path="/posts" />
 
 <main id="main" class="bg-background w-full mx-auto max-w-3xl px-6">
     <header
