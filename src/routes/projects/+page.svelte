@@ -71,6 +71,8 @@
         </p>
         <h2>changelog</h2>
         <ul>
+            <li>11-16-2026 - migrated to SvelteKit 3.0</li>
+            <li>11-09-2026 - migrated from npm to pnpm</li>
             <li>
                 10-28-2026 - v0.1.0 - initial release. available at <a
                     href="https://github.com/typst/tyquire-template"
