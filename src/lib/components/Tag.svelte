@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { getTagHref } from '$lib/posts';
+    import { getTagHref } from '#lib/posts.ts';
 
-    import type { TagSummary } from '$lib/posts';
+    import type { TagSummary } from '#lib/posts.ts';
 
     let {
         tag,
@@ -12,7 +12,6 @@
     } = $props();
 </script>
 
-<!-- eslint-disable svelte/no-navigation-without-resolve -- getTagHref returns a resolved URL -->
 <a
     class="tag-link"
     class:active
@@ -24,5 +23,3 @@
         <span class="text-faint-foreground">({tag.count})</span>
     {/if}
 </a>
-
-<!-- eslint-enable svelte/no-navigation-without-resolve -->

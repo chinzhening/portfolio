@@ -1,4 +1,4 @@
-name: Deploy site
+name: Deploy blog to Cloudflare Pages
 
 on:
   push:
@@ -18,41 +18,26 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - name: Checkout
+      - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Set up pnpm and Node.js
+        uses: pnpm/setup@v3
         with:
-          node-version: 22
-          cache: npm
+          version: 12.17.0
+          runtime: node@22
+          cache: true
+          require-lockfile: true
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Restore Typst cache
-        uses: actions/cache@v4
+      - name: Set up Typst
+        uses: typst-community/setup-typst@v4
         with:
-          path: typst-bin
-          # Populated by cache-typst.yml; keep in sync with TYPST_VERSION there.
-          key: typst-0.15.0
-
-      - name: Restore fonts cache
-        uses: actions/cache@v4
-        with:
-          path: fonts-bin
-          key: fonts
-
-      - name: Add Typst to PATH
-        run: |
-          chmod +x typst-bin/typst
-          echo "$PWD/typst-bin" >> $GITHUB_PATH
-          echo "TYPST_FONT_PATH=$PWD/fonts-bin" >> $GITHUB_ENV
+          typst-version: 0.15.0
 
       - name: Build site
         env:
           BASE_PATH: /portfolio
-        run: npm run build
+        run: pnpm build
 
       - name: Deploy to Cloudflare Pages
         run: npx wrangler pages deploy build --project-name="${{ secrets.CF_PAGES_PROJECT_NAME }}"

@@ -1,14 +1,14 @@
 <script lang="ts">
-    import { formatDate, toKebabCase } from '$lib/utils';
+    import { formatDate, toKebabCase } from '#lib/utils.ts';
 
-    import Tag from '$lib/components/Tag.svelte';
-    import type { PostSummary } from '$lib/posts';
+    import Tag from '#lib/components/Tag.svelte';
+    import type { PublishedPost } from '#lib/posts.ts';
 
     let {
         post,
         class: className = ''
     }: {
-        post: PostSummary;
+        post: PublishedPost;
         /* Positioning and dividers are the caller's business — see posts/+page.svelte. */
         class?: string;
     } = $props();
