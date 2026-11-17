@@ -1,44 +1,41 @@
 name: CI
 
 on:
+  pull_request:
   push:
     branches:
       - main
-  pull_request:
-  workflow_dispatch:
+    workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: ci-${{ github.ref }}
+  group: ci-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  # Formatting only, for now. `eslint .` and `svelte-check` both report
-  # pre-existing errors; add them as steps here once they are clean.
-  format:
+  validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
     steps:
-      - name: Checkout
+      - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Set up pnpm and Node.js
+        uses: pnpm/setup@v3
         with:
-          node-version: 22
-          cache: npm
+          version: 12.17.0
+          runtime: node@22
+          cache: true
+          require-lockfile: true
 
-      # Node 22 ships npm 10, which rejects a lockfile written by npm 11:
-      # @tailwindcss/oxide-wasm32-wasi lists its @emnapi deps as
-      # bundleDependencies, so npm 11 correctly keeps them out of the lock
-      # while npm 10 reports them missing. Pin to the major used locally.
-      - name: Pin npm
-        run: npm install --global npm@11
+      - name: Set up Typst
+        uses: typst-community/setup-typst@v4
+        with:
+          typst-version: 0.15.0
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Check types
+        run: pnpm check
 
-      - name: Check formatting
-        run: npx prettier --check .
+      - name: Build site
+        run: pnpm build

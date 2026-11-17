@@ -5,7 +5,6 @@
 #show: article.with(
   title: "tyquire",
   desc: [Lessons from redesigning the blog content pipeline.],
-  published: true,
   publish_date: datetime(year: 2026, month: 9, day: 8),
   edited_date: datetime(year: 2026, month: 10, day: 29),
   tags: (

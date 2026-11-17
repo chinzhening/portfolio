@@ -225,7 +225,7 @@
 	}
 }
 
-@media (width >= 64rem) {
+@media (width >=64rem) {
 	.typst .callout {
 		padding: 3rem 1.75rem 1.75rem;
 	}
@@ -239,6 +239,7 @@
 	border-top: 1px solid var(--border);
 	display: flex;
 }
+
 .typst section[role='doc-endnotes']::before {
 	content: 'Footnotes';
 
@@ -246,14 +247,17 @@
 	letter-spacing: 0.07rem;
 	font-family: var(--font-monospace);
 }
+
 .typst section[role='doc-endnotes'] ol {
 	margin: 0;
 	padding-left: 1.5rem;
 }
+
 .typst section[role='doc-endnotes'] li {
 	margin-bottom: 0;
 	line-height: 1.6;
 }
+
 .typst section[role='doc-endnotes'] li + li {
 	margin-top: 0.75rem;
 }

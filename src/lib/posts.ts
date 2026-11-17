@@ -1,13 +1,13 @@
 import { resolve } from '$app/paths';
 
-import type { PostMetadata } from '$lib/types';
-import { toKebabCase } from '$lib/utils';
+import type { PostMetadata } from '#lib/types.ts';
+import { toKebabCase } from '#lib/utils.ts';
 
-export interface PostSummary extends PostMetadata {
+export interface PostEntry extends PostMetadata {
     slug: string;
     href: string;
 }
-
+export type PublishedPost = PostEntry & { publish_date: string };
 export interface TagSummary {
     slug: string;
     label: string;
@@ -25,16 +25,26 @@ export function validatePostMetadata(value: unknown, fileId: string): PostMetada
     if (typeof value.desc !== 'string') {
         throw new Error(`Invalid metadata in ${fileId}: desc must be a string`);
     }
-    if (typeof value.published !== 'boolean') {
-        throw new Error(`Invalid metadata in ${fileId}: published must be a boolean`);
-    }
 
-    const publishDate = validateDate(value.publish_date, 'publish_date', fileId);
+    const title = value.title;
+    const desc = value.desc;
+
+    const publishDate =
+        value.publish_date !== undefined
+            ? validateDate(value.publish_date, 'publish_date', fileId)
+            : undefined;
     const editedDate =
         value.edited_date !== undefined
             ? validateDate(value.edited_date, 'edited_date', fileId)
             : undefined;
-    if (editedDate && editedDate.timestamp < publishDate.timestamp) {
+
+    if (editedDate && publishDate === undefined) {
+        throw new Error(
+            `Invalid metadata in ${fileId}: edited_date is present but publish_date is missing`
+        );
+    }
+
+    if (editedDate && publishDate && editedDate.timestamp < publishDate.timestamp) {
         throw new Error(
             `Invalid metadata in ${fileId}: edited_date must not be earlier than publish_date`
         );
@@ -47,10 +57,9 @@ export function validatePostMetadata(value: unknown, fileId: string): PostMetada
     }
 
     return {
-        title: value.title,
-        desc: value.desc,
-        published: value.published,
-        publish_date: publishDate.value,
+        title,
+        desc,
+        ...(publishDate ? { publish_date: publishDate.value } : {}),
         ...(editedDate ? { edited_date: editedDate.value } : {}),
         tags: value.tags
     };
@@ -76,7 +85,18 @@ function validateDate(
         throw new Error(`Invalid metadata in ${fileId}: ${field} must be a date string`);
     }
 
+    // ISO 8601 date format, with optional milliseconds and timezone.
+    const iso8601Regex =
+        /^\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2}))?$/;
+
+    if (!iso8601Regex.test(value)) {
+        throw new Error(
+            `Invalid metadata in ${fileId}: ${field}='${value}' must be an ISO 8601 date`
+        );
+    }
+
     const timestamp = Date.parse(value);
+
     if (!Number.isFinite(timestamp)) {
         throw new Error(`Invalid metadata in ${fileId}: ${field} must be a valid date`);
     }
@@ -84,8 +104,8 @@ function validateDate(
     return { value, timestamp };
 }
 
-export function getPosts(): PostSummary[] {
-    const modules = import.meta.glob<{ metadata: PostMetadata }>('$lib/content/*.typ', {
+export function getPosts(): PublishedPost[] {
+    const modules = import.meta.glob<{ metadata: PostMetadata }>('#lib/content/*.typ', {
         eager: true
     });
 
@@ -93,24 +113,24 @@ export function getPosts(): PostSummary[] {
         const slug = path.split('/').at(-1)!.replace('.typ', '');
         return {
             slug,
-            href: resolve(`/posts/${slug}`),
+            href: resolve('/posts/[slug]', { slug }),
             ...validatePostMetadata(mod.metadata, path)
-        };
+        } as PostEntry;
     });
 
-    const publishedPosts = posts.filter((post) => post.published);
-
-    publishedPosts.sort(
-        (a, b) => new Date(b.publish_date).getTime() - new Date(a.publish_date).getTime()
+    const publishedPosts = posts.filter(
+        (post): post is PublishedPost => typeof post.publish_date === 'string'
     );
+
+    publishedPosts.sort((a, b) => b.publish_date.localeCompare(a.publish_date));
 
     return publishedPosts;
 }
 
 export function getPrevAndNextPostLinks(
-    posts: PostSummary[],
+    posts: PublishedPost[],
     slug: string
-): { prevPost: PostSummary | null; nextPost: PostSummary | null } {
+): { prevPost: PublishedPost | null; nextPost: PublishedPost | null } {
     const index = posts.findIndex((post) => post.slug === slug);
 
     return {
@@ -124,10 +144,10 @@ export function normalizeTag(tag: string): string {
 }
 
 export function getTagHref(tag: string): string {
-    return `${resolve('/tags')}?tag=${encodeURIComponent(normalizeTag(tag))}`;
+    return `${resolve('tags')}?tag=${encodeURIComponent(normalizeTag(tag))}`;
 }
 
-export function getPostsByTag(posts: PostSummary[], tag: string): PostSummary[] {
+export function getPostsByTag(posts: PublishedPost[], tag: string): PublishedPost[] {
     const normalizedTag = normalizeTag(tag);
     if (!normalizedTag) {
         return [];
@@ -136,7 +156,7 @@ export function getPostsByTag(posts: PostSummary[], tag: string): PostSummary[] 
     return posts.filter((post) => post.tags.some((t) => normalizeTag(t) === normalizedTag));
 }
 
-export function getTagSummaries(posts: PostSummary[]): TagSummary[] {
+export function getTagSummaries(posts: PublishedPost[]): TagSummary[] {
     const tagMap = new Map<
         string,
         {
@@ -185,7 +205,7 @@ export function getTagSummaries(posts: PostSummary[]): TagSummary[] {
         .sort((a, b) => a.label.localeCompare(b.label));
 }
 
-export function getTagLabel(posts: PostSummary[], tag: string): string | null {
+export function getTagLabel(posts: PublishedPost[], tag: string): string | null {
     const normalizedTag = normalizeTag(tag);
     return getTagSummaries(posts).find((summary) => summary.slug === normalizedTag)?.label ?? null;
 }

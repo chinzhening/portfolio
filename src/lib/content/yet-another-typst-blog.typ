@@ -5,7 +5,6 @@
 #show: article.with(
   title: "Yet another Typst blog",
   desc: [Making a blog with Typst and Svelte],
-  published: true,
   publish_date: datetime(year: 2026, month: 8, day: 14),
   edited_date: datetime(year: 2026, month: 10, day: 29),
   tags: (

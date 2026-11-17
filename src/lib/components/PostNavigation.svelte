@@ -1,12 +1,12 @@
 <script lang="ts">
     import { resolve } from '$app/paths';
     import { prefersReducedMotion } from 'svelte/motion';
-    import type { PostSummary } from '$lib/posts';
+    import type { PublishedPost } from '#lib/posts.ts';
 
     let {
         prevPost = null,
         nextPost = null
-    }: { prevPost?: PostSummary | null; nextPost?: PostSummary | null } = $props();
+    }: { prevPost?: PublishedPost | null; nextPost?: PublishedPost | null } = $props();
 
     function scrollToTop() {
         window.scrollTo({
@@ -17,8 +17,7 @@
     }
 </script>
 
-{#snippet postLink(post: PostSummary, direction: 'previous' | 'next')}
-    <!-- eslint-disable svelte/no-navigation-without-resolve -- already resolved, in posts.ts:20 -->
+{#snippet postLink(post: PublishedPost, direction: 'previous' | 'next')}
     <a
         class:previous={direction === 'previous'}
         class:next={direction === 'next'}
@@ -30,7 +29,6 @@
         </span>
         <span class="nav-title">{post.title}</span>
     </a>
-    <!-- eslint-enable svelte/no-navigation-without-resolve -->
 {/snippet}
 
 <nav class="post-navigation" aria-label="Post navigation">
@@ -43,7 +41,8 @@
 
         <div class="navigation-tools">
             <button type="button" class="utility-link" onclick={scrollToTop}>top</button>
-            <a class="utility-link" href={resolve('/posts')}>posts</a>
+
+            <a class="utility-link" href={resolve('posts')}>posts</a>
         </div>
 
         {#if nextPost}

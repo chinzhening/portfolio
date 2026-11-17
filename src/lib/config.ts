@@ -9,13 +9,14 @@ export const socialImageUrl = '';
 export const status = `seeking opportunities in AI development in Singapore.`;
 export const year = 2026;
 export const pages: { name: string; href: string }[] = [
-    { name: 'Posts', href: resolve(`/posts`) },
-    { name: 'Projects', href: resolve(`/projects`) },
-    { name: 'About', href: resolve(`/about`) }
+    { name: 'Posts', href: resolve(`posts`) },
+    { name: 'Projects', href: resolve(`projects`) },
+    { name: 'Tags', href: resolve(`tags`) },
+    { name: 'About', href: resolve(`about`) }
 ];
 export const socials: { name: string; href: string }[] = [
     { name: 'GitHub', href: 'https://github.com/chinzhening' },
     // { name: 'LinkedIn', href: 'https://linkedin.com/in/chinzhening' },
     { name: 'mail', href: 'mailto:ning.chin03@gmail.com' },
-    { name: 'RSS', href: resolve('/rss.xml') }
+    { name: 'RSS', href: resolve('rss.xml') }
 ];

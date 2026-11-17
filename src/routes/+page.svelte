@@ -1,15 +1,15 @@
 <script lang="ts">
-    import { resolve } from '$app/paths';
-    import * as config from '$lib/config';
-    import Seo from '$lib/components/Seo.svelte';
-    import PostCard from '$lib/components/PostCard.svelte';
+    import { asset, resolve } from '$app/paths';
+    import * as config from '#lib/config.ts';
+    import Seo from '#lib/components/Seo.svelte';
+    import PostCard from '#lib/components/PostCard.svelte';
 
-    import { padZero } from '$lib/utils';
+    import { padZero } from '#lib/utils.ts';
 
     let { data } = $props();
 </script>
 
-<Seo title={config.title} path="/" />
+<Seo title={config.title} />
 
 <main id="main" class="page-prose">
     <div class="page-content">
@@ -26,7 +26,7 @@
         </p>
 
         <p>
-            Check out my <a href={resolve('/resume.pdf')}>resume</a>
+            Check out my <a href={asset('resume.pdf')}>resume</a>
             and <a href="https://github.com/chinzhening">github</a>.
         </p>
 
@@ -64,7 +64,7 @@
                 hover:translate-x-[1em]
                 focus-visible:translate-x-[1em]"
                 style="border: none;"
-                href={resolve('/posts')}
+                href={resolve('posts')}
             >
                 all &raquo;
             </a>

@@ -1,24 +1,16 @@
-/* 
-  This file defines the metadata component for the blog.
-  It can be queried by the backend to generate the list of posts and their metadata.
-*/
+// Shared primitives for HTML components, figures, and post metadata.
 
-// Shared primitives for HTML components.
 #let is-html() = target() == "html"
 
 #let component-labels = (label("typst-component"), label("typst-inline-component"))
 
-#let is-component(node) = {
-  type(node) == content and node.has("label") and node.label in component-labels
-}
-
 // Emit a block component marker for HTML, with an optional paged fallback.
 #let component(name, body, paged: none, ..props) = {
-  let node =context {
-  if is-html() {
-    html.elem("div", attrs: (
-      "data-typst-node": name,
-      "data-typst-props": json.encode(props.named(), pretty: false),
+  let node = context {
+    if is-html() {
+      html.elem("div", attrs: (
+        "data-typst-node": name,
+        "data-typst-props": json.encode(props.named(), pretty: false),
       ), body)
     } else if paged != none {
       paged(body)
@@ -28,6 +20,11 @@
   }
   [#node#label("typst-component")]
 }
+
+#let is-component(node) = (
+  type(node) == content and node.has("label") and node.label in component-labels
+)
+
 
 // Emit an inline component marker for HTML, with an optional paged fallback.
 #let inline-component(name, body, paged: none, ..props) = {
@@ -85,15 +82,16 @@
 #let generate-metadata(
   title,
   desc,
-  published,
   publish_date,
   edited_date,
   tags,
 ) = {
-  if edited_date != none and publish_date != none [ #metadata(
+  assert(publish_date == none or type(publish_date) == datetime)
+  assert(edited_date == none or type(edited_date) == datetime)
+
+  if edited_date != none and publish_date != none [#metadata(
     (title: title,
      desc: desc,
-     published: published,
      publish_date: publish_date.display(),
      edited_date: edited_date.display(),
      tags: tags
@@ -102,7 +100,6 @@
   else if publish_date != none [ #metadata(
     (title: title,
      desc: desc,
-     published: published,
      publish_date: publish_date.display(),
      tags: tags
     )
@@ -110,7 +107,6 @@
   else [ #metadata(
     (title: title,
      desc: desc,
-     published: published,
      tags: tags
     )
   ) <metadata>]
@@ -121,7 +117,6 @@
   content,
   title: "Untitled",
   desc: [This is a blog post.],
-  published: false,
   publish_date: none,
   edited_date: none,
   tags: (),
@@ -129,7 +124,6 @@
   generate-metadata(
     title,
     desc,
-    published,
     publish_date,
     edited_date,
     tags,

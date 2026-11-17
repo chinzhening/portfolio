@@ -74,7 +74,7 @@ html {
 
 body {
 	font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-	font-size: 0.85rem;
+	font-size: 0.75rem;
 	line-height: 1.5;
 }
 
@@ -85,4 +85,16 @@ a {
 
 a:hover {
 	color: var(--text-2);
+}
+
+pre {
+	border: 1px solid var(--border);
+	border-radius: 0.25rem;
+	box-shadow: 0 1px 2px var(--border);
+}
+
+.typst code:not(pre code) {
+	border: 1px solid var(--border);
+	border-radius: 0.25rem;
+	background: var(--surface-1);
 }

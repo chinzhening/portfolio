@@ -16,8 +16,6 @@
 #show: article.with(
   title: "Monte Carlo Notes",
   desc: [A deep dive into Monte Carlo methods.],
-  published: true,
-  publish_date: datetime.today(),
   tags: (
     "finance",
     "monte carlo",
